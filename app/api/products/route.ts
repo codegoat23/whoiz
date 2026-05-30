@@ -1,24 +1,20 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-
-const FREE_PRODUCT_LIMIT = 2;
 
 /* ======================================================
    GET /api/products
    ====================================================== */
 export async function GET() {
   const headersList = await headers();
+
   const session = await auth.api.getSession({
     headers: Object.fromEntries(headersList),
   });
 
   if (!session?.user) {
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const products = await prisma.product.findMany({
@@ -30,26 +26,19 @@ export async function GET() {
 }
 
 /* ======================================================
-   POST /api/products  (create)
+   POST /api/products
    ====================================================== */
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const headersList = await headers();
+
     const session = await auth.api.getSession({
       headers: Object.fromEntries(headersList),
     });
 
     if (!session?.user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    const userId = session.user.id;
-
-    // 🔒 Free plan limit
-  
 
     const body = await req.json();
     const { name, description, imageUrl, action } = body;
@@ -67,7 +56,7 @@ export async function POST(req: Request) {
         description,
         imageUrl,
         action: action ?? "Draft",
-        ownerId: userId,
+        ownerId: session.user.id,
       },
     });
 
@@ -82,20 +71,18 @@ export async function POST(req: Request) {
 }
 
 /* ======================================================
-   PUT /api/products  (update)
+   PUT /api/products
    ====================================================== */
-export async function PUT(req: Request) {
+export async function PUT(req: NextRequest) {
   try {
     const headersList = await headers();
+
     const session = await auth.api.getSession({
       headers: Object.fromEntries(headersList),
     });
 
     if (!session?.user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -108,7 +95,6 @@ export async function PUT(req: Request) {
       );
     }
 
-    // 🔎 ownership check
     const product = await prisma.product.findFirst({
       where: {
         id,
@@ -128,10 +114,10 @@ export async function PUT(req: Request) {
       data,
     });
 
-    return NextResponse.json(
-      { success: true, product: updatedProduct },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      success: true,
+      product: updatedProduct,
+    });
   } catch (error: any) {
     console.error("PUT /api/products error:", error);
     return NextResponse.json(
@@ -147,18 +133,16 @@ export async function PUT(req: Request) {
 /* ======================================================
    DELETE /api/products
    ====================================================== */
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextRequest) {
   try {
     const headersList = await headers();
+
     const session = await auth.api.getSession({
       headers: Object.fromEntries(headersList),
     });
 
     if (!session?.user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -171,7 +155,6 @@ export async function DELETE(req: Request) {
       );
     }
 
-    // 🔎 ownership check
     const product = await prisma.product.findFirst({
       where: {
         id,
@@ -190,10 +173,7 @@ export async function DELETE(req: Request) {
       where: { id },
     });
 
-    return NextResponse.json(
-      { success: true },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("DELETE /api/products error:", error);
     return NextResponse.json(
