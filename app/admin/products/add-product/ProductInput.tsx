@@ -19,7 +19,7 @@ import RichTextEditor from '../../components/richTexteditor';
 interface ProductInputProps {
   imageUrl: string | null;
   initialProduct?: Product;
-  mode: 'create' | 'edit';
+  mode?: 'create' | 'edit';
 }
 
 export default function ProductInput({
