@@ -6,7 +6,7 @@ import { Sidebar } from "@/components/ui/sidebar";
 import Gettingstarted from "./components/gettingstarted";
 import Activity from "./components/Activity";
 import { useState } from "react";
-import QuickView from "./components/QuickView";
+
 import { auth } from "@/lib/auth";
 import Preview from "./components/Preview";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
