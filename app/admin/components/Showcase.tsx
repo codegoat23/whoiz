@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 
 interface ShowcaseProps {
   products: Product[];
-  username: string;
+  username: string| null;
 }
 
 function Showcase({ products, username }: ShowcaseProps) {

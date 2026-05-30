@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 import { useState } from "react";
 
-export default function ShareButton({ username }: { username: string }) {
+export default function ShareButton({ username }: { username: string | null }) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
