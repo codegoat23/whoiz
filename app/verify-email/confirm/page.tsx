@@ -2,14 +2,17 @@
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
-
 export default async function VerifyEmailConfirmPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-   const params = await searchParams;
-  const token = params.token;
+  const tokenParam = searchParams?.token;
+
+  // normalize token (string | string[] → string)
+  const token = Array.isArray(tokenParam)
+    ? tokenParam[0]
+    : tokenParam;
 
   // No token → back to login
   if (!token) {
@@ -34,13 +37,11 @@ export default async function VerifyEmailConfirmPage({
     },
   });
 
-  // Delete token (VERY IMPORTANT)
+  // Delete token (important cleanup)
   await prisma.emailVerificationToken.delete({
     where: { token },
   });
 
-  // Continue normal flow
-  // after marking emailVerified = true and deleting token
-redirect("/verify-email?verified=true");
-
+  // Redirect success
+  redirect("/verify-email?verified=true");
 }
