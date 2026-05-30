@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Product" ALTER COLUMN "isPublish" DROP DEFAULT,
+ALTER COLUMN "isPublish" SET DATA TYPE TEXT;
