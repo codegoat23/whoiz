@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -7,10 +7,12 @@ import { headers } from "next/headers";
    DELETE LINK (secured)
 ========================= */
 export async function DELETE(
-  _req: Request,
-  { params }: { params: { id: string } }
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const headersList = await headers();
+  const { id } = await params;
+
+  const headersList = headers();
 
   const session = await auth.api.getSession({
     headers: Object.fromEntries(headersList),
@@ -21,13 +23,11 @@ export async function DELETE(
   }
 
   const userId = session.user.id;
-  const { id } = await params;
 
-  // check ownership
   const link = await prisma.link.findFirst({
     where: {
       id,
-      userId: userId,
+      userId,
     },
   });
 
@@ -46,11 +46,13 @@ export async function DELETE(
    UPDATE LINK (secured)
 ========================= */
 export async function PUT(
-  _req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const headersList = await headers();
+    const { id } = await params;
+
+    const headersList = headers();
 
     const session = await auth.api.getSession({
       headers: Object.fromEntries(headersList),
@@ -61,15 +63,12 @@ export async function PUT(
     }
 
     const userId = session.user.id;
-    const { id } = params;
+    const body = await req.json();
 
-    const body = await _req.json();
-
-    // check ownership before update
     const link = await prisma.link.findFirst({
       where: {
         id,
-        ownerId: userId,
+        userId, // ⚠️ make sure this matches your schema (was ownerId before)
       },
     });
 
@@ -82,10 +81,10 @@ export async function PUT(
       data: body,
     });
 
-    return NextResponse.json(
-      { success: true, link: updatedLink },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      success: true,
+      link: updatedLink,
+    });
   } catch (error: any) {
     console.error("UPDATE /api/links error:", error);
 
