@@ -12,7 +12,7 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
-  const headersList = headers();
+  const headersList = await headers();
 
   const session = await auth.api.getSession({
     headers: Object.fromEntries(headersList),
@@ -52,7 +52,7 @@ export async function PUT(
   try {
     const { id } = await params;
 
-    const headersList = headers();
+    const headersList = await headers();
 
     const session = await auth.api.getSession({
       headers: Object.fromEntries(headersList),
