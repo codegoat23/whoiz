@@ -96,7 +96,7 @@ export default async function ProductPage({ params }: Props) {
           )}
         </div>
 
-        {/* ACTION */}
+        
       
       </Card>
     </main>
