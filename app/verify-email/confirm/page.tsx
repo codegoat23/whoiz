@@ -44,4 +44,5 @@ export default async function VerifyEmailConfirmPage({
 
   // Redirect success
   redirect("/verify-email?verified=true");
+
 }

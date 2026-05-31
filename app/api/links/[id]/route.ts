@@ -1,54 +1,99 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-// ✅ simple delete using prisma.link.delete
-export async function DELETE(req: Request) {
-  try {
-    const body = await req.json();
-    const { id } = body;
+/* =========================
+   DELETE LINK (secured)
+========================= */
+export async function DELETE(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
+  const headersList = await headers();
 
-    if (!id) {
-      return NextResponse.json({ error: "Missing link ID" }, { status: 400 });
-    }
+  const session = await auth.api.getSession({
+    headers: Object.fromEntries(headersList),
+  });
 
-    // delete link from DB
-    await prisma.link.delete({
-      where: { id },
-    });
-
-    return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error) {
-    console.error("DELETE /api/links error:", error);
-    return NextResponse.json(
-      { error: "Failed to delete link" },
-      { status: 500 }
-    );
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const userId = session.user.id;
+  const { id } = await params;
+
+  // check ownership
+  const link = await prisma.link.findFirst({
+    where: {
+      id,
+      userId: userId,
+    },
+  });
+
+  if (!link) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  await prisma.link.delete({
+    where: { id },
+  });
+
+  return NextResponse.json({ success: true });
 }
 
-export async function PUT(req: Request) {
+/* =========================
+   UPDATE LINK (secured)
+========================= */
+export async function PUT(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const body = await req.json();
-    const { id, ...data } = body;
+    const headersList = await headers();
 
-    if (!id) {
-      return NextResponse.json({ error: "Missing link ID" }, { status: 400 });
-    }
-
-    // delete link from DB
-    const updatedLink = await prisma.link.update({
-      where: { id },
-      data,
+    const session = await auth.api.getSession({
+      headers: Object.fromEntries(headersList),
     });
 
-    return NextResponse.json({ success: true, link:updatedLink },
-       { status: 200 });
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
+    const { id } = params;
+
+    const body = await _req.json();
+
+    // check ownership before update
+    const link = await prisma.link.findFirst({
+      where: {
+        id,
+        ownerId: userId,
+      },
+    });
+
+    if (!link) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    const updatedLink = await prisma.link.update({
+      where: { id },
+      data: body,
+    });
+
+    return NextResponse.json(
+      { success: true, link: updatedLink },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error("UPDATE /api/links error:", error);
+
     return NextResponse.json(
-      { error: "Failed to Update link", 
-        details: error.message
-       },
+      {
+        error: "Failed to update link",
+        details: error.message,
+      },
       { status: 500 }
     );
   }
