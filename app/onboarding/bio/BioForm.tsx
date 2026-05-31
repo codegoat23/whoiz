@@ -59,6 +59,27 @@ export function BioForm() {
 
   return (
     <div className="max-w-lg mx-auto mt-10 space-y-6">
+        {/* onboarding slider */}
+      <div className="flex items-center justify-center gap-3">
+  <div className="flex items-center gap-2">
+    <div className="h-8 w-8 rounded-full bg-[#FF5E57] text-white flex items-center justify-center text-sm font-semibold">
+      1
+    </div>
+
+    <div className="h-[2px] w-8 bg-[#FF5E57]" />
+
+    <div className="h-8 w-8 rounded-full bg-[#FF5E57] text-white flex items-center justify-center text-sm font-semibold">
+      2
+    </div>
+
+    <div className="h-[2px] w-8 bg-[#FF5E57]" />
+
+    <div className="h-8 w-8 rounded-full border bg-[#FF5E57] text-white flex items-center justify-center text-sm font-semibold">
+      3
+    </div>
+  </div>
+</div>
+{/* end of onboarding slider */}
       <div>
         <h1 className="text-2xl font-semibold mb-1">Tell us what you do</h1>
        

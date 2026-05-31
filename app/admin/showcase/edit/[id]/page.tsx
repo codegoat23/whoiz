@@ -1,7 +1,7 @@
 import {prisma} from '@/lib/prisma';
 
 import { ProductAction } from '@/lib/type';
-import ProductInput from '../../add-product/ProductInput';
+import ProductInput from '../../add-showcase/ProductInput';
 
 interface PageProps {
   params: {

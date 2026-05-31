@@ -1,4 +1,4 @@
-import ProductInput from "../add-product/ProductInput";
+import ProductInput from "../add-showcase/ProductInput";
 
 
 export default function NewProductPage() {

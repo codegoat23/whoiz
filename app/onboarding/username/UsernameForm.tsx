@@ -36,7 +36,28 @@ export function UsernameForm() {
   }
 
   return (
-    <div className="w-full h-[86dvh] mt-10  flex justify-center items-center ">
+    <div className="w-full h-[86dvh] mt-10  flex justify-center items-center flex-col gap-10">
+    {/* onboarding slider */}
+      <div className="flex items-center justify-center gap-3">
+  <div className="flex items-center gap-2">
+    <div className="h-8 w-8 rounded-full bg-[#FF5E57] text-white flex items-center justify-center text-sm font-semibold">
+      1
+    </div>
+
+    <div className="h-[2px] w-8 bg-[#FF5E57]" />
+
+    <div className="h-8 w-8 rounded-full bg-[#FF5E57] text-white flex items-center justify-center text-sm font-semibold">
+      2
+    </div>
+
+    <div className="h-[2px] w-8 bg-zinc-700" />
+
+    <div className="h-8 w-8 rounded-full border border-zinc-600 text-zinc-400 flex items-center justify-center text-sm font-semibold">
+      3
+    </div>
+  </div>
+</div>
+{/* end of onboarding slider */}
       <Card className="p-6 shadow-lg border-none bg-[#1c1a1a] h-2/3 flex flex-col gap-10">
         <div className="flex justify-center">
             <Link href="/"

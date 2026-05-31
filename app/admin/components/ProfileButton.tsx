@@ -37,9 +37,9 @@ export default function ProfileImageButton({
           "
         >
           <img
-            src={avatarUrl ?? "/themes/custom.jpg"}
+            src={avatarUrl ?? "/10.png"}
             alt="Profile"
-            className="h-full w-full rounded-full object-cover"
+            className="h-full w-full rounded-full object-cover "
           />
 
           <div

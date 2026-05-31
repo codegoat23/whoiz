@@ -1,17 +1,11 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Sidebar } from "@/components/ui/sidebar";
-import Gettingstarted from "./components/gettingstarted";
-import Activity from "./components/Activity";
-import { useState } from "react";
 
 import { auth } from "@/lib/auth";
-import Preview from "./components/Preview";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import Spotify from "./components/Spotify";
+
+
+
 import ProfileCard from "./components/ProfileCard";
 
 type Session = typeof auth.$Infer.Session;

@@ -59,7 +59,7 @@ function Products() {
   
   onClick={() => {
    
-    router.push('/admin/products/add-product');
+    router.push('/admin/showcase/add-showcase');
   }}
 >
   Add Showcase
@@ -70,12 +70,12 @@ function Products() {
         <CardContent className="overflow-y-auto custom-scrollbar p-0 ">
           {loading ? (
             <p className="text-muted-foreground text-sm">
-              Loading products...
+              Loading showcases...
             </p>
           ) : filteredProducts.length === 0 ? (
             <EmptyState
-              message="Add your first digital products"
-              ButtonText="Add Product"
+              message="Add your first digital showcases"
+              ButtonText="Add Showcase"
             />
           ) : (
             <ProductsTable products={filteredProducts} />

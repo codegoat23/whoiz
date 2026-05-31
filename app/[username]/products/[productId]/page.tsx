@@ -97,9 +97,7 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         {/* ACTION */}
-        <Button className="bg-[#1b89e3] w-fit">
-          View / Download
-        </Button>
+      
       </Card>
     </main>
   );

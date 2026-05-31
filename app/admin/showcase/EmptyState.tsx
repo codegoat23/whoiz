@@ -15,7 +15,7 @@ function EmptyState({message,ButtonText} : EmptyStateProps) {
       <span className='font-light text-muted-foreground'>{message}</span>
       <Button>
         <Plus/>
-        <Link href={'/admin/products/add-product'}>{ButtonText}</Link>
+        <Link href={'/admin/showcase/add-showcase'}>{ButtonText}</Link>
         
         </Button>
     </div>
