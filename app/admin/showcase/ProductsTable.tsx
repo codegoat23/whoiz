@@ -65,7 +65,7 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
      EDIT PRODUCT
      ========================= */
   const  handleEdit = (id: string) => {
-    router.push(`/admin/products/edit/${id}`);
+    router.push(`/admin/showcase/edit/${id}`);
   };
 
   return (
