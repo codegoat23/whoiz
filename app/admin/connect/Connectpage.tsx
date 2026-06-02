@@ -82,7 +82,7 @@ export default function ConnectPage({
 
       {/* 🌅 BACKGROUND GLOW FIELD */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-orange-500/10 blur-[180px] rounded-full" />
+        <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[600px] h-[600px]  blur-[180px] rounded-full" />
       </div>
 
       {/* HEADER */}
