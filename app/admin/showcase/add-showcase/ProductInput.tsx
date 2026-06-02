@@ -63,7 +63,7 @@ export default function ProductInput({
         mode === 'edit' ? 'Product updated' : 'Product created'
       );
 
-      router.push('/admin/products');
+      router.push('/admin/showcase');
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
     }

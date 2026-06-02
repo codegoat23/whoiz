@@ -1,65 +1,91 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Menu } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
-import { Permanent_Marker } from "next/font/google"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { Permanent_Marker } from "next/font/google";
+
 
 const permanentMarker = Permanent_Marker({
   weight: "400",
   subsets: ["latin"],
-})
-
+});
 export default function GlassNavbar() {
+  
   return (
-    <header className="fixed top-4 left-1/2 z-50 w-[92%] sm:w-[90%] max-w-3xl -translate-x-1/2">
+    <header className="fixed top-5 left-1/2 z-50 w-[92%] sm:w-[88%] max-w-4xl -translate-x-1/2">
+      
       <nav
         className={cn(
-          "flex items-center justify-between",
-          "rounded-2xl px-4 py-3 sm:px-6",
-          "bg-white/10 backdrop-blur-xl",
-          "border border-white/20",
-          "shadow-lg w-full"
+          "relative flex items-center justify-between w-full",
+          "rounded-2xl px-4 sm:px-6 py-3",
+          // glass base
+          "bg-white/10 backdrop-blur-2xl",
+          "border border-orange-400/20",
+          "shadow-[0_20px_60px_-20px_rgba(249,115,22,0.35)]"
         )}
       >
+        {/* Ambient glow layer */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/10 via-transparent to-orange-500/10 pointer-events-none" />
+
         {/* Logo */}
         <Link
           href="/"
           className={cn(
             permanentMarker.className,
-            "text-sm sm:text-base tracking-wide text-[#FF5E57]"
+            "relative text-sm sm:text-base tracking-wide",
+            "text-orange-300 drop-shadow-[0_0_10px_rgba(249,115,22,0.35)]"
           )}
         >
           WHOIZ
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-          <Link href="#features" className="transition hover:text-foreground">
+        <div className="hidden md:flex items-center gap-8 text-sm text-orange-100/70 relative">
+
+          <Link
+            href="#features"
+            className="hover:text-orange-300 transition-colors"
+          >
             Features
           </Link>
 
-          <Link href="#about" className="transition hover:text-foreground">
+          <Link
+            href="#about"
+            className="hover:text-orange-300 transition-colors"
+          >
             About
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ml-2">
+
+            {/* Login */}
             <Button
-              type="button"
               size="sm"
-              className="rounded-2xl bg-[#A32E2E] text-white hover:bg-[#A32E2E]/80 px-4"
+              className={cn(
+                "rounded-2xl px-4",
+                "bg-white/10 hover:bg-orange-500/20",
+                "text-orange-100 border border-orange-400/20",
+                "backdrop-blur-md transition"
+              )}
             >
-              <Link href="/auth">Login</Link>
+              <Link href="/auth/login">Login</Link>
             </Button>
 
+            {/* CTA */}
             <Button
-              type="button"
               size="sm"
-              className="rounded-2xl bg-[#A32E2E] text-white hover:bg-[#A32E2E]/80 px-4"
+              className={cn(
+                "rounded-2xl px-4",
+                "bg-gradient-to-r from-orange-500 to-orange-700",
+                "text-white shadow-lg shadow-orange-500/30",
+                "hover:shadow-orange-500/50 hover:scale-[1.03] transition",
+                "active:scale-95"
+              )}
             >
-              <Link href="/auth">Open account</Link>
+              <Link href="/auth/signup">Open account</Link>
             </Button>
           </div>
         </div>
@@ -70,30 +96,51 @@ export default function GlassNavbar() {
             <button
               type="button"
               aria-label="Open menu"
-              className="md:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-white/10"
+              className="md:hidden relative inline-flex items-center justify-center rounded-xl p-2
+                         bg-white/10 border border-orange-400/20
+                         hover:bg-orange-500/20 transition"
             >
-              <Menu className="h-5 w-5 text-white" />
+              <Menu className="h-5 w-5 text-orange-200" />
             </button>
           </SheetTrigger>
 
           <SheetContent
             side="right"
-            className="bg-black/90 backdrop-blur-xl text-white"
+            className="bg-black/90 backdrop-blur-2xl text-white border-l border-orange-500/20"
           >
-            <div className="mt-10 flex flex-col gap-6">
-              <Link href="#features" className="text-lg">
+            <div className="absolute top-0 left-0 w-full h-40 bg-orange-500/10 blur-3xl" />
+
+            <div className="mt-10 flex flex-col gap-6 relative">
+
+              <Link
+                href="#features"
+                className="text-lg text-orange-100 hover:text-orange-300 transition"
+              >
                 Features
               </Link>
 
-              <Link href="#about" className="text-lg">
+              <Link
+                href="#about"
+                className="text-lg text-orange-100 hover:text-orange-300 transition"
+              >
                 About
               </Link>
 
-              <Link href="/auth" className="text-lg">
+              <Link
+                href="/auth/login"
+                className="text-lg text-orange-100 hover:text-orange-300 transition"
+              >
                 Login
               </Link>
 
-              <Button type="button" className="mt-4 rounded-xl w-full">
+              <Button
+                type="button"
+                className={cn(
+                  "mt-4 rounded-xl w-full",
+                  "bg-gradient-to-r from-orange-500 to-orange-700",
+                  "shadow-lg shadow-orange-500/30"
+                )}
+              >
                 Open account
               </Button>
             </div>
@@ -101,5 +148,5 @@ export default function GlassNavbar() {
         </Sheet>
       </nav>
     </header>
-  )
+  );
 }

@@ -147,3 +147,6 @@
     box-shadow: 0 0 22px rgba(197, 34, 34, 0.8);
   }
 }
+html {
+  scroll-behavior: smooth;
+}

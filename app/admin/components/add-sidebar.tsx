@@ -32,31 +32,11 @@ const permanentMarker = Permanent_Marker({
 });
 
 const navItems = [
-  {
-    title: "Profile",
-    href: "/admin",
-    icon: Home,
-  },
-  {
-    title: "Links",
-    href: "/admin/links",
-    icon: Link2,
-  },
-  {
-    title: "Showcase",
-    href: "/admin/showcase",
-    icon: GalleryThumbnails,
-  },
-  {
-    title: "Connect",
-    href: "/admin/connect",
-    icon: Smile,
-  },
-  {
-    title: "Design",
-    href: "/admin/themes",
-    icon: Paintbrush,
-  },
+  { title: "Profile", href: "/admin", icon: Home },
+  { title: "Links", href: "/admin/links", icon: Link2 },
+  { title: "Showcase", href: "/admin/showcase", icon: GalleryThumbnails },
+  { title: "Connect", href: "/admin/connect", icon: Smile },
+  { title: "Design", href: "/admin/themes", icon: Paintbrush },
 ];
 
 function Addsidebar() {
@@ -64,15 +44,21 @@ function Addsidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="border-r border-zinc-800 bg-[#111111]">
-      {/* Logo */}
-      <SidebarHeader className="py-8">
+    <Sidebar className="fixed left-0 top-0 h-screen w-[250px] border-r border-white/10 bg-[#0b0b0b]">
+
+      {/* 🌅 BACKGROUND GLOW */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-orange-500/10 blur-[160px] rounded-full" />
+      </div>
+
+      {/* LOGO */}
+      <SidebarHeader className="py-10 relative">
         <div className="flex justify-center">
           <Link
             href="/admin"
             className={cn(
               permanentMarker.className,
-              "text-4xl tracking-wide text-[#FF5E57]"
+              "text-4xl tracking-wide text-orange-400 hover:text-orange-300 transition"
             )}
           >
             WHOIZ
@@ -80,33 +66,51 @@ function Addsidebar() {
         </div>
       </SidebarHeader>
 
-      {/* Navigation */}
-      <SidebarContent className="px-3">
-        <div className="space-y-2">
+      {/* NAV */}
+      <SidebarContent className="px-3 relative">
+        <div className="space-y-1">
+
           {navItems.map((item) => {
             const Icon = item.icon;
 
             const active =
               pathname === item.href ||
-              (item.href !== "/admin" &&
-                pathname.startsWith(item.href));
+              (item.href !== "/admin" && pathname.startsWith(item.href));
 
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-              >
+              <Link key={item.href} href={item.href}>
                 <Button
                   variant="ghost"
                   className={cn(
-                    "w-full justify-start gap-3 h-12 rounded-xl transition-all cursor-pointer",
+                    "w-full justify-start gap-3 h-12 rounded-xl transition-all duration-200 relative overflow-hidden",
+                    "hover:translate-x-1 hover:bg-white/5",
+
                     active
-                      ? "bg-[#FF5E57] text-white hover:bg-[#FF5E57]"
-                      : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+                      ? "text-orange-300 bg-white/5 border border-orange-500/20 shadow-[0_0_20px_rgba(255,120,0,0.15)]"
+                      : "text-white/60 hover:text-white"
                   )}
                 >
-                  <Icon className="h-5 w-5" />
-                  {item.title}
+
+                  {/* ACTIVE LEFT BAR */}
+                  {active && (
+                    <span className="absolute left-0 top-0 h-full w-[3px] bg-gradient-to-b from-orange-400 to-amber-300 rounded-r-full" />
+                  )}
+
+                  <Icon
+                    className={cn(
+                      "h-5 w-5 transition",
+                      active ? "text-orange-400" : "text-white/50"
+                    )}
+                  />
+
+                  <span className="text-sm font-medium">
+                    {item.title}
+                  </span>
+
+                  {/* ACTIVE GLOW DOT */}
+                  {active && (
+                    <span className="ml-auto h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_10px_rgba(255,120,0,0.8)]" />
+                  )}
                 </Button>
               </Link>
             );
@@ -114,25 +118,39 @@ function Addsidebar() {
         </div>
       </SidebarContent>
 
-      {/* Footer */}
-      <SidebarFooter className="p-3">
-        <div className="mb-3 rounded-xl border border-zinc-800 bg-zinc-900 p-3">
-          <p className="text-xs text-zinc-500">
+      {/* FOOTER */}
+      <SidebarFooter className="p-3 relative space-y-3">
+
+        {/* STATUS CARD */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-3">
+          <p className="text-xs text-white/40">
             Whoiz Dashboard
           </p>
 
-          <p className="text-sm font-medium text-zinc-200">
+          <p className="text-sm font-medium text-white/80">
             Build your digital identity
           </p>
+
+          <div className="mt-2 flex items-center gap-2 text-xs text-orange-300">
+            <span className="h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
+            Live system
+          </div>
         </div>
 
+        {/* LOGOUT */}
         <Button
           onClick={async () => {
             await signOut();
             toast.success("Logged out");
             router.push("/auth/login");
           }}
-          className="w-full rounded-xl bg-[#FF5E57] hover:bg-[#ff4d45]"
+          className="
+            w-full rounded-xl font-semibold
+            bg-gradient-to-r from-orange-500 to-amber-400
+            text-black hover:from-orange-400 hover:to-amber-300
+            shadow-lg shadow-orange-500/30
+            transition-all duration-300
+          "
         >
           Log out
         </Button>

@@ -1,28 +1,38 @@
-
-
+import BuiltForEveryone from "@/components/buildforeveryone";
 import Dynamicstyle from "@/components/Dynamicstyle";
-
 import FeatureButton from "@/components/FeatureButton";
-
+import { FlowDivider } from "@/components/flowdivider";
 import WhoizFooter from "@/components/footer";
 import Hero from "@/components/hero";
-
 import PortfolioSection from "@/components/PortfolioSection";
-
-
+import { SetupSection } from "@/components/setup-section";
 
 
 
 export default function Home() {
   return (
-    <div className="flex flex-col overflow-x-hidden items-center">
-      <Hero/>
-      <FeatureButton/>
-      <PortfolioSection/>
-     <Dynamicstyle/>
-     
-        
-     <WhoizFooter/>
+    <div className="flex flex-col overflow-x-hidden items-center bg-black">
+
+      <Hero />
+      <FlowDivider />
+
+      <FeatureButton />
+      <FlowDivider />
+
+      <PortfolioSection />
+      <FlowDivider />
+
+      <BuiltForEveryone />
+      <FlowDivider />
+
+      <Dynamicstyle />
+      <FlowDivider />
+
+      <SetupSection />
+      <FlowDivider />
+
+      <WhoizFooter />
+
     </div>
   );
 }

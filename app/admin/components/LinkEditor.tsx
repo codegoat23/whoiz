@@ -175,46 +175,101 @@ export default function LinkEditor() {
     }
   };
 
-  return (
-    <div className="flex gap-8 w-3xl mx-auto p-6">
-      <div className="flex-1 rounded-2xl shadow p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">My Links</h2>
-
-          <div className="flex gap-3 items-center">
-            <button
-              onClick={addLink}
-              className="rounded-full px-4 py-2 text-sm border hover:bg-gray-50"
-            >
-              + Add link
-            </button>
-
-            <Button
-              disabled={saving || links.length === 0}
-              onClick={saveLinks}
-            >
-              {saving ? "Saving..." : "Save"}
-            </Button>
-          </div>
+return (
+  <div className="min-h-screen w-full bg-[#0b0b0f] px-4 py-10">
+    
+    <div className="max-w-3xl mx-auto">
+      
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+        
+        <div>
+          <h2 className="text-xl font-semibold text-orange-300">
+            My Links
+          </h2>
+          <p className="text-sm text-white/50">
+            Your digital identity, glowing in the dark
+          </p>
         </div>
 
+        {/* Actions */}
+        <div className="flex gap-2">
+          <button
+            onClick={addLink}
+            className="
+              rounded-xl px-4 py-2 text-sm
+              border border-white/10
+              bg-white/5 hover:bg-white/10
+              text-white/70
+              transition
+            "
+          >
+            + Add link
+          </button>
+
+          <Button
+            disabled={saving || links.length === 0}
+            onClick={saveLinks}
+            className="
+              rounded-xl font-semibold
+              bg-gradient-to-r from-orange-500 to-amber-400
+              text-black
+              shadow-[0_0_25px_rgba(255,140,0,0.25)]
+              hover:from-orange-400 hover:to-amber-300
+              transition-all
+            "
+          >
+            {saving ? "Saving..." : "Save changes"}
+          </Button>
+        </div>
+      </div>
+
+      {/* Main container */}
+      <div className="
+        rounded-2xl
+        border border-white/10
+        bg-white/5
+        backdrop-blur-xl
+        shadow-[0_0_60px_-20px_rgba(255,140,0,0.15)]
+        p-4 sm:p-6
+      ">
+        
         {loading && (
-          <p className="text-xs text-gray-500">Loading your links…</p>
+          <p className="text-xs text-white/40 mb-4">
+            Loading your links…
+          </p>
         )}
 
+        {/* List */}
         <div className="space-y-4 flex flex-col-reverse">
           {links.map((link) => {
             const detected = detectPlatform(link.url);
 
             return (
-              <div key={link.id} className="border rounded-xl p-4 space-y-3">
+              <div
+                key={link.id}
+                className="
+                  group rounded-2xl
+                  border border-white/10
+                  bg-black/40
+                  hover:bg-black/60
+                  transition
+                  p-4 sm:p-5 space-y-3
+                "
+              >
+                
                 {/* Top row */}
                 <div className="flex justify-between items-center">
+                  
                   <div className="flex items-center gap-2">
                     {platformBadge(detected)}
+
                     {link.isNew && (
-                      <span className="text-[10px] text-emerald-600 font-semibold">
+                      <span className="
+                        text-[10px] px-2 py-0.5 rounded-full
+                        bg-orange-500/10 text-orange-300
+                        border border-orange-500/20
+                      ">
                         new
                       </span>
                     )}
@@ -222,7 +277,10 @@ export default function LinkEditor() {
 
                   <button
                     onClick={() => deleteLink(link.id)}
-                    className="text-red-500"
+                    className="
+                      text-white/40 hover:text-orange-300
+                      opacity-70 group-hover:opacity-100 transition
+                    "
                   >
                     <Trash className="size-5" />
                   </button>
@@ -235,7 +293,17 @@ export default function LinkEditor() {
                     updateLink(link.id, { title: e.target.value })
                   }
                   placeholder="Title"
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
+                  className="
+                    w-full rounded-xl
+                    bg-white/5
+                    border border-white/10
+                    text-white/80
+                    px-3 py-2 text-sm
+                    placeholder:text-white/30
+                    focus:outline-none
+                    focus:ring-2 focus:ring-orange-500/30
+                    focus:border-orange-400/40
+                  "
                 />
 
                 {/* URL */}
@@ -245,19 +313,34 @@ export default function LinkEditor() {
                     updateLink(link.id, { url: e.target.value })
                   }
                   placeholder="https://example.com"
-                  className="w-full border rounded-lg px-3 py-2 text-sm"
+                  className="
+                    w-full rounded-xl
+                    bg-white/5
+                    border border-white/10
+                    text-white/80
+                    px-3 py-2 text-sm
+                    placeholder:text-white/30
+                    focus:outline-none
+                    focus:ring-2 focus:ring-orange-500/30
+                    focus:border-orange-400/40
+                  "
                 />
               </div>
             );
           })}
 
+          {/* Empty state */}
           {!links.length && !loading && (
-            <p className="text-sm text-gray-500">
-              No links yet. Click “Add link”.
-            </p>
+            <div className="text-center py-12 text-white/40">
+              <div className="text-sm text-white/60">No links yet</div>
+              <div className="text-xs mt-1">
+                Add your first link and build your glow ✨
+              </div>
+            </div>
           )}
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }

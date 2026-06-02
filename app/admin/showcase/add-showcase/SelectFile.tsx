@@ -79,64 +79,115 @@ function SelectFile({ onImageUploaded }: SelectFileProps) {
     if (inputRef.current) inputRef.current.value = '';
   };
 
-  return (
-    <div className="w-[50%] h-[75dvh]">
-      <Card
-        className="h-full rounded-4xl border-dashed border-2 border-[#E83718] bg-[#1f2020]
-                   flex flex-col  "
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-      >
-        <CardHeader className="flex flex-col items-center gap-3 text-center">
+ return (
+  <div className="w-full max-w-md h-[75vh]">
+    
+    <Card
+      className="
+        h-full rounded-3xl
+        border border-white/10
+        bg-white/5
+        backdrop-blur-xl
+        shadow-[0_0_60px_-25px_rgba(255,140,0,0.18)]
+        flex flex-col justify-between
+        relative overflow-hidden
+      "
+      onDrop={handleDrop}
+      onDragOver={(e) => e.preventDefault()}
+    >
+      
+      {/* Glow background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-orange-500/10 blur-[140px] rounded-full" />
+      </div>
+
+      {/* Header */}
+      <CardHeader className="flex flex-col items-center gap-3 text-center relative z-10">
+        
+        {/* Preview / Icon */}
+        <div className="
+          w-40 h-40 rounded-2xl
+          border border-white/10
+          bg-black/40
+          flex items-center justify-center
+          overflow-hidden
+        ">
           {preview ? (
             <img
               src={preview}
               alt="Preview"
-              className="w-40 h-40 rounded-xl object-cover"
+              className="w-full h-full object-cover"
             />
           ) : (
-            <ImageIcon className="w-12 h-12 text-muted-foreground" />
+            <ImageIcon className="w-10 h-10 text-white/30" />
           )}
+        </div>
 
-          <CardTitle>Add  Image</CardTitle>
-          <CardDescription className=''>
-            Drag & drop or click to upload (PNG, JPG, WEBP)
-          </CardDescription>
-        </CardHeader>
+        <CardTitle className="text-white/90 text-lg">
+          Upload Image
+        </CardTitle>
 
-        <CardContent className="flex gap-3 items-center justify-center">
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) uploadFile(file);
-            }}
-          />
+        <CardDescription className="text-white/40 text-xs">
+          Drag & drop or click to upload PNG, JPG, WEBP
+        </CardDescription>
+      </CardHeader>
 
+      {/* Drop zone hint */}
+      {!preview && (
+        <div className="text-center text-xs text-white/30 px-6">
+          Drop your image anywhere inside this panel
+        </div>
+      )}
+
+      {/* Actions */}
+      <CardContent className="flex gap-3 items-center justify-center relative z-10 pb-6">
+
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) uploadFile(file);
+          }}
+        />
+
+        <Button
+          disabled={uploading}
+          onClick={() => inputRef.current?.click()}
+          className="
+            rounded-xl font-medium
+            bg-gradient-to-r from-orange-500 to-amber-400
+            text-black
+            shadow-[0_0_25px_rgba(255,140,0,0.25)]
+            hover:from-orange-400 hover:to-amber-300
+            transition-all
+          "
+        >
+          {uploading ? 'Uploading…' : 'Select Image'}
+        </Button>
+
+        {preview && (
           <Button
-            className="bg-[#E83718] hover:bg-[#E83718]/90 text-white"
-            disabled={uploading}
-            onClick={() => inputRef.current?.click()}
+            variant="outline"
+            onClick={handleRemove}
+            className="
+              border-white/10
+              bg-white/5
+              text-white/60
+              hover:bg-white/10 hover:text-red-300
+              rounded-xl
+              transition
+            "
           >
-            {uploading ? 'Uploading…' : 'Select Image'}
+            <Trash2 className="w-4 h-4" />
           </Button>
-
-          {preview && (
-            <Button
-              variant="outline"
-              className="text-red-500"
-              onClick={handleRemove}
-            >
-              <Trash2 />
-            </Button>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
+        )}
+      </CardContent>
+    </Card>
+  </div>
+);
 }
 
 export default SelectFile;

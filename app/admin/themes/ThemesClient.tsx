@@ -25,7 +25,6 @@ type ThemesClientProps = {
 export function ThemesClient({ initialTheme }: ThemesClientProps) {
   const [selected, setSelected] = useState<CardThemeId>(initialTheme);
   const [isPending, startTransition] = useTransition();
-  const [message, setMessage] = useState<string | null>(null);
   const [openCustom, setOpenCustom] = useState(false);
 
   const themes = Object.entries(CARD_THEMES) as [
@@ -34,41 +33,40 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
   ][];
 
   const handleSave = () => {
-    if (selected === "custom") return; // custom handled by upload
+    if (selected === "custom") return;
 
-    setMessage(null);
     startTransition(() => {
       updateCardTheme(selected)
         .then(() => {
-          setMessage("Theme updated! 🎉 Check your profile page.");
+          toast.success("Theme updated successfully 🎨");
         })
         .catch(() => {
-          setMessage("Failed to update theme. Please try again.");
+          toast.error("Failed to update theme");
         });
     });
-    toast.info(message);
   };
 
   return (
-    <div className="space-y-6 overflow-y-auto p-2">
-      {/* THEMES GRID */}
-      
-      {/* ACTION BAR */}
-      <div className="flex items-center justify-between gap-4">
-        <div className="text-xs text-muted-foreground">
-         
-            Click a theme, then hit update to apply it to your profile.
-        </div>
+    <div className="relative space-y-8 p-2">
 
-        <Button
-          onClick={handleSave}
-          disabled={isPending || selected === "custom"}
-          className="min-w-[130px]"
-        >
-          {isPending ? "Updating..." : "Use this theme"}
-        </Button>
+      {/* 🌅 BACKDROP AURA */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-orange-500/20 blur-[160px] rounded-full" />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 ">
+
+      {/* HEADER */}
+      <div className="text-center space-y-2">
+        <h2 className="text-xl font-semibold text-white">
+          Theme Atelier
+        </h2>
+        <p className="text-sm text-white/50">
+          Shape the visual identity of your profile card
+        </p>
+      </div>
+
+      {/* GRID */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+
         {themes.map(([id, theme]) => {
           const isActive = selected === id;
 
@@ -83,34 +81,42 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
                   setSelected(id);
                 }
               }}
-              className={`relative rounded-2xl overflow-hidden border text-left pb-2 transition group ${
-                isActive
-                  ? "border-primary ring-2 ring-primary/40 scale-[1.02]"
-                  : "border-border hover:border-primary/60"
-              }`}
+              className={`
+                group relative overflow-hidden rounded-2xl border transition-all duration-300
+                bg-white/5 backdrop-blur-xl
+                hover:-translate-y-1 hover:shadow-lg
+                ${
+                  isActive
+                    ? "border-orange-400 shadow-[0_0_25px_rgba(255,120,0,0.35)] scale-[1.03]"
+                    : "border-white/10 hover:border-orange-400/40"
+                }
+              `}
             >
+              {/* IMAGE */}
               <div className="relative aspect-[4/3]">
                 <Image
                   src={theme.cardBgImage}
                   alt={theme.label}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
 
+                {/* ACTIVE OVERLAY */}
                 {isActive && (
-                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div className="flex items-center gap-1 text-white text-xs">
-                      <Check className="w-4 h-4" />
-                      <span>Selected</span>
+                  <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+                    <div className="flex items-center gap-2 text-white text-xs font-medium">
+                      <Check className="w-4 h-4 text-orange-400" />
+                      Selected
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="px-3 pt-2 flex items-center justify-between text-xs">
-                <span>{theme.label}</span>
+              {/* LABEL */}
+              <div className="px-3 py-2 flex items-center justify-between text-xs text-white/70">
+                <span className="truncate">{theme.label}</span>
                 <span
-                  className="w-3 h-3 rounded-full"
+                  className="w-3 h-3 rounded-full shadow-inner"
                   style={{ backgroundColor: theme.accent }}
                 />
               </div>
@@ -119,19 +125,42 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
         })}
       </div>
 
+      {/* ACTION BAR */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+
+        <p className="text-xs text-white/40 text-center sm:text-left">
+          Click a theme to preview it, then apply changes
+        </p>
+
+        <Button
+          onClick={handleSave}
+          disabled={isPending || selected === "custom"}
+          className="
+            min-w-[160px] rounded-xl font-semibold
+            bg-gradient-to-r from-orange-500 to-amber-400
+            text-black hover:from-orange-400 hover:to-amber-300
+            shadow-lg shadow-orange-500/30
+            transition-all duration-300
+          "
+        >
+          {isPending ? "Applying..." : "Apply Theme"}
+        </Button>
+      </div>
 
       {/* CUSTOM THEME DIALOG */}
       <Dialog open={openCustom} onOpenChange={setOpenCustom}>
-        <DialogContent>
+        <DialogContent className="bg-[#0f0f0f] border border-white/10 backdrop-blur-xl rounded-2xl">
           <DialogHeader>
-            <DialogTitle>Choose a custom background</DialogTitle>
+            <DialogTitle className="text-white">
+              Custom Theme Studio
+            </DialogTitle>
           </DialogHeader>
 
           <CustomThemeUploader
             onDone={() => {
               setSelected("custom");
-              setMessage("Custom theme applied! 🎨");
               setOpenCustom(false);
+              toast.success("Custom theme applied 🎨");
             }}
           />
         </DialogContent>

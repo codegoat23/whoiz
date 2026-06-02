@@ -69,63 +69,126 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
   };
 
   return (
-    <div className='w-full'>
-      <Table className='w-full '>
-        <TableHeader className="bg-[#a1a1a122]">
+  <div className="w-full overflow-x-auto">
+    
+    <div className="
+      min-w-[700px]
+      rounded-2xl
+      border border-white/10
+      bg-white/5
+      backdrop-blur-xl
+      shadow-[0_0_60px_-25px_rgba(255,140,0,0.12)]
+      overflow-hidden
+    ">
+      
+      <Table className="w-full">
+
+        {/* HEADER */}
+        <TableHeader className="bg-black/40 border-b border-white/10">
           <TableRow>
-            <TableHead className="w-10 " />
-            <TableHead className="text-muted-foreground text-[12px] w-2/3">
-              PRODUCTS
+            <TableHead className="w-10" />
+            <TableHead className="text-white/60 text-xs uppercase tracking-wider">
+              Products
             </TableHead>
-            <TableHead className="text-muted-foreground text-[12px]">
-              STATUS
+            <TableHead className="text-white/60 text-xs uppercase tracking-wider">
+              Status
             </TableHead>
-            <TableHead className="text-muted-foreground text-[12px]">
-              ACTION
+            <TableHead className="text-white/60 text-xs uppercase tracking-wider text-right">
+              Actions
             </TableHead>
           </TableRow>
         </TableHeader>
 
+        {/* BODY */}
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id}>
+            <TableRow
+              key={product.id}
+              className="
+                border-b border-white/5
+                hover:bg-white/5
+                transition
+              "
+            >
+              
               <TableCell />
-              <TableCell>{product.name}</TableCell>
+
+              {/* NAME */}
+              <TableCell className="text-white/80 font-medium">
+                {product.name}
+              </TableCell>
 
               {/* STATUS */}
               <TableCell>
                 {product.action === 'Publish' ? (
-                  <Badge variant="outline" className="text-green-700 p-1 lg:p-0.5">
-                    <CircleDotDashed className="text-green-700 lg: md:mr-1" />
-                    <span className='hidden lg:block md:block'> Published</span>
-                   
+                  <Badge
+                    variant="outline"
+                    className="
+                      border-emerald-500/20
+                      bg-emerald-500/10
+                      text-emerald-300
+                      flex items-center gap-1
+                      w-fit
+                    "
+                  >
+                    <CircleDotDashed className="w-3 h-3" />
+                    Published
                   </Badge>
                 ) : (
                   <Badge
                     variant="outline"
-                    className="text-red-600 border-red-200"
+                    className="
+                      border-orange-500/20
+                      bg-orange-500/10
+                      text-orange-300
+                      flex items-center gap-1
+                      w-fit
+                    "
                   >
-                    <CircleDotDashed className="text-red-700 mr-1" />
-                    <span className='hidden lg:block md:block'> Unpublished</span>
-                   
+                    <CircleDotDashed className="w-3 h-3" />
+                    Draft
                   </Badge>
                 )}
               </TableCell>
 
               {/* ACTIONS */}
-              <TableCell>
+              <TableCell className="text-right">
                 <Popover>
+                  
                   <PopoverTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="
+                        text-white/50
+                        hover:text-orange-300
+                        hover:bg-white/5
+                        rounded-xl
+                      "
+                    >
                       <Ellipsis />
                     </Button>
                   </PopoverTrigger>
 
-                  <PopoverContent className="w-36 p-1">
+                  <PopoverContent
+                    className="
+                      w-40 p-2
+                      bg-[#111]/95
+                      border border-white/10
+                      backdrop-blur-xl
+                      rounded-xl
+                    "
+                  >
+                    
                     {/* EDIT */}
                     <Button
                       variant="ghost"
-                      className="w-full justify-start gap-2 text-blue-500"
+                      className="
+                        w-full justify-start gap-2
+                        text-white/70
+                        hover:bg-white/10 hover:text-orange-300
+                        rounded-lg
+                      "
                       onClick={() => handleEdit(product.id)}
                     >
                       <Edit size={14} />
@@ -135,21 +198,30 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
                     {/* DELETE */}
                     <Button
                       variant="ghost"
-                      className="w-full justify-start gap-2 text-red-500"
+                      className="
+                        w-full justify-start gap-2
+                        text-white/70
+                        hover:bg-white/10 hover:text-red-400
+                        rounded-lg
+                      "
                       onClick={() => handleDelete(product.id)}
                     >
                       <Trash size={14} />
                       Delete
                     </Button>
+
                   </PopoverContent>
                 </Popover>
               </TableCell>
+
             </TableRow>
           ))}
         </TableBody>
+
       </Table>
     </div>
-  );
+  </div>
+);
 }
 
 export default ProductsTable;
