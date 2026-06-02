@@ -176,7 +176,7 @@ export default function LinkEditor() {
   };
 
 return (
-  <div className="min-h-screen w-full bg-[#0b0b0f] px-4 py-10">
+  <div className="min-h-screen w-full  px-4 py-10">
     
     <div className="max-w-3xl mx-auto">
       
@@ -241,7 +241,7 @@ return (
         )}
 
         {/* List */}
-        <div className="space-y-4 flex flex-col-reverse">
+        <div className="space-y-4 flex flex-col-reverse gap-2">
           {links.map((link) => {
             const detected = detectPlatform(link.url);
 
