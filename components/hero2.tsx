@@ -1,5 +1,6 @@
 import React from "react";
 import HeroPreviewCard from "./PreviewCardSect";
+import PhotoStack from "./PhotoStack";
 
 
 function Hero2() {
@@ -74,16 +75,7 @@ function Hero2() {
 
         {/* RIGHT VISUAL → REPLACED */}
         <div className="hidden lg:flex lg:col-span-5 justify-center">
-          <div className="relative">
-            
-            {/* Glow behind card */}
-            <div className="absolute inset-0 bg-orange-500/20 blur-[120px] rounded-full" />
-
-            <div className="relative">
-              <HeroPreviewCard />
-            </div>
-
-          </div>
+         <PhotoStack />
         </div>
 
       </div>
