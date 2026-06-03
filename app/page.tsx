@@ -14,22 +14,22 @@ export default function Home() {
     <div className="flex flex-col overflow-x-hidden items-center bg-black">
 
       <Hero />
-      <FlowDivider />
+    
 
       <FeatureButton />
-      <FlowDivider />
+     
 
       <PortfolioSection />
-      <FlowDivider />
+     
 
       <BuiltForEveryone />
-      <FlowDivider />
+     
 
       <Dynamicstyle />
-      <FlowDivider />
+      
 
       <SetupSection />
-      <FlowDivider />
+     
 
       <WhoizFooter />
 
