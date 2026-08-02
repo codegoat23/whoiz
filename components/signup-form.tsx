@@ -8,6 +8,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/password-input"
 import Link from "next/link"
 
 
@@ -47,14 +48,14 @@ export function SignupForm({
         </Field>
         <Field>
           <FieldLabel htmlFor="password">Password</FieldLabel>
-          <Input id="password" name="password" type="password" required />
+          <PasswordInput id="password" name="password" required />
           <FieldDescription>
             Must be at least 8 characters long.
           </FieldDescription>
         </Field>
         <Field>
           <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
-          <Input id="confirm-password" name="confirm-password" type="password" required />
+          <PasswordInput id="confirm-password" name="confirm-password" required />
           <FieldDescription>Please confirm your password.</FieldDescription>
         </Field>
         <Field>

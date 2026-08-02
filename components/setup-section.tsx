@@ -3,9 +3,13 @@
 import { UserPlus, Link2, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import StarImg from '@/public/star.svg'
+import InchWorm from '@/public/InchWorm.svg'
+import Sunflower from '@/public/Sunflower.svg'
+import Image from "next/image";
 
 const steps = [
-  {
+  { img: StarImg,
     icon: UserPlus,
     step: "Step 1",
     title: "Create your account",
@@ -14,6 +18,7 @@ const steps = [
   },
   {
     icon: Link2,
+    img: InchWorm, 
     step: "Step 2",
     title: "Connect your platforms",
     description:
@@ -22,6 +27,7 @@ const steps = [
   {
     icon: Rocket,
     step: "Step 3",
+    img: Sunflower,
     title: "Start growing",
     description:
       "Share your Whoiz page and turn visitors into followers, customers and fans.",
@@ -37,12 +43,8 @@ export function SetupSection() {
       </div>
 
       <div className="container mx-auto px-4">
-        {/* Badge */}
-        <div className="flex justify-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm text-muted-foreground">
-            ✨ Setup in minutes
-          </div>
-        </div>
+       
+       
 
         {/* Heading */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
@@ -59,18 +61,17 @@ export function SetupSection() {
         <div className="grid gap-6 md:grid-cols-3">
           {steps.map((step, index) => {
             const Icon = step.icon;
+            
 
             return (
               <Card
                 key={index}
                 className="group border-border/50 bg-card/50 backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:border-[#E83718]/40"
               >
-                <CardContent className="p-8">
+                <CardContent className="p-6">
                   {/* Visual Area */}
-                  <div className="mb-8 flex h-48 items-center justify-center rounded-2xl border bg-muted/30">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#E83718]/10 transition-all group-hover:scale-110">
-                      <Icon className="h-8 w-8 text-[#E83718]" />
-                    </div>
+                  <div className="mb-8 flex h-48 items-center justify-center rounded-2xl ">
+                    <Image src={step.img} alt="" width={110} height={110}/>
                   </div>
 
                   <p className="mb-2 text-sm font-medium text-[#E83718]">

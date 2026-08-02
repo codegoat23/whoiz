@@ -5,13 +5,7 @@ import Products from "./ProductsPage";
 
 
 export default async function Admin() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    redirect("/auth");
-  }
+ 
 
   
   return <Products />;

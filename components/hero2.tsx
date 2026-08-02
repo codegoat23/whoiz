@@ -30,7 +30,7 @@ function Hero2() {
           </p>
 
           {/* INPUT CARD */}
-          <form className="max-w-lg">
+          <form className=" flex flex-row max-w-lg">
             <div className="flex items-center rounded-3xl px-4 py-3 border border-orange-500/30 bg-white/5 backdrop-blur-md shadow-[0_20px_60px_-20px_rgba(249,115,22,0.25)] focus-within:ring-2 focus-within:ring-orange-400/40 transition">
 
               {/* Icon */}
@@ -63,14 +63,16 @@ function Hero2() {
                 required
               />
 
-              <button
+             
+            </div>
+             <button
                 type="button"
-                className="ml-3 bg-gradient-to-r from-orange-500 to-orange-700 text-white rounded-2xl px-4 py-2 text-xs font-medium shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] transition active:scale-95"
+                className="ml-3 bg-gradient-to-r from-orange-500 to-orange-700 text-white rounded-full px-4 py-2 text-xs font-medium  hover:shadow-orange-500/50 hover:scale-[1.03] transition active:scale-95"
               >
                 Create
               </button>
-            </div>
           </form>
+          
         </div>
 
         {/* RIGHT VISUAL → REPLACED */}

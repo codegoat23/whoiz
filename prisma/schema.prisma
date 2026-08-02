@@ -24,6 +24,7 @@ model User {
   spotifyAcc              String?
   cardTheme               String                   @default("default")
   customBgImageUrl        String?
+  deactivated             Boolean                  @default(false)
   socialConnects   SocialConnect[] 
   emailVerificationTokens EmailVerificationToken[]
   links                   Link[]

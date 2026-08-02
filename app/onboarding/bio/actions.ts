@@ -26,7 +26,7 @@ export async function updateBio(formData: FormData) {
   });
 
   if (!session) {
-    redirect("/auth");
+    redirect("/auth/login");
   }
 
   await prisma.user.update({

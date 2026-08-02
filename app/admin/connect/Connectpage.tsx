@@ -20,17 +20,17 @@ import { SiX } from "react-icons/si";
 const PLATFORMS = [
   { key: "instagram", label: "Instagram", icon: FaInstagram, color: "#E1306C" },
   { key: "facebook", label: "Facebook", icon: FaFacebook, color: "#1877F2" },
-  { key: "x", label: "X (Twitter)", icon: SiX, color: "#000000" },
+  { key: "x", label: "X (Twitter)", icon: SiX, color: "#fff" },
   { key: "github", label: "GitHub", icon: FaGithub, color: "#333" },
   { key: "linkedin", label: "LinkedIn", icon: FaLinkedin, color: "#0A66C2" },
-  { key: "tiktok", label: "TikTok", icon: FaTiktok, color: "#111" },
+  { key: "tiktok", label: "TikTok", icon: FaTiktok, color: "#fff" },
 ];
 
 export default function ConnectPage({
-  userId,
+ 
   initialSocials,
 }: {
-  userId: string;
+  
   initialSocials: { platform: string; url: string }[];
 }) {
   const initialLinks: Record<string, string> = {};
@@ -58,7 +58,7 @@ export default function ConnectPage({
       const res = await fetch("/api/social-connect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, platform, url }),
+        body: JSON.stringify({  platform, url }),
       });
 
       const data = await res.json();
@@ -80,10 +80,7 @@ export default function ConnectPage({
   return (
     <div className="min-h-screen px-6 py-10 relative">
 
-      {/* 🌅 BACKGROUND GLOW FIELD */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[600px] h-[600px]  blur-[180px] rounded-full" />
-      </div>
+   
 
       {/* HEADER */}
       <div className="text-center mb-10">
@@ -110,30 +107,23 @@ export default function ConnectPage({
                 border border-white/10
                 bg-white/5 backdrop-blur-xl
                 transition-all duration-300
-                hover:-translate-y-1
-                hover:border-white/20
-                hover:shadow-[0_20px_80px_-30px_rgba(255,120,0,0.25)]
+                
+                
               "
             >
               {/* ENERGY GLOW */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500"
-                style={{
-                  background: `radial-gradient(circle at top right, ${p.color}20, transparent 60%)`,
-                }}
-              />
+             
 
               {/* ICON NODE */}
               <div
                 className="
                   absolute top-5 right-5
                   flex h-14 w-14 items-center justify-center
-                  rounded-2xl border border-white/10
-                  backdrop-blur-md transition
+                 
+                 
                 "
                 style={{
-                  background: `${p.color}15`,
-                  boxShadow: `0 0 25px ${p.color}25`,
+                 
                   color: p.color,
                 }}
               >

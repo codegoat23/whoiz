@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function ProfileImageInput() {
   const [file, setFile] = useState<File | null>(null);
@@ -24,23 +25,28 @@ export default function ProfileImageInput() {
     setLoading(true);
 
     const formData = new FormData();
-    formData.append("file", file); // ✅ NO userId
+    formData.append("file", file);
 
-    const res = await fetch("/api/upload/profile", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("/api/upload/profile", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await res.json();
+      if (!res.ok) throw new Error("Upload failed");
 
-    // Update preview with Cloudinary URL
-    if (data?.avatarUrl) {
-      setPreview(data.avatarUrl);
-      window.location.reload();
+      const data = await res.json();
+
+      if (data?.avatarUrl) {
+        setPreview(data.avatarUrl);
+        window.location.reload();
+      }
+    } catch (error) {
+      toast.error("Failed to upload profile image");
+    } finally {
+      setLoading(false);
+      setFile(null);
     }
-
-    setLoading(false);
-    setFile(null);
   }
 
   return (
@@ -54,9 +60,10 @@ export default function ProfileImageInput() {
       <input type="file" accept="image/*" onChange={handleChange} />
 
       <button
+        type="button"
         onClick={handleUpload}
         disabled={!file || loading}
-        className="rounded-md bg-black px-4 py-2 text-white disabled:opacity-50"
+        className="rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground disabled:opacity-50"
       >
         {loading ? "Uploading..." : "Upload"}
       </button>

@@ -13,6 +13,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/password-input";
 import Link from "next/link";
 
 interface LoginFormProps extends React.ComponentProps<"form"> {
@@ -90,9 +91,8 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
                 Forgot your password?
               </a>
             </div>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               name="password"
               required
               disabled={isLoading}

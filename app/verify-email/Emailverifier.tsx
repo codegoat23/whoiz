@@ -51,7 +51,7 @@ function EmailVerifier({ user }: { user: any }) {
     });
 
     logoutPromise.then(() => {
-      router.push("/auth");
+      router.push("/auth/login");
     });
   };
 

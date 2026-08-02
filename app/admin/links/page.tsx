@@ -5,13 +5,7 @@ import React from 'react'
 import LinkEditor from '../components/LinkEditor';
 
 async function links() {
-     const session = await auth.api.getSession({
-        headers: await headers(),
-      });
     
-      if (!session) {
-        redirect("/auth");
-      }
     
   return <LinkEditor/>
 }

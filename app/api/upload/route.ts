@@ -1,33 +1,31 @@
 import { NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
-});
+import { getApiSessionUser } from "@/lib/session";
+import { storage } from "@/lib/storage";
 
 export async function POST(req: Request) {
+  const user = await getApiSessionUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const formData = await req.formData();
-  const file = formData.get("file") as File;
+  const file = formData.get("file") as File | null;
 
   if (!file) {
     return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
   }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  try {
+    const { url } = await storage.upload(file, { folder: "products" });
 
-  const uploadResult: any = await new Promise((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream({ folder: "products" }, (err, result) => {
-        if (err) reject(err);
-        resolve(result);
-      })
-      .end(buffer);
-  });
-
-  return NextResponse.json({
-    url: uploadResult.secure_url,
-  });
+    return NextResponse.json({ url });
+  } catch (error) {
+    console.error("[storage] Product image upload failed:", error);
+    return NextResponse.json(
+      { error: "Failed to upload image" },
+      { status: 500 }
+    );
+  }
 }

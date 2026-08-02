@@ -16,7 +16,7 @@ export default async function VerifyEmailConfirmPage({
 
   // No token → back to login
   if (!token) {
-    redirect("/auth");
+    redirect("/auth/login");
   }
 
   // Find token in DB

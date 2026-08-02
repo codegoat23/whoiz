@@ -7,12 +7,15 @@ import Addsidebar from "./components/add-sidebar"
 import AddBreadcrumb from "./components/AddBreadcrumb";
 import { Toaster } from "@/components/ui/sonner"
 import LogDisplay from "./components/LogDisplay"
+import { getSessionUser } from "@/lib/session"
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  await getSessionUser();
+
   return (
     <SidebarProvider>
       <div className="flex w-full h-full">

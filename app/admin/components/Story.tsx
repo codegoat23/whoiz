@@ -9,7 +9,7 @@ interface StoryProps{
 }
 function Story({story,txtcolor}: StoryProps) {
   return (
-   <Card className=' flex justify-center items-center  text-justify w-70 text-[11px] p-0  font-light text-wrap backdrop-blur-2xl bg-left border-none'
+   <Card className=' flex justify-center items-center  text-justify w-full max-w-[280px] text-[11px] p-0  font-light text-wrap backdrop-blur-2xl bg-left border-none'
     
    >
     <CardContent className='bg-black/50 w-full h-full rounded-[12px] p-6'>

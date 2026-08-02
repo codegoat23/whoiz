@@ -1,7 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 
 type Props = {
   params: {
@@ -35,8 +36,16 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   return (
-    <main className="max-w-3xl flex mx-auto p-6 justify-center sm:w-full ">
-      <Card className="p-6 rounded-4xl flex flex-col gap-5 lg:w-1/2 border-none sm:w-full">
+    <main className="max-w-3xl flex flex-col mx-auto p-6 w-full min-h-screen">
+      <Link
+        href={`/${username}`}
+        className="self-start mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to profile
+      </Link>
+
+      <Card className="p-6 rounded-4xl flex flex-col gap-5 w-full lg:w-1/2 mx-auto border-none">
         {/* IMAGE */}
         {product.imageUrl ? (
           <img

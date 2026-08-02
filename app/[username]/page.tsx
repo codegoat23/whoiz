@@ -36,11 +36,15 @@ export async function generateMetadata({
 
   const user = await prisma.user.findUnique({
     where: { username },
-    select: { name: true, bio: true },
+    select: { name: true, bio: true, deactivated: true },
   });
 
   if (!user) {
     return { title: "User Not Found" };
+  }
+
+  if (user.deactivated) {
+    return { title: "Account Deactivated" };
   }
 
   return {
@@ -68,6 +72,17 @@ export default async function UserPage({
 
   if (!user) notFound();
 
+  if (user.deactivated) {
+    return (
+      <main className="max-w-md mx-auto p-6 min-h-screen flex flex-col items-center justify-center text-center gap-3">
+        <h1 className="text-2xl font-bold">This account has been deactivated</h1>
+        <p className="text-muted-foreground text-sm text-balance">
+          The owner of this profile has temporarily deactivated it.
+        </p>
+      </main>
+    );
+  }
+
   /* ======================================================
      THEME RESOLUTION (THIS IS THE IMPORTANT PART)
      ====================================================== */
@@ -91,7 +106,7 @@ export default async function UserPage({
       {/* ================= PROFILE CARD ================= */}
       <section className="text-center mb-8 flex flex-col items-center gap-3">
         <Card
-          className="w-70 rounded-[35px] h-77 flex justify-between items-center p-1 border border-1 border-gray-700 bg-cover bg-[center_0px]"
+          className="w-[280px] max-w-full rounded-[35px] h-77 flex justify-between items-center p-1 border border-1 border-gray-700 bg-cover bg-[center_0px]"
           style={{
             backgroundImage: `
               linear-gradient(
@@ -106,19 +121,19 @@ export default async function UserPage({
        <ConnectModal links={user.socialConnects} />
 
           {/* USER INFO BAR */}
-          <div className="w-68 h-[20%] p-2 flex justify-between bg-black/60 rounded-4xl">
-            <div className="flex items-center gap-2">
+          <div className="w-full h-[20%] p-2 flex justify-between bg-black/60 rounded-4xl">
+            <div className="flex items-center gap-2 min-w-0">
               <img
                 src={user.avatarUrl ?? "/profile.jpg"}
-                className="w-12 h-12 rounded-full object-cover"
+                className="w-12 h-12 rounded-full object-cover shrink-0"
                 alt={user.name}
               />
-              <div className="flex flex-col text-left">
-                <span className="text-[11px] text-white">
+              <div className="flex flex-col text-left min-w-0">
+                <span className="text-[11px] text-white truncate">
                   {user.name}
                 </span>
                 {user.bio && (
-                  <span className="text-[9px] text-white">
+                  <span className="text-[9px] text-white truncate">
                     {user.bio}
                   </span>
                 )}

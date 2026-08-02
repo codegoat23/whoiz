@@ -2,28 +2,15 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ConnectPage from "./Connectpage";
+import { getSessionUser } from "@/lib/session";
+import { getSocials } from "@/lib/social-connect";
 
 export default async function AdminConnect() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const user = await getSessionUser();
 
-  if (!session) {
-    redirect("/auth");
-  }
+  const socials = await getSocials(user.id);
 
-  const user = session.user;
-
-  // fetch socials here (SERVER SIDE)
-  const res = await fetch(
-`${process.env.APP_URL}/api/social-connect?userId=${user.id}`,
-    { cache: "no-store" }
+  return (
+    <ConnectPage initialSocials={socials}/>
   );
-
-  const data = await res.json();
-
-  return  <ConnectPage
-      userId={user.id}
-      initialSocials={data.socials || []}
-    />;
 }

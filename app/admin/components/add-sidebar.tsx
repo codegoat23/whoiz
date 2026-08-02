@@ -9,6 +9,7 @@ import {
   Home,
   Link2,
   Paintbrush,
+  Settings,
   Smile,
 } from "lucide-react";
 
@@ -37,6 +38,7 @@ const navItems = [
   { title: "Showcase", href: "/admin/showcase", icon: GalleryThumbnails },
   { title: "Connect", href: "/admin/connect", icon: Smile },
   { title: "Design", href: "/admin/themes", icon: Paintbrush },
+  { title: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
 function Addsidebar() {
@@ -48,7 +50,7 @@ function Addsidebar() {
 
       {/* 🌅 BACKGROUND GLOW */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-orange-500/10 blur-[160px] rounded-full" />
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px]  blur-[160px] rounded-full" />
       </div>
 
       {/* LOGO */}
@@ -86,7 +88,7 @@ function Addsidebar() {
                     "hover:translate-x-1 hover:bg-white/5",
 
                     active
-                      ? "text-orange-300 bg-white/5 border border-orange-500/20 shadow-[0_0_20px_rgba(255,120,0,0.15)]"
+                      ? "text-orange-300 bg-white/5 border border-orange-500/20 "
                       : "text-white/60 hover:text-white"
                   )}
                 >
@@ -107,10 +109,7 @@ function Addsidebar() {
                     {item.title}
                   </span>
 
-                  {/* ACTIVE GLOW DOT */}
-                  {active && (
-                    <span className="ml-auto h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_10px_rgba(255,120,0,0.8)]" />
-                  )}
+                 
                 </Button>
               </Link>
             );
@@ -122,21 +121,31 @@ function Addsidebar() {
       <SidebarFooter className="p-3 relative space-y-3">
 
         {/* STATUS CARD */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-3">
-          <p className="text-xs text-white/40">
-            Whoiz Dashboard
-          </p>
+       <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6">
+  <div
+    className="absolute inset-0 opacity-15"
+    style={{
+      backgroundImage: "url('/tile_background.png')",
+      backgroundSize: "850px",
+      backgroundRepeat: "repeat",
+    }}
+  />
 
-          <p className="text-sm font-medium text-white/80">
-            Build your digital identity
-          </p>
+  <div className="relative z-10">
+    <p className="text-xs text-white/40">
+      Whoiz Dashboard
+    </p>
 
-          <div className="mt-2 flex items-center gap-2 text-xs text-orange-300">
-            <span className="h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
-            Live system
-          </div>
-        </div>
+    <p className="text-sm font-medium text-white/80">
+      Build your digital identity
+    </p>
 
+    <div className="mt-2 flex items-center gap-2 text-xs text-orange-300">
+      <span className="h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
+      Live system
+    </div>
+  </div>
+</div>
         {/* LOGOUT */}
         <Button
           onClick={async () => {
@@ -146,9 +155,9 @@ function Addsidebar() {
           }}
           className="
             w-full rounded-xl font-semibold
-            bg-gradient-to-r from-orange-500 to-amber-400
-            text-black hover:from-orange-400 hover:to-amber-300
-            shadow-lg shadow-orange-500/30
+          bg-orange-500
+            text-white hover:from-orange-400 hover:to-amber-300
+            
             transition-all duration-300
           "
         >

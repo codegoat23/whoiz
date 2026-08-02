@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { storage } from "@/lib/storage";
 
 const FREE_PRODUCT_LIMIT = 2;
 
@@ -99,7 +100,7 @@ export async function PUT(req: Request) {
     }
 
     const body = await req.json();
-    const { id, ...data } = body;
+    const { id, name, description, imageUrl, action } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -123,21 +124,59 @@ export async function PUT(req: Request) {
       );
     }
 
+    const data: {
+      name?: string;
+      description?: string | null;
+      imageUrl?: string | null;
+      action?: "Publish" | "Draft";
+    } = {};
+
+    if (typeof name === "string") data.name = name;
+    if (typeof description === "string" || description === null) {
+      data.description = description;
+    }
+    if (typeof imageUrl === "string" || imageUrl === null) {
+      data.imageUrl = imageUrl;
+    }
+    if (action === "Publish" || action === "Draft") data.action = action;
+
     const updatedProduct = await prisma.product.update({
       where: { id },
       data,
     });
 
+    // 🗑️ Remove the previous image only after the update succeeded,
+    // and only if no other product still references it.
+    if (product.imageUrl && product.imageUrl !== updatedProduct.imageUrl) {
+      const stillInUse = await prisma.product.findFirst({
+        where: {
+          imageUrl: product.imageUrl,
+          id: { not: id },
+        },
+        select: { id: true },
+      });
+
+      if (!stillInUse) {
+        try {
+          await storage.delete(product.imageUrl);
+        } catch (error) {
+          console.error(
+            "[storage] Failed to delete old product image:",
+            error
+          );
+        }
+      }
+    }
+
     return NextResponse.json(
       { success: true, product: updatedProduct },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("PUT /api/products error:", error);
     return NextResponse.json(
       {
         error: "Failed to update product",
-        details: error.message,
       },
       { status: 500 }
     );

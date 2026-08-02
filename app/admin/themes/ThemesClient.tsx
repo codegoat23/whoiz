@@ -38,7 +38,7 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
     startTransition(() => {
       updateCardTheme(selected)
         .then(() => {
-          toast.success("Theme updated successfully 🎨");
+          toast.success("Theme updated successfully");
         })
         .catch(() => {
           toast.error("Failed to update theme");
@@ -51,17 +51,12 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
 
       {/* 🌅 BACKDROP AURA */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-orange-500/20 blur-[160px] rounded-full" />
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px]  blur-[160px] rounded-full" />
       </div>
 
       {/* HEADER */}
       <div className="text-center space-y-2">
-        <h2 className="text-xl font-semibold text-white">
-          Theme Atelier
-        </h2>
-        <p className="text-sm text-white/50">
-          Shape the visual identity of your profile card
-        </p>
+        
       </div>
 
       {/* GRID */}
@@ -87,7 +82,7 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
                 hover:-translate-y-1 hover:shadow-lg
                 ${
                   isActive
-                    ? "border-orange-400 shadow-[0_0_25px_rgba(255,120,0,0.35)] scale-[1.03]"
+                    ? "border-white/20  scale-[1.03]"
                     : "border-white/10 hover:border-orange-400/40"
                 }
               `}
@@ -137,9 +132,9 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
           disabled={isPending || selected === "custom"}
           className="
             min-w-[160px] rounded-xl font-semibold
-            bg-gradient-to-r from-orange-500 to-amber-400
-            text-black hover:from-orange-400 hover:to-amber-300
-            shadow-lg shadow-orange-500/30
+            bg-orange-500
+            text-white
+            
             transition-all duration-300
           "
         >

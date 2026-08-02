@@ -29,7 +29,7 @@ function LogDisplay({
 
     // 3️⃣ Wait for it to finish → redirect
     logoutPromise.then(() => {
-      router.push("/auth");
+      router.push("/auth/login");
     });
   };
   return (

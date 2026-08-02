@@ -26,7 +26,7 @@ export async function updateUsername(formData: FormData) {
   });
 
   if (!session) {
-    redirect("/auth");
+    redirect("/auth/login");
   }
 
   // optional: ensure unique username

@@ -9,7 +9,7 @@ export default async function BioOnboardingPage() {
   });
 
   if (!session) {
-    redirect("/auth");
+    redirect("/auth/login");
   }
 
   const user = session.user as any;

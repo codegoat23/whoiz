@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import ImageSelector from '@/components/showcase/ImageSelector';
 
 import TextField from '@mui/material/TextField';
 
@@ -35,13 +36,49 @@ export default function ProductInput({
     initialProduct?.action ?? 'Publish'
   );
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [removeImage, setRemoveImage] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleImageChange = useCallback((file: File | null) => {
+    if (file) {
+      setSelectedFile(file);
+      setRemoveImage(false);
+    } else {
+      setSelectedFile(null);
+      setRemoveImage(true);
+    }
+  }, []);
+
   const handleSave = async () => {
     if (!name) {
       toast.error('Product name is required');
       return;
     }
 
+    if (isSaving) return;
+    setIsSaving(true);
+
     try {
+      let finalImageUrl = imageUrl;
+
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        const upRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!upRes.ok) throw new Error('Image upload failed');
+
+        const data = await upRes.json();
+        finalImageUrl = data.url;
+      }
+
+      if (removeImage) finalImageUrl = null;
+
       const res = await fetch('/api/products', {
         method: mode === 'edit' ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +87,7 @@ export default function ProductInput({
           name,
           description,
           action,
-          imageUrl,
+          imageUrl: finalImageUrl,
         }),
       });
 
@@ -66,73 +103,88 @@ export default function ProductInput({
       router.push('/admin/showcase');
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
+    } finally {
+      setIsSaving(false);
     }
   };
 
   return (
-    <div className="w-[72%]">
-      <Card className="p-4 bg-transparent border-none">
-        <div className="flex flex-col gap-3">
-  <TextField
-  label="Title"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  fullWidth
-  size="small"
-  sx={{
-    "& .MuiInputLabel-root": {
-      color: "#aaa",
-    },
+    <div className="flex flex-col lg:flex-row gap-4 w-full p-4">
+      <ImageSelector
+        initialImageUrl={imageUrl}
+        onFileChange={handleImageChange}
+      />
 
-    "& .MuiOutlinedInput-root": {
-      color: "white",
-
-      "& fieldset": {
-        borderColor: "#2E2E2E", // faded gray
-        borderWidth: "1px",
-        borderRadius: "12px", 
+      <div className="flex-1">
+        <Card className="p-4 bg-transparent border-none">
+          <div className="flex flex-col gap-3">
+    <TextField
+    label="Title"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    fullWidth
+    size="small"
+    sx={{
+      "& .MuiInputLabel-root": {
+        color: "#aaa",
       },
 
-      "&:hover fieldset": {
-        borderColor: "#888",
+      "& .MuiOutlinedInput-root": {
+        color: "white",
+
+        "& fieldset": {
+          borderColor: "#2E2E2E", // faded gray
+          borderWidth: "1px",
+          borderRadius: "12px", 
+        },
+
+        "&:hover fieldset": {
+          borderColor: "#888",
+        },
+
+        "&.Mui-focused fieldset": {
+          borderColor: "#999",
+        },
       },
+    }}
+  />
 
-      "&.Mui-focused fieldset": {
-        borderColor: "#999",
-      },
-    },
-  }}
-/>
+            <RichTextEditor value={description} onChange={setDescription} />
 
-          <RichTextEditor value={description} onChange={setDescription} />
+            <div className="flex flex-col gap-1">
+              <span className="text-sm">Set Action</span>
+              <Select value={action} onValueChange={(v) => setAction(v as ProductAction)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Publish">Publish</SelectItem>
+                  <SelectItem value="Draft">Draft</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div className="flex flex-col gap-1">
-            <span className="text-sm">Set Action</span>
-            <Select value={action} onValueChange={(v) => setAction(v as ProductAction)}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Publish">Publish</SelectItem>
-                <SelectItem value="Draft">Draft</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex justify-end gap-4 mt-6">
+              <Button variant="outline">
+                <Link href="/admin/products" className="flex gap-2 items-center">
+                  <X size={16} />
+                  Cancel
+                </Link>
+              </Button>
+
+              <Button onClick={handleSave} disabled={isSaving}>
+                {isSaving
+                  ? mode === 'edit'
+                    ? 'Updating…'
+                    : 'Saving…'
+                  : mode === 'edit'
+                    ? 'Update'
+                    : 'Save'}
+              </Button>
+            </div>
           </div>
-
-          <div className="flex justify-end gap-4 mt-6">
-            <Button variant="outline">
-              <Link href="/admin/products" className="flex gap-2 items-center">
-                <X size={16} />
-                Cancel
-              </Link>
-            </Button>
-
-            <Button onClick={handleSave}>
-              {mode === 'edit' ? 'Update' : 'Save'}
-            </Button>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

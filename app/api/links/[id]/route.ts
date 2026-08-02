@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
+
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getApiSessionUser } from "@/lib/session";
 
 /* =========================
    DELETE LINK (secured)
@@ -12,22 +12,16 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
-  const headersList = await headers();
+  const user = await getApiSessionUser();
 
-  const session = await auth.api.getSession({
-    headers: Object.fromEntries(headersList),
-  });
-
-  if (!session?.user) {
+  if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
-  const userId = session.user.id;
 
   const link = await prisma.link.findFirst({
     where: {
       id,
-      userId,
+      userId: user.id,
     },
   });
 
@@ -52,23 +46,18 @@ export async function PUT(
   try {
     const { id } = await params;
 
-    const headersList = await headers();
+    const user = await getApiSessionUser();
 
-    const session = await auth.api.getSession({
-      headers: Object.fromEntries(headersList),
-    });
-
-    if (!session?.user) {
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = session.user.id;
     const body = await req.json();
 
     const link = await prisma.link.findFirst({
       where: {
         id,
-        userId, // ⚠️ make sure this matches your schema (was ownerId before)
+        userId: user.id,
       },
     });
 
@@ -76,22 +65,37 @@ export async function PUT(
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
+    const { label, url, visible, platform } = body;
+
+    const data: {
+      label?: string;
+      url?: string;
+      visible?: boolean;
+      platform?: string | null;
+    } = {};
+
+    if (typeof label === "string") data.label = label;
+    if (typeof url === "string") data.url = url;
+    if (typeof visible === "boolean") data.visible = visible;
+    if (platform === null || typeof platform === "string") {
+      data.platform = platform;
+    }
+
     const updatedLink = await prisma.link.update({
       where: { id },
-      data: body,
+      data,
     });
 
     return NextResponse.json({
       success: true,
       link: updatedLink,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("UPDATE /api/links error:", error);
 
     return NextResponse.json(
       {
         error: "Failed to update link",
-        details: error.message,
       },
       { status: 500 }
     );

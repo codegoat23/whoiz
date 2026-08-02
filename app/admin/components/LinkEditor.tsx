@@ -2,6 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Facebook,
   Globe,
   Instagram,
@@ -22,6 +30,7 @@ type LinkItem = {
   visible: boolean;
   platform?: string | null;
   isNew?: boolean;
+  createdAt?: number;
 };
 
 function platformBadge(platform: string | null | undefined) {
@@ -54,6 +63,7 @@ export default function LinkEditor() {
   const [links, setLinks] = useState<LinkItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<LinkItem | null>(null);
 
   // 🔹 Fetch links
   useEffect(() => {
@@ -73,6 +83,7 @@ export default function LinkEditor() {
           visible: l.visible,
           platform: l.platform,
           isNew: false,
+          createdAt: l.createdAt ? new Date(l.createdAt).getTime() : 0,
         }));
 
         setLinks(mapped);
@@ -109,9 +120,19 @@ export default function LinkEditor() {
     ]);
   };
 
-  // 🔥 FIXED DELETE (clean + optimistic UI)
-  const deleteLink = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this link?")) return;
+  // 🔥 DELETE with shadcn modal confirmation + optimistic UI
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+
+    const { id, isNew } = deleteTarget;
+    setDeleteTarget(null);
+
+    // Unsaved (new) links only exist client-side — remove locally.
+    if (isNew) {
+      setLinks((prev) => prev.filter((l) => l.id !== id));
+      toast.success("Link removed");
+      return;
+    }
 
     const previous = links;
 
@@ -136,35 +157,62 @@ export default function LinkEditor() {
     }
   };
 
-  // 🔹 Save only new links
+  // 🔹 Save new links and persist edits to existing ones
   const saveLinks = async () => {
     try {
       setSaving(true);
 
       const newLinks = links.filter((l) => l.isNew);
+      const editedLinks = links.filter((l) => !l.isNew);
 
-      if (newLinks.length === 0) {
-        toast.info("No new links to save");
+      if (newLinks.length === 0 && editedLinks.length === 0) {
+        toast.info("Nothing to save");
         return;
       }
 
-      await Promise.all(
-        newLinks.map((link) =>
-          fetch("/api/links", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              label: link.title,
-              url: link.url,
-              visible: link.visible,
-            }),
-          })
-        )
-      );
+      if (newLinks.length > 0) {
+        const results = await Promise.all(
+          newLinks.map((link) =>
+            fetch("/api/links", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                label: link.title,
+                url: link.url,
+                visible: link.visible,
+              }),
+            })
+          )
+        );
 
-      setLinks((prev) =>
-        prev.map((l) => (l.isNew ? { ...l, isNew: false } : l))
-      );
+        if (results.some((r) => !r.ok)) {
+          throw new Error("Failed to save new links");
+        }
+
+        setLinks((prev) =>
+          prev.map((l) => (l.isNew ? { ...l, isNew: false } : l))
+        );
+      }
+
+      if (editedLinks.length > 0) {
+        const results = await Promise.all(
+          editedLinks.map((link) =>
+            fetch(`/api/links/${link.id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                label: link.title,
+                url: link.url,
+                visible: link.visible,
+              }),
+            })
+          )
+        );
+
+        if (results.some((r) => !r.ok)) {
+          throw new Error("Failed to update links");
+        }
+      }
 
       toast.success("Links saved successfully");
     } catch (err) {
@@ -174,6 +222,14 @@ export default function LinkEditor() {
       setSaving(false);
     }
   };
+
+  // Newest first: unsaved additions on top, then saved links by createdAt desc
+  const displayLinks = [
+    ...links.filter((l) => l.isNew),
+    ...links
+      .filter((l) => !l.isNew)
+      .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0)),
+  ];
 
 return (
   <div className="min-h-screen w-full  px-4 py-10">
@@ -187,9 +243,7 @@ return (
           <h2 className="text-xl font-semibold text-orange-300">
             My Links
           </h2>
-          <p className="text-sm text-white/50">
-            Your digital identity, glowing in the dark
-          </p>
+         
         </div>
 
         {/* Actions */}
@@ -212,10 +266,10 @@ return (
             onClick={saveLinks}
             className="
               rounded-xl font-semibold
-              bg-gradient-to-r from-orange-500 to-amber-400
+              bg-white
               text-black
               shadow-[0_0_25px_rgba(255,140,0,0.25)]
-              hover:from-orange-400 hover:to-amber-300
+              
               transition-all
             "
           >
@@ -230,7 +284,7 @@ return (
         border border-white/10
         bg-white/5
         backdrop-blur-xl
-        shadow-[0_0_60px_-20px_rgba(255,140,0,0.15)]
+        
         p-4 sm:p-6
       ">
         
@@ -241,8 +295,8 @@ return (
         )}
 
         {/* List */}
-        <div className="space-y-4 flex flex-col-reverse gap-2">
-          {links.map((link) => {
+        <div className="space-y-4">
+          {displayLinks.map((link) => {
             const detected = detectPlatform(link.url);
 
             return (
@@ -267,8 +321,8 @@ return (
                     {link.isNew && (
                       <span className="
                         text-[10px] px-2 py-0.5 rounded-full
-                        bg-orange-500/10 text-orange-300
-                        border border-orange-500/20
+                         text-orange-300
+                       
                       ">
                         new
                       </span>
@@ -276,7 +330,7 @@ return (
                   </div>
 
                   <button
-                    onClick={() => deleteLink(link.id)}
+                    onClick={() => setDeleteTarget(link)}
                     className="
                       text-white/40 hover:text-orange-300
                       opacity-70 group-hover:opacity-100 transition
@@ -334,13 +388,62 @@ return (
             <div className="text-center py-12 text-white/40">
               <div className="text-sm text-white/60">No links yet</div>
               <div className="text-xs mt-1">
-                Add your first link and build your glow ✨
+                Add your first link and build your glow
               </div>
+                <button
+            onClick={addLink}
+            className="
+              rounded-xl px-4 py-2 text-sm
+              mt-6
+              font-medium
+              border border-white/10
+              bg-white hover:bg-white/10
+              text-black
+              transition
+            "
+          >
+            + Add your first link
+          </button>
             </div>
           )}
         </div>
       </div>
     </div>
+
+    {/* DELETE CONFIRMATION MODAL */}
+    <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+      <DialogContent className="bg-[#0f0f0f] border border-white/10 backdrop-blur-xl rounded-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-white">Delete this link?</DialogTitle>
+          <DialogDescription className="text-white/60">
+            {deleteTarget?.title
+              ? `"${deleteTarget.title}" will be permanently removed from your profile.`
+              : "This link will be permanently removed from your profile."}
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter>
+          <Button
+            variant="outline"
+            onClick={() => setDeleteTarget(null)}
+            className="border-white/10 bg-white/5 text-white/70"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleDeleteConfirm}
+            className="
+              rounded-xl font-semibold
+              bg-red-500 text-white
+              hover:bg-red-600
+              transition-all duration-300
+            "
+          >
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   </div>
 );
 }

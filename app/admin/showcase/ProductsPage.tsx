@@ -97,10 +97,9 @@ function Products() {
             onClick={() => router.push('/admin/showcase/add-showcase')}
             className="
               rounded-xl font-medium
-              bg-gradient-to-r from-orange-500 to-amber-400
+             bg-white
               text-black
-              shadow-[0_0_25px_rgba(255,140,0,0.25)]
-              hover:from-orange-400 hover:to-amber-300
+             
               transition-all
             "
           >

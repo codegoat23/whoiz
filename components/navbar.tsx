@@ -15,20 +15,18 @@ const permanentMarker = Permanent_Marker({
 export default function GlassNavbar() {
   
   return (
-    <header className="fixed top-5 left-1/2 z-50 w-[92%] sm:w-[88%] max-w-4xl -translate-x-1/2">
+    <header className="absolute top-5 left-1/2 z-50 w-[92%] sm:w-[88%] max-w-5xl -translate-x-1/2">
       
       <nav
         className={cn(
           "relative flex items-center justify-between w-full",
           "rounded-2xl px-4 sm:px-6 py-3",
           // glass base
-          "bg-white/10 backdrop-blur-2xl",
-          "border border-orange-400/20",
-          "shadow-[0_20px_60px_-20px_rgba(249,115,22,0.35)]"
+        
         )}
       >
         {/* Ambient glow layer */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/10 via-transparent to-orange-500/10 pointer-events-none" />
+        <div className="absolute inset-0 rounded-2xl pointer-events-none" />
 
         {/* Logo */}
         <Link
@@ -45,19 +43,7 @@ export default function GlassNavbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm text-orange-100/70 relative">
 
-          <Link
-            href="#features"
-            className="hover:text-orange-300 transition-colors"
-          >
-            Features
-          </Link>
-
-          <Link
-            href="#about"
-            className="hover:text-orange-300 transition-colors"
-          >
-            About
-          </Link>
+         
 
           <div className="flex items-center gap-3 ml-2">
 
@@ -66,9 +52,9 @@ export default function GlassNavbar() {
               size="sm"
               className={cn(
                 "rounded-2xl px-4",
-                "bg-white/10 hover:bg-orange-500/20",
-                "text-orange-100 border border-orange-400/20",
-                "backdrop-blur-md transition"
+                "bg-transparent",
+                "text-white"
+               
               )}
             >
               <Link href="/auth/login">Login</Link>
@@ -78,14 +64,14 @@ export default function GlassNavbar() {
             <Button
               size="sm"
               className={cn(
-                "rounded-2xl px-4",
-                "bg-gradient-to-r from-orange-500 to-orange-700",
-                "text-white shadow-lg shadow-orange-500/30",
-                "hover:shadow-orange-500/50 hover:scale-[1.03] transition",
+                "rounded-2xl px-4 py-5",
+                " bg-white",
+                "text-black",
+                " transition",
                 "active:scale-95"
               )}
             >
-              <Link href="/auth/signup">Open account</Link>
+              <Link href="/auth/signup">Create an account</Link>
             </Button>
           </div>
         </div>

@@ -63,7 +63,7 @@ export default function ConnectModal({ links }: { links: Link[] }) {
 
             {/* 🫧 PANEL (FLOATING LIQUID ENTRY) */}
             <motion.div
-              className="relative w-[340px] rounded-2xl bg-white/10 border border-white/20 backdrop-blur-2xl"
+              className="relative w-[min(340px,90vw)] rounded-2xl bg-white/10 border border-white/20 backdrop-blur-2xl"
               variants={{
                 hidden: {
                   opacity: 0,

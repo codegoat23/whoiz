@@ -77,7 +77,7 @@ function ProfileCard({ fullname, bio, story, id,avatarUrl }: QuickViewProps) {
            <div className="flex gap-5 w-full items-center ">
             
             <ProfileImageButton avatarUrl={avatarUrl}/>
-            <span className="text-[11px] w-75">Update your avatar by clicking the image 288x288 px size recommended in PNG or JPG format only.</span>
+            <span className="text-[11px] flex-1 min-w-0">Update your avatar by clicking the image 288x288 px size recommended in PNG or JPG format only.</span>
          </div>
          
           <div className="flex flex-col gap-5 items-center justify-center">

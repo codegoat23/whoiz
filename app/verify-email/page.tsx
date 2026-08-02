@@ -12,7 +12,7 @@ export default async function EmailVerificationPage() {
 
   // Not logged in → login
   if (!session) {
-    redirect("/auth");
+    redirect("/auth/login");
   }
 
   const user = session.user;

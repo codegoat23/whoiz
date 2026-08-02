@@ -52,7 +52,7 @@ export default function ConnectModal({ links }: { links: Link[] }) {
           />
 
           {/* PANEL */}
-          <div className="relative w-[340px] rounded-2xl bg-white/10 border border-white/20 p-6 backdrop-blur-xl">
+          <div className="relative w-[min(340px,90vw)] rounded-2xl bg-white/10 border border-white/20 p-6 backdrop-blur-xl">
 
             {/* CLOSE */}
             <button
