@@ -1,20 +1,20 @@
 'use client'
 
 import {createContext, useContext,useState, ReactNode } from "react";
-import { Product } from "@/lib/type";
+import { Showcase } from "@/lib/type";
 
 type AppContextType = {
-    product:Product[];
-    setProduct:(product: Product[]) => void;
+    showcases:Showcase[];
+    setShowcases:(showcases: Showcase[]) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({children} : {children : ReactNode}){
-const[product,setProduct ] = useState<Product[]>([]);
+const[showcases,setShowcases ] = useState<Showcase[]>([]);
  
 return(
-    <AppContext.Provider value = {{product, setProduct}}>
+    <AppContext.Provider value = {{showcases, setShowcases}}>
         {children}
     </AppContext.Provider>
 );

@@ -4,10 +4,10 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { storage } from "@/lib/storage";
 
-const FREE_PRODUCT_LIMIT = 2;
+const FREE_SHOWCASE_LIMIT = 2;
 
 /* ======================================================
-   GET /api/products
+   GET /api/showcases
    ====================================================== */
 export async function GET() {
   const headersList = await headers();
@@ -22,16 +22,17 @@ export async function GET() {
     );
   }
 
-  const products = await prisma.product.findMany({
+  const showcases = await prisma.showcase.findMany({
     where: { ownerId: session.user.id },
     orderBy: { createdAt: "asc" },
+    include: { blocks: { orderBy: { order: "asc" } } },
   });
 
-  return NextResponse.json(products);
+  return NextResponse.json(showcases);
 }
 
 /* ======================================================
-   POST /api/products  (create)
+   POST /api/showcases  (create)
    ====================================================== */
 export async function POST(req: Request) {
   try {
@@ -49,20 +50,17 @@ export async function POST(req: Request) {
 
     const userId = session.user.id;
 
-    // 🔒 Free plan limit
-  
-
     const body = await req.json();
     const { name, description, imageUrl, action } = body;
 
     if (!name) {
       return NextResponse.json(
-        { error: "Product name is required" },
+        { error: "Showcase name is required" },
         { status: 400 }
       );
     }
 
-    const product = await prisma.product.create({
+    const showcase = await prisma.showcase.create({
       data: {
         name,
         description,
@@ -72,9 +70,9 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(product, { status: 201 });
+    return NextResponse.json(showcase, { status: 201 });
   } catch (error) {
-    console.error("POST /api/products error:", error);
+    console.error("POST /api/showcases error:", error);
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
@@ -83,7 +81,7 @@ export async function POST(req: Request) {
 }
 
 /* ======================================================
-   PUT /api/products  (update)
+   PUT /api/showcases  (update)
    ====================================================== */
 export async function PUT(req: Request) {
   try {
@@ -104,22 +102,21 @@ export async function PUT(req: Request) {
 
     if (!id) {
       return NextResponse.json(
-        { error: "Missing product ID" },
+        { error: "Missing showcase ID" },
         { status: 400 }
       );
     }
 
-    // 🔎 ownership check
-    const product = await prisma.product.findFirst({
+    const showcase = await prisma.showcase.findFirst({
       where: {
         id,
         ownerId: session.user.id,
       },
     });
 
-    if (!product) {
+    if (!showcase) {
       return NextResponse.json(
-        { error: "Product not found" },
+        { error: "Showcase not found" },
         { status: 404 }
       );
     }
@@ -140,17 +137,15 @@ export async function PUT(req: Request) {
     }
     if (action === "Publish" || action === "Draft") data.action = action;
 
-    const updatedProduct = await prisma.product.update({
+    const updatedShowcase = await prisma.showcase.update({
       where: { id },
       data,
     });
 
-    // 🗑️ Remove the previous image only after the update succeeded,
-    // and only if no other product still references it.
-    if (product.imageUrl && product.imageUrl !== updatedProduct.imageUrl) {
-      const stillInUse = await prisma.product.findFirst({
+    if (showcase.imageUrl && showcase.imageUrl !== updatedShowcase.imageUrl) {
+      const stillInUse = await prisma.showcase.findFirst({
         where: {
-          imageUrl: product.imageUrl,
+          imageUrl: showcase.imageUrl,
           id: { not: id },
         },
         select: { id: true },
@@ -158,10 +153,10 @@ export async function PUT(req: Request) {
 
       if (!stillInUse) {
         try {
-          await storage.delete(product.imageUrl);
+          await storage.delete(showcase.imageUrl);
         } catch (error) {
           console.error(
-            "[storage] Failed to delete old product image:",
+            "[storage] Failed to delete old showcase image:",
             error
           );
         }
@@ -169,14 +164,14 @@ export async function PUT(req: Request) {
     }
 
     return NextResponse.json(
-      { success: true, product: updatedProduct },
+      { success: true, showcase: updatedShowcase },
       { status: 200 }
     );
   } catch (error) {
-    console.error("PUT /api/products error:", error);
+    console.error("PUT /api/showcases error:", error);
     return NextResponse.json(
       {
-        error: "Failed to update product",
+        error: "Failed to update showcase",
       },
       { status: 500 }
     );
@@ -184,7 +179,7 @@ export async function PUT(req: Request) {
 }
 
 /* ======================================================
-   DELETE /api/products
+   DELETE /api/showcases
    ====================================================== */
 export async function DELETE(req: Request) {
   try {
@@ -205,27 +200,41 @@ export async function DELETE(req: Request) {
 
     if (!id) {
       return NextResponse.json(
-        { error: "Missing product ID" },
+        { error: "Missing showcase ID" },
         { status: 400 }
       );
     }
 
-    // 🔎 ownership check
-    const product = await prisma.product.findFirst({
+    const showcase = await prisma.showcase.findFirst({
       where: {
         id,
         ownerId: session.user.id,
       },
     });
 
-    if (!product) {
+    if (!showcase) {
       return NextResponse.json(
-        { error: "Product not found" },
+        { error: "Showcase not found" },
         { status: 404 }
       );
     }
 
-    await prisma.product.delete({
+    const blocks = await prisma.showcaseBlock.findMany({
+      where: { showcaseId: id },
+      select: { mediaUrl: true },
+    });
+
+    for (const block of blocks) {
+      if (block.mediaUrl) {
+        try {
+          await storage.delete(block.mediaUrl);
+        } catch (err) {
+          console.error("[storage] Failed to delete block media:", err);
+        }
+      }
+    }
+
+    await prisma.showcase.delete({
       where: { id },
     });
 
@@ -234,9 +243,9 @@ export async function DELETE(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("DELETE /api/products error:", error);
+    console.error("DELETE /api/showcases error:", error);
     return NextResponse.json(
-      { error: "Failed to delete product" },
+      { error: "Failed to delete showcase" },
       { status: 500 }
     );
   }

@@ -21,19 +21,18 @@ export async function DELETE(
 
   const userId = session.user.id;
 
-  // Ensure user owns the product
-  const product = await prisma.product.findFirst({
+  const showcase = await prisma.showcase.findFirst({
     where: {
       id,
       ownerId: userId,
     },
   });
 
-  if (!product) {
+  if (!showcase) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  await prisma.product.delete({
+  await prisma.showcase.delete({
     where: { id },
   });
 

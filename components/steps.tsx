@@ -1,12 +1,6 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Permanent_Marker } from "next/font/google"
-
-const permanentMarker = Permanent_Marker({
-weight: "400",
-subsets: ["latin"],
-})
 
 const steps = [
   {
@@ -43,10 +37,7 @@ export default function WhoizSteps() {
               )}
             >
               <div
-                     className={cn(
-                    permanentMarker.className,
-                    "text-6xl font-black leading-none text-white"
-                    )}
+                     className="text-6xl font-black leading-none text-white"
               >
                 {step.number}
               </div>

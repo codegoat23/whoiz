@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
+import { Globe, X } from "lucide-react";
 
 import {
   FaInstagram,
@@ -36,9 +36,9 @@ export default function ConnectModal({ links }: { links: Link[] }) {
       {/* 🌐 TRIGGER BUTTON */}
       <button
         onClick={() => setOpen(true)}
-        className="px-3 py-1.5 rounded-full bg-black/60 text-white text-[11px] backdrop-blur-md hover:scale-105 transition"
+        className="px-3 py-2 rounded-full bg-black/60 text-white flex flex-row gap-2 items-center text-[11px] backdrop-blur-md hover:scale-105 transition"
       >
-        🌐 let’s connect
+        <Globe size={14}/> <span>let’s connect</span>
       </button>
 
       {/* 🌌 MODAL */}

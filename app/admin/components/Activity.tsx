@@ -13,7 +13,7 @@ import React from 'react'
 
 
 function Activity() {
-  const{product} = useAppContext();
+  const{showcases} = useAppContext();
     
   return (
     <div>
@@ -39,8 +39,8 @@ function Activity() {
                 
             </Card>
              <Card className=' w-[24%] h-25 flex flex-col gap-2 p-4 border-1'>
-                  <span>Total Products</span>
-                 <span className='text-[#FE482B] font-bold text-[30px]'>{product.length }</span>
+                  <span>Total Showcases</span>
+                 <span className='text-[#FE482B] font-bold text-[30px]'>{showcases.length }</span>
                 
              </Card>
               <Card className=' w-[24%] h-25 flex flex-col gap-2 p-4 border-1'>

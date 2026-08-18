@@ -7,13 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Permanent_Marker } from "next/font/google";
 import Link from "next/link";
-
-const permanentMarker = Permanent_Marker({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 export function UsernameForm() {
   const [username, setUsername] = useState("");
@@ -37,11 +31,7 @@ export function UsernameForm() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
 
-      {/* 🌅 ORANGE BACKDROP ENERGY */}
-      <div className="absolute inset-0">
-        <div className="absolute top-[-140px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-orange-500/25 blur-[170px] rounded-full" />
-        <div className="absolute bottom-[-120px] right-[-100px] w-[500px] h-[500px] bg-amber-400/20 blur-[150px] rounded-full" />
-      </div>
+     
 
       <div className="relative w-full max-w-md flex flex-col items-center gap-8">
 
@@ -49,13 +39,13 @@ export function UsernameForm() {
         <div className="flex items-center justify-center">
           <div className="flex items-center gap-3">
 
-            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold shadow-lg shadow-orange-500/30">
+            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold ">
               1
             </div>
 
             <div className="h-[2px] w-10 bg-orange-500/60" />
 
-            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold shadow-lg shadow-orange-500/30">
+            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold ">
               2
             </div>
 
@@ -68,16 +58,13 @@ export function UsernameForm() {
         </div>
 
         {/* 📦 CARD */}
-        <Card className="w-full p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_25px_100px_-30px_rgba(255,120,0,0.35)]">
+        <Card className="w-full p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl ">
 
           {/* BRAND */}
           <div className="flex justify-center mb-6">
             <Link
               href="/"
-              className={cn(
-                permanentMarker.className,
-                "text-xl tracking-wide text-orange-400 hover:text-orange-300 transition"
-              )}
+              className="text-xl tracking-wide text-orange-400 hover:text-orange-300 transition"
             >
               WHOIZ
             </Link>
@@ -131,7 +118,7 @@ export function UsernameForm() {
             <Button
               type="submit"
               disabled={isPending || username.trim().length < 3}
-              className="w-full rounded-xl font-semibold bg-gradient-to-r from-orange-500 to-amber-400 text-black hover:from-orange-400 hover:to-amber-300 transition-all duration-300 shadow-lg shadow-orange-500/30"
+              className="w-full rounded-xl font-semibold  text-black hover:from-orange-400 hover:to-amber-300 transition-all duration-300 shadow-lg bg-orange-500"
             >
               {isPending ? "Saving..." : "Continue"}
             </Button>

@@ -25,12 +25,7 @@ import { cn } from "@/lib/utils";
 import { signOut } from "@/lib/auth-client";
 import { toast } from "sonner";
 
-import { Permanent_Marker } from "next/font/google";
 
-const permanentMarker = Permanent_Marker({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 const navItems = [
   { title: "Profile", href: "/admin", icon: Home },
@@ -58,10 +53,7 @@ function Addsidebar() {
         <div className="flex justify-center">
           <Link
             href="/admin"
-            className={cn(
-              permanentMarker.className,
-              "text-4xl tracking-wide text-orange-400 hover:text-orange-300 transition"
-            )}
+            className="text-4xl tracking-wide text-orange-400 hover:text-orange-300 transition"
           >
             WHOIZ
           </Link>

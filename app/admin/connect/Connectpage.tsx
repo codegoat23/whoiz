@@ -95,124 +95,172 @@ export default function ConnectPage({
       {/* GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
 
-        {PLATFORMS.map((p) => {
-          const Icon = p.icon;
+       {PLATFORMS.map((p) => {
+  const Icon = p.icon;
+  const connected = isConnected(p.key);
+  const editing = isEditing(p.key);
+  const loading = loadingPlatform === p.key;
 
-          return (
-            <Card
-              key={p.key}
+  return (
+    <Card
+      key={p.key}
+      className="
+        group relative flex min-h-[230px] flex-col
+        overflow-hidden rounded-3xl
+        border border-white/10
+        bg-white/[0.04]
+        p-6
+        backdrop-blur-xl
+        transition-all duration-300
+        hover:border-white/15
+        hover:bg-white/[0.06]
+      "
+    >
+      {/* PLATFORM ICON */}
+      <div
+        className="
+          absolute right-5 top-5
+          flex h-11 w-11
+          items-center justify-center
+          rounded-2xl
+          border border-white/10
+          bg-white/[0.04]
+          transition-transform duration-300
+          group-hover:scale-105
+        "
+        style={{
+          color: p.color,
+        }}
+      >
+        <Icon size={22} />
+      </div>
+
+      {/* HEADER */}
+      <div className="pr-14">
+        <h2 className="text-base font-semibold tracking-tight text-white">
+          {p.label}
+        </h2>
+
+        <p className="mt-1 text-xs text-white/35">
+          {connected ? "Your account is connected" : "Connect your account"}
+        </p>
+      </div>
+
+      {/* CONTENT */}
+      {connected && !editing ? (
+        <div className="mt-6 flex flex-1 flex-col">
+          {/* STATUS */}
+          <div className="flex items-center gap-2">
+            
+
+            <span className="text-sm font-medium text-emerald-400">
+              Connected
+            </span>
+          </div>
+
+          {/* ACTIONS */}
+          <div className="mt-auto grid grid-cols-2 gap-2 pt-6">
+            <a
+              href={links[p.key]}
+              target="_blank"
+              rel="noopener noreferrer"
               className="
-                group relative overflow-hidden
-                rounded-3xl p-6
+                flex h-10 items-center justify-center
+                rounded-xl
                 border border-white/10
-                bg-white/5 backdrop-blur-xl
-                transition-all duration-300
-                
-                
+                bg-white/[0.04]
+                px-3
+                text-xs font-medium
+                text-white/60
+                transition
+                hover:border-white/20
+                hover:bg-white/[0.08]
+                hover:text-white
               "
             >
-              {/* ENERGY GLOW */}
-             
+              Open profile
+            </a>
 
-              {/* ICON NODE */}
-              <div
-                className="
-                  absolute top-5 right-5
-                  flex h-14 w-14 items-center justify-center
-                 
-                 
-                "
-                style={{
-                 
-                  color: p.color,
-                }}
-              >
-                <Icon size={26} />
-              </div>
+            <Button
+              variant="outline"
+              onClick={() =>
+                setEditing((prev) => ({
+                  ...prev,
+                  [p.key]: true,
+                }))
+              }
+              className="
+                h-10 rounded-xl
+                border-white/10
+                bg-white/[0.04]
+                text-xs font-medium
+                text-white
+                hover:border-white/20
+                hover:bg-white/[0.08]
+              "
+            >
+              Edit
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-6 flex flex-1 flex-col">
+          {/* URL INPUT */}
+          <Input
+            placeholder={`Enter ${p.label} URL`}
+            value={links[p.key] || ""}
+            onChange={(e) =>
+              setLinks((prev) => ({
+                ...prev,
+                [p.key]: e.target.value,
+              }))
+            }
+            className="
+              h-10
+              rounded-xl
+              border-white/10
+              bg-black/20
+              text-sm text-white
+              placeholder:text-white/25
+              focus:border-white/25
+              focus:ring-0
+            "
+          />
 
-              {/* TITLE */}
-              <h2 className="text-white text-lg font-semibold tracking-tight">
-                {p.label}
-              </h2>
-
-              {/* STATUS */}
-              {isConnected(p.key) && !isEditing(p.key) ? (
-                <div className="mt-5 space-y-4">
-
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <p className="text-sm text-emerald-400 font-medium">
-                      Connected
-                    </p>
-                  </div>
-
-                  <a
-                    href={links[p.key]}
-                    target="_blank"
-                    className="text-sm text-white/40 hover:text-white transition"
-                  >
-                    Open profile →
-                  </a>
-
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setEditing((prev) => ({ ...prev, [p.key]: true }))
-                    }
-                    className="
-                      w-full rounded-xl
-                      bg-white/5 border-white/10
-                      text-white hover:bg-white/10
-                    "
-                  >
-                    Edit
-                  </Button>
-                </div>
-              ) : (
-                <div className="mt-5 space-y-3">
-
-                  <Input
-                    placeholder={`Enter ${p.label} URL`}
-                    value={links[p.key] || ""}
-                    onChange={(e) =>
-                      setLinks((prev) => ({
-                        ...prev,
-                        [p.key]: e.target.value,
-                      }))
-                    }
-                    className="
-                      bg-black/20 border-white/10
-                      text-white placeholder:text-white/30
-                      focus:border-white/30 focus:ring-white/10
-                      rounded-xl
-                    "
-                  />
-
-                  <Button
-                    disabled={loadingPlatform === p.key}
-                    onClick={() => save(p.key)}
-                    className="
-                      w-full rounded-xl font-semibold
-                      text-black
-                      transition-all duration-300
-                      shadow-lg
-                    "
-                    style={{
-                      background: `linear-gradient(135deg, ${p.color}, ${p.color}90)`,
-                      boxShadow: `0 10px 30px ${p.color}30`,
-                    }}
-                  >
-                    {loadingPlatform === p.key
-                      ? "Saving..."
-                      : isConnected(p.key)
-                      ? "Update"
-                      : "Connect"}
-                  </Button>
-                </div>
-              )}
-            </Card>
-          );
-        })}
+          {/* SAVE */}
+          <Button
+            disabled={loading}
+            onClick={() => save(p.key)}
+            className="
+              mt-auto h-10 w-full
+              rounded-xl
+              font-semibold
+              text-black
+              transition-all duration-300
+              hover:scale-[1.01]
+              disabled:cursor-not-allowed
+              disabled:opacity-50
+            "
+            style={{
+              background: `linear-gradient(
+                135deg,
+                ${p.color},
+                ${p.color}90
+              )`,
+              boxShadow: `0 8px 25px ${p.color}20`,
+            }}
+          >
+            {loading
+              ? "Saving..."
+              : connected
+              ? "Update"
+              : "Connect"}
+          </Button>
+        </div>
+      )}
+    </Card>
+  );
+})}
       </div>
     </div>
   );

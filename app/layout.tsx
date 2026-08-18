@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist_Mono } from "next/font/google";
+import { Sora } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "./context/AppContext";
 import { Toaster } from "sonner";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
 });
 
@@ -27,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${bricolage.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+        className={`${sora.variable} antialiased overflow-x-hidden`}
       >
         <AppProvider>
           <Toaster position="top-right"/>

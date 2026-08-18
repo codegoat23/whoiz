@@ -1,7 +1,6 @@
-import {prisma} from '@/lib/prisma';
-
-import { ProductAction } from '@/lib/type';
-import ProductInput from '../../add-showcase/ProductInput';
+import { prisma } from '@/lib/prisma';
+import { ShowcaseAction } from '@/lib/type';
+import BlockEditor from '../../block-editor/BlockEditor';
 
 interface PageProps {
   params: {
@@ -9,37 +8,32 @@ interface PageProps {
   };
 }
 
-export default async function EditProductPage({ params }: PageProps) {
-  const {id} = await params;
-
-  console.log('EDIT PRODUCT ID:', id);
+export default async function EditShowcasePage({ params }: PageProps) {
+  const { id } = await params;
 
   if (!id) {
-    return <div className="p-4">Invalid product ID</div>;
+    return <div className="p-4">Invalid showcase ID</div>;
   }
 
-  const product = await prisma.product.findUnique({
+  const showcase = await prisma.showcase.findUnique({
     where: { id },
+    include: { blocks: { orderBy: { order: 'asc' } } },
   });
 
-  if (!product) {
-    return <div className="p-4">Product not found</div>;
+  if (!showcase) {
+    return <div className="p-4">Showcase not found</div>;
   }
 
-  /**
-   * Normalize Prisma result to match frontend Product type
-   * (action from string | null → ProductAction)
-   */
-  const normalizedProduct = {
-    ...product,
-    action: (product.action ?? 'Publish') as ProductAction,
+  const normalizedShowcase = {
+    ...showcase,
+    action: (showcase.action ?? 'Publish') as ShowcaseAction,
   };
 
   return (
-    <ProductInput
+    <BlockEditor
       mode="edit"
-      imageUrl={normalizedProduct.imageUrl}
-      initialProduct={normalizedProduct}
+      imageUrl={normalizedShowcase.imageUrl}
+      initialProduct={normalizedShowcase as any}
     />
   );
 }

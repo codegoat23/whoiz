@@ -58,11 +58,7 @@ function EmailVerifier({ user }: { user: any }) {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
 
-      {/* 🌅 ORANGE AMBIENT BACKGROUND */}
-      <div className="absolute inset-0">
-        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-orange-500/25 blur-[160px] rounded-full" />
-        <div className="absolute bottom-[-120px] right-[-80px] w-[500px] h-[500px] bg-amber-400/20 blur-[140px] rounded-full" />
-      </div>
+    
 
       {/* 📦 CARD */}
       <div className="relative w-full max-w-md">
@@ -90,7 +86,7 @@ function EmailVerifier({ user }: { user: any }) {
         </div>
 
         {/* MAIN CARD */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_25px_100px_-30px_rgba(255,120,0,0.35)] p-8 text-center">
+        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl  p-8 text-center">
 
           {/* ICON */}
           <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/10 border border-orange-500/20">
@@ -127,7 +123,7 @@ function EmailVerifier({ user }: { user: any }) {
             onClick={resendEmail}
             disabled={loading}
             className="mt-6 w-full rounded-xl py-2.5 text-sm font-medium 
-            bg-gradient-to-r from-orange-500 to-amber-400 text-black
+           bg-orange-500 text-black
             hover:from-orange-400 hover:to-amber-300
             transition-all duration-300
             disabled:opacity-50 disabled:cursor-not-allowed"

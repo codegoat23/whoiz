@@ -1,10 +1,4 @@
 import { GalleryVerticalEnd } from "lucide-react";
-import { Permanent_Marker } from "next/font/google";
-
-const permanentMarker = Permanent_Marker({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 export default function AuthLayout({
   children,
@@ -20,7 +14,7 @@ export default function AuthLayout({
              
             </div>
               <span
-      className={`${permanentMarker.className} text-[#FF5E57] text-2xl`}
+      className="text-[#FF5E57] text-2xl"
     >
       Whoiz
     </span>

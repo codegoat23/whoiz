@@ -2,12 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product } from '@/lib/type';
+import { Showcase as ShowcaseType } from '@/lib/type';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 interface ShowcaseProps {
-  products: Product[];
+  products: ShowcaseType[];
   username: string| null;
 }
 
@@ -19,6 +20,7 @@ function Showcase({ products, username }: ShowcaseProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [progress, setProgress] = useState(0);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,48 +113,49 @@ function Showcase({ products, username }: ShowcaseProps) {
           }
 
           return (
-            <Card
-              key={product.id}
-              onMouseEnter={() => setHoveredId(product.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              className="absolute w-[70%] rounded-2xl p-3 border shadow-lg transition-all duration-500 ease-out"
-              style={{
-                zIndex: hoveredId === product.id ? 999 : 10 - index,
-                opacity: hoveredId && hoveredId !== product.id ? 0.85 : 1,
-                transform,
-              }}
-            >
-              {product.imageUrl ? (
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="h-40 w-full rounded-xl object-cover"
-                />
-              ) : (
-                <div className="h-40 rounded-xl bg-muted flex items-center justify-center text-xs">
-                  No image
-                </div>
-              )}
+      <Card
+  key={product.id}
+  onMouseEnter={() => setHoveredId(product.id)}
+  onMouseLeave={() => setHoveredId(null)}
+  onClick={() => router.push(`/${username}/showcases/${product.id}`)}
+  className="absolute w-[70%] overflow-hidden rounded-[30] border-none  transition-all duration-500 ease-out mt-15"
+  style={{
+    zIndex: hoveredId === product.id ? 999 : 10 - index,
+    opacity: hoveredId && hoveredId !== product.id ? 0.85 : 1,
+    transform,
+    backgroundImage: product.imageUrl
+      ? `url(${product.imageUrl})`
+      : undefined,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+  {/* Fallback background */}
+  {!product.imageUrl && (
+    <div className="absolute inset-0 flex items-center justify-center bg-muted text-xs">
+      No image
+    </div>
+  )}
 
-              <div className="mt-2 flex justify-between items-center">
-                <span className="text-[10px] truncate">
-                  {product.name}
-                </span>
+  {/* Dark bottom gradient */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
-                <Link href={`/${username}/products/${product.id}`}>
-                  <Button size="sm" className="text-[11px] h-7 bg-[#1b89e3]">
-                    view
-                  </Button>
-                </Link>
-              </div>
-            </Card>
+  {/* Content */}
+  <div className="relative flex h-80 items-end justify-between p-4">
+    <span className="max-w-[65%] truncate text-xl font-medium text-white">
+      {product.name}
+    </span>
+
+   
+  </div>
+</Card>
           );
         })}
       </div>
 
       {/* VIEW MORE */}
       {hasMore && (
-        <Link href={`/${username}/products`}>
+        <Link href={`/${username}/showcases`}>
           <Button variant="outline" className="text-xs mt-2">
             View more
           </Button>

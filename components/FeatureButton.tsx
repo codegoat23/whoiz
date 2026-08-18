@@ -11,7 +11,7 @@ function FeatureButton() {
       <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-10 lg:gap-14
                       text-xs sm:text-sm md:text-base text-orange-100/80
                       
-                      px-4 py-3 shadow-[0_20px_60px_-20px_rgba(249,115,22,0.25)]">
+                      px-4 py-3">
 
         {/* Item 1 */}
         <div className="flex items-center gap-2 hover:text-orange-300 transition">

@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url });
   } catch (error) {
-    console.error("[storage] Product image upload failed:", error);
+    console.error("[storage] Showcase image upload failed:", error);
     return NextResponse.json(
       { error: "Failed to upload image" },
       { status: 500 }

@@ -5,13 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { Permanent_Marker } from "next/font/google";
-
-
-const permanentMarker = Permanent_Marker({
-  weight: "400",
-  subsets: ["latin"],
-});
 export default function GlassNavbar() {
   
   return (
@@ -32,7 +25,6 @@ export default function GlassNavbar() {
         <Link
           href="/"
           className={cn(
-            permanentMarker.className,
             "relative text-sm sm:text-base tracking-wide",
             "text-orange-300 drop-shadow-[0_0_10px_rgba(249,115,22,0.35)]"
           )}

@@ -14,12 +14,12 @@ import TextField from '@mui/material/TextField';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 
-import { Product, ProductAction } from '@/lib/type';
+import { Showcase, ShowcaseAction } from '@/lib/type';
 import RichTextEditor from '../../components/richTexteditor';
 
 interface ProductInputProps {
   imageUrl: string | null;
-  initialProduct?: Product;
+  initialProduct?: Showcase;
   mode?: 'create' | 'edit';
 }
 
@@ -32,7 +32,7 @@ export default function ProductInput({
 
   const [name, setName] = useState(initialProduct?.name ?? '');
   const [description, setDescription] = useState(initialProduct?.description ?? '');
-  const [action, setAction] = useState<ProductAction>(
+  const [action, setAction] = useState<ShowcaseAction>(
     initialProduct?.action ?? 'Publish'
   );
 
@@ -79,7 +79,7 @@ export default function ProductInput({
 
       if (removeImage) finalImageUrl = null;
 
-      const res = await fetch('/api/products', {
+      const res = await fetch('/api/showcases', {
         method: mode === 'edit' ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -97,7 +97,7 @@ export default function ProductInput({
       }
 
       toast.success(
-        mode === 'edit' ? 'Product updated' : 'Product created'
+        mode === 'edit' ? 'Showcase updated' : 'Showcase created'
       );
 
       router.push('/admin/showcase');
@@ -153,7 +153,7 @@ export default function ProductInput({
 
             <div className="flex flex-col gap-1">
               <span className="text-sm">Set Action</span>
-              <Select value={action} onValueChange={(v) => setAction(v as ProductAction)}>
+              <Select value={action} onValueChange={(v) => setAction(v as ShowcaseAction)}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue />
                 </SelectTrigger>
@@ -166,7 +166,7 @@ export default function ProductInput({
 
             <div className="flex justify-end gap-4 mt-6">
               <Button variant="outline">
-                <Link href="/admin/products" className="flex gap-2 items-center">
+                <Link href="/admin/showcase" className="flex gap-2 items-center">
                   <X size={16} />
                   Cancel
                 </Link>

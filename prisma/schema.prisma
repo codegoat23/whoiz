@@ -28,7 +28,7 @@ model User {
   socialConnects   SocialConnect[] 
   emailVerificationTokens EmailVerificationToken[]
   links                   Link[]
-  products                Product[]
+  showcases              Showcase[]
   accounts                Account[]
   sessions                Session[]
 
@@ -56,15 +56,44 @@ model Link {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Product {
-  id          String        @id @default(cuid())
+model Showcase {
+  id          String         @id @default(cuid())
   name        String
   description String?
   imageUrl    String?
   ownerId     String
-  createdAt   DateTime      @default(now())
-  action      ProductAction @default(Publish)
-  owner       User          @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime       @default(now())
+  action      ShowcaseAction @default(Publish)
+  owner       User           @relation(fields: [ownerId], references: [id])
+  blocks      ShowcaseBlock[]
+
+  @@map("Product")
+}
+
+enum BlockType {
+  paragraph
+  heading
+  subheading
+  image
+  video
+  link
+  quote
+  gallery
+}
+
+model ShowcaseBlock {
+  id         String   @id @default(cuid())
+  showcaseId String
+  type       BlockType
+  content    String?
+  mediaUrl   String?
+  caption    String?
+  order      Int
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  showcase   Showcase @relation(fields: [showcaseId], references: [id], onDelete: Cascade)
+
+  @@index([showcaseId])
 }
 model SocialConnect {
   id        String   @id @default(cuid())
@@ -127,7 +156,9 @@ model Verification {
   @@map("verification")
 }
 
-enum ProductAction {
+enum ShowcaseAction {
   Publish
   Draft
+
+  @@map("ProductAction")
 }

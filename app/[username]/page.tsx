@@ -64,7 +64,7 @@ export default async function UserPage({
   const user = await prisma.user.findUnique({
     where: { username },
     include: {
-      products: true,
+      showcases: true,
       links: true,
       socialConnects: true,
     },
@@ -180,7 +180,7 @@ export default async function UserPage({
           </div>
         )}
 <Showcase
-  products={user.products}
+  products={user.showcases}
   username={user.username}
 />
 

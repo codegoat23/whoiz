@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Permanent_Marker } from "next/font/google";
 import { Button } from "./ui/button";
-
-const permanentMarker = Permanent_Marker({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 export default function WhoizFooter() {
   return (
@@ -42,10 +36,7 @@ export default function WhoizFooter() {
 
         {/* Big brand */}
         <div
-          className={cn(
-            permanentMarker.className,
-            "text-center leading-none"
-          )}
+          className="text-center leading-none"
         >
           <span className="text-5xl sm:text-7xl md:text-[140px] lg:text-[200px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-200 via-orange-400 to-orange-600 drop-shadow-[0_0_25px_rgba(249,115,22,0.25)]">
             WHOIZ

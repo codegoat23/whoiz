@@ -1,14 +1,8 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { cn } from "@/lib/utils"
-import { Permanent_Marker } from "next/font/google"
 import { Card, CardDescription, CardFooter, CardHeader } from './ui/card'
 import { Dribbble, Facebook, Instagram, Linkedin } from 'lucide-react'
-
-const permanentMarker = Permanent_Marker({
-weight: "400",
-subsets: ["latin"],
-})
 
 function Steps() {
   return (
@@ -17,11 +11,7 @@ function Steps() {
         <div className='flex justify-center items-center w-full lg:w-11/12 h-full hidden sm:block'>
             <Button 
             
-             className={cn(
-                  permanentMarker.className,
-                  "w-35 h-35 bg-[#ff5e47] rounded-full text-5xl -rotate-20"
-                  
-                  )}> signup</Button>
+             className="w-35 h-35 bg-[#ff5e47] rounded-full text-5xl -rotate-20"> signup</Button>
         </div>
         <div className='flex flex-col lg:w-1/2 gap-5 w-full'>
                 <Card className='w-full h-2/5 border-none bg-[#ff5e47] flex flex-row p-6 rounded-3xl'>

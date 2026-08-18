@@ -1,11 +1,5 @@
 import React from "react";
-import { Permanent_Marker } from "next/font/google"
 import { cn } from "@/lib/utils";
-
-const permanentMarker = Permanent_Marker({
-weight: "400",
-subsets: ["latin"],
-})
 
 export default function AboutWhoiz() {
   return (
@@ -15,7 +9,6 @@ export default function AboutWhoiz() {
         <h2 className="text-3xl md:text-4xl font-semibold">About</h2>
         <p 
          className={cn(
-        permanentMarker.className,
         "text-4xl md:text-5xl font-bold text-red-500 italic mt-2"
         )}
         >
@@ -91,7 +84,6 @@ function Feature({
     <div className={`max-w-sm ${className}`}>
       <h3 
        className={cn(
-      permanentMarker.className,
       "text-red-500 font-semibold tracking-wide mb-2"
       )}
       >

@@ -1,8 +1,8 @@
-import ProductInput from './ProductInput';
+import BlockEditor from '../block-editor/BlockEditor';
 
-export default function AddProductPage() {
+export default function AddShowcasePage() {
   return (
-    <ProductInput
+    <BlockEditor
       mode="create"
       imageUrl={null}
     />

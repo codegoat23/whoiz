@@ -1,0 +1,2 @@
+-- No SQL changes needed: model renamed via @@map("Product")
+-- Enum renamed via @@map("ProductAction")

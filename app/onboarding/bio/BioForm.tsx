@@ -60,38 +60,33 @@ export function BioForm() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
 
-      {/* 🌅 ORANGE BACKDROP */}
-      <div className="absolute inset-0">
-        <div className="absolute top-[-160px] left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-orange-500/25 blur-[180px] rounded-full" />
-        <div className="absolute bottom-[-140px] right-[-120px] w-[520px] h-[520px] bg-amber-400/20 blur-[150px] rounded-full" />
-      </div>
-
+    
       <div className="relative w-full max-w-2xl space-y-6">
 
         {/* 🧭 STEP INDICATOR */}
         <div className="flex items-center justify-center">
           <div className="flex items-center gap-3">
 
-            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold shadow-lg shadow-orange-500/30">
+            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold ">
               1
             </div>
 
             <div className="h-[2px] w-10 bg-orange-500/60" />
 
-            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold shadow-lg shadow-orange-500/30">
+            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold ">
               2
             </div>
 
             <div className="h-[2px] w-10 bg-orange-500/60" />
 
-            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold shadow-lg shadow-orange-500/30">
+            <div className="h-8 w-8 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-semibold ">
               3
             </div>
           </div>
         </div>
 
         {/* 📦 CARD */}
-        <div className="w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_25px_120px_-40px_rgba(255,120,0,0.35)] p-6 sm:p-8">
+        <div className="w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl  p-6 sm:p-8">
 
           {/* TITLE */}
           <div className="mb-6 text-center">
@@ -126,7 +121,7 @@ export function BioForm() {
                         rounded-xl transition-all duration-200
                         ${
                           isActive
-                            ? "bg-orange-500 text-black shadow-lg shadow-orange-500/30"
+                            ? "bg-orange-500 text-black "
                             : "bg-white/5 text-white/70 border border-white/10 hover:bg-white/10"
                         }
                       `}
@@ -146,7 +141,7 @@ export function BioForm() {
                   w-full rounded-xl py-2.5 text-sm mt-2 transition
                   ${
                     useCustom
-                      ? "bg-orange-500 text-black shadow-lg shadow-orange-500/30"
+                      ? "bg-orange-500 text-black "
                       : "bg-white/5 text-white/70 border border-white/10 hover:bg-white/10"
                   }
                 `}
@@ -193,9 +188,9 @@ export function BioForm() {
               disabled={isPending || bio.trim().length < 3}
               className="
                 w-full rounded-xl font-semibold
-                bg-gradient-to-r from-orange-500 to-amber-400
+                bg-orange-500
                 text-black hover:from-orange-400 hover:to-amber-300
-                shadow-lg shadow-orange-500/30
+               
                 transition-all duration-300
               "
             >
