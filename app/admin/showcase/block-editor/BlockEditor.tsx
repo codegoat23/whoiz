@@ -300,7 +300,7 @@ export default function BlockEditor({
   /* ---- Preview mode ---- */
   if (showPreview) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="w-full bg-background">
         <div className="sticky top-0 z-50 border-b border-white/10 bg-background/80 backdrop-blur-xl">
           <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
             <Button
@@ -327,8 +327,8 @@ export default function BlockEditor({
 
   /* ---- Editor mode ---- */
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-4 py-6 flex flex-col gap-6">
+    <div className="w-full bg-background">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 flex flex-col gap-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold">

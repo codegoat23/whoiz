@@ -232,9 +232,9 @@ export default function LinkEditor() {
   ];
 
 return (
-  <div className="min-h-screen w-full  px-4 py-10">
+  <div className="w-full p-4 sm:p-6 lg:p-8">
     
-    <div className="max-w-3xl mx-auto">
+    <div className="mx-auto max-w-3xl">
       
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">

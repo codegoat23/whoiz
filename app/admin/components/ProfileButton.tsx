@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Image as ImageIcon } from "lucide-react";
+import { Pencil } from "lucide-react";
 import ProfileImageInput from "./ProfileImageInput";
 
 export default function ProfileImageButton({
@@ -18,54 +17,55 @@ export default function ProfileImageButton({
 }: {
   avatarUrl?: string | null;
 }) {
- 
-
-
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          aria-label="Change profile image"
-          className="
-          border-none
-            group relative cursor-pointer
-            h-20 w-20
-            rounded-full
-            overflow-hidden
-            transition p-0
-            hover:shadow-[0_0_25px_rgba(0,0,0,0.25)]
-          "
-        >
-          <img
-            src={avatarUrl ?? "/10.png"}
-            alt="Profile"
-            className="h-full w-full rounded-full object-cover "
-          />
+        <div className="group relative h-20 w-20 cursor-pointer">
+          {/* Avatar */}
+          <div className="h-20 w-20 overflow-hidden rounded-full border-2 border-background bg-muted shadow-sm">
+            <img
+              src={avatarUrl ?? "/10.png"}
+              alt="Profile"
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
 
-          <div
+          {/* Edit button */}
+          <Button
+            type="button"
+            size="icon"
+            aria-label="Edit profile image"
             className="
-              absolute inset-0
-              flex items-center justify-center
-              opacity-0
-              group-hover:opacity-100
+              absolute
+              bottom-0
+              right-0
+              h-7
+              w-7
               rounded-full
-              transition
-              backdrop-blur-sm
+              border-2
+              
+              bg-white
+              text-black
+              shadow-md
+              transition-all
+              duration-200
+              hover:scale-110
+              hover:bg-white/80
             "
           >
-            <div className="flex items-center gap-1 rounded-full bg-black/60 px-3 py-1 text-[8px] text-white shadow-lg w-full h-full flex justify-center">
-              <ImageIcon className="h-4 w-4" />
-              
-            </div>
-          </div>
-        </Button>
+            <Pencil className="h-3 w-3" />
+          </Button>
+        </div>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Change profile image</DialogTitle>
-          <DialogDescription>
-            <ProfileImageInput />
+
+          <DialogDescription asChild>
+            <div className="pt-4">
+              <ProfileImageInput />
+            </div>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

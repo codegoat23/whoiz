@@ -32,7 +32,12 @@ export default function BuiltForEveryone() {
 
         {/* Feature chips */}
        
+        <div className="flex flex-row mt-10 gap-2">
+          <Image src="/avatar/people4.jpg" alt="" className="h-70 w-70 object-cover rounded-full" width={200} height={200}/>
+          <Image src="/avatar/people3.jpg" alt="" className="h-70 w-70 object-cover rounded-full" width={280} height={280}/>
+          <Image src="/avatar/people2.jpg" alt="" className="h-70 w-70 object-cover rounded-full" width={280} height={280}/>
 
+        </div>
       
       
 

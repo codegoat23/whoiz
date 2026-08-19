@@ -1,41 +1,37 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
-
 import React, { useState } from "react";
-import ProfileImageButton from "./ProfileButton";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import ProfileImageButton from "./ProfileButton";
 
 interface QuickViewProps {
   id: string;
   fullname: string;
   bio?: string | null;
   story?: string | null;
-  avatarUrl?: string | null
+  avatarUrl?: string | null;
 }
 
-function ProfileCard({ fullname, bio, story, id,avatarUrl }: QuickViewProps) {
+function ProfileCard({
+  fullname,
+  bio,
+  story,
+  id,
+  avatarUrl,
+}: QuickViewProps) {
   const [fullName, setFullName] = useState(fullname);
   const [bioState, setBioState] = useState(bio ?? "");
   const [storyState, setStoryState] = useState(story ?? "");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSave = async () => {
     try {
       setLoading(true);
-      setMessage(null);
-      setError(null);
 
       const res = await fetch("/api/profile", {
         method: "PUT",
@@ -56,159 +52,151 @@ function ProfileCard({ fullname, bio, story, id,avatarUrl }: QuickViewProps) {
         throw new Error(data.error || "Failed to update profile");
       }
 
-      setMessage("Profile updated successfully ✅");
-      
+      toast.success("Profile updated successfully");
     } catch (err: any) {
-      setError(err.message || "Something went wrong");
+      toast.error(err.message || "Something went wrong");
     } finally {
-      toast.info(message)
       setLoading(false);
     }
   };
 
   return (
-    <div className="h-full  w-full text-white  ">
-      <Card className="h-full w-full  space-y-4  border-none bg-transparent p-0 lg:p-6">
-        <CardHeader className="p-0">
-          <CardTitle className="text-2xl">Profile</CardTitle>
+    <div className="w-full text-white">
+      <Card className="w-full  bg-transparent p-10">
+        <CardHeader className="px-0 pb-8">
+          <CardTitle className="text-2xl font-semibold tracking-tight">
+            Profile
+          </CardTitle>
+
+          <p className="mt-1 text-sm text-white/50">
+            Manage how your profile appears to visitors.
+          </p>
         </CardHeader>
 
-        <div className="space-y-2  flex flex-col gap-10">
-           <div className="flex gap-5 w-full items-center ">
-            
-            <ProfileImageButton avatarUrl={avatarUrl}/>
-            <span className="text-[11px] flex-1 min-w-0">Update your avatar by clicking the image 288x288 px size recommended in PNG or JPG format only.</span>
-         </div>
-         
-          <div className="flex flex-col gap-5 items-center justify-center">
-    <TextField
-  label="Display Name"
-  value={fullName}
-  onChange={(e) => setFullName(e.target.value)}
-  placeholder="Your full name"
-  fullWidth
-  variant="outlined"
-  size="small"
-  sx={{
-    "& .MuiInputLabel-root": {
-      color: "#9ca3af", // gray
-    },
-    "& .MuiInputLabel-root.Mui-focused": {
-      color: "#9ca3af", // keep gray when focused
-    },
-    "& .MuiOutlinedInput-root": {
-      height: "48px",
-      borderRadius: "12px",
-      fontSize: "0.875rem",
-      color: "#ffffff",
-      "& fieldset": {
-        borderColor: "#e5e7eb",
-      },
-      "&:hover fieldset": {
-        borderColor: "#ff5e47",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#ff5e47",
-        borderWidth: "1px",
-      },
-    },
-    "& .MuiInputBase-input": {
-      padding: "12px 16px",
-    },
-  }}
-/>
+        <div className="space-y-8">
+          {/* Avatar */}
+          <section className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium">Profile picture</h3>
+              <p className="mt-1 text-xs text-white/45">
+                This image will be displayed across your WHOIZ profile.
+              </p>
+            </div>
 
-           
-            
+            <div className="flex items-center gap-5 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+              <ProfileImageButton avatarUrl={avatarUrl} />
+
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium">
+                  Update your avatar
+                </p>
+
+                <p className="mt-1 text-xs leading-5 text-white/45">
+                  Recommended size: 288 × 288px. PNG or JPG only.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <Separator className="bg-white/10" />
+
+          {/* Basic information */}
+          <section className="space-y-5">
+            <div>
+              <h3 className="text-sm font-medium">Basic information</h3>
+              <p className="mt-1 text-xs text-white/45">
+                Tell people who you are.
+              </p>
+            </div>
+
+            <div className="space-y-5">
+              {/* Display Name */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="display-name"
+                  className="text-sm font-medium text-white/80"
+                >
+                  Display name
+                </label>
+
+                <Input
+                  id="display-name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Your name"
+                  className="h-11 rounded-xl border-white/10 bg-white/[0.03] text-sm text-white placeholder:text-white/30 focus-visible:border-[#ff5e47] focus-visible:ring-[#ff5e47]/20"
+                />
+              </div>
+
+              {/* Bio */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="bio"
+                    className="text-sm font-medium text-white/80"
+                  >
+                    Bio
+                  </label>
+
+                  <span className="text-[11px] text-white/35">
+                    {bioState.length}/160
+                  </span>
+                </div>
+
+                <Input
+                  id="bio"
+                  value={bioState}
+                  maxLength={160}
+                  onChange={(e) => setBioState(e.target.value)}
+                  placeholder="Tell people what you do..."
+                  className="h-11 rounded-xl border-white/10 bg-white/[0.03] text-sm text-white placeholder:text-white/30 focus-visible:border-[#ff5e47] focus-visible:ring-[#ff5e47]/20"
+                />
+              </div>
+
+              {/* Story */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="story"
+                    className="text-sm font-medium text-white/80"
+                  >
+                    Your story
+                  </label>
+
+                  <span className="text-[11px] text-white/35">
+                    {storyState.length}/1000
+                  </span>
+                </div>
+
+                <Textarea
+                  id="story"
+                  value={storyState}
+                  maxLength={1000}
+                  onChange={(e) => setStoryState(e.target.value)}
+                  placeholder="Share your story, experience, journey, or anything you'd like people to know..."
+                  className="min-h-[180px] resize-none rounded-xl border-white/10 bg-white/[0.03] px-4 py-3 text-sm leading-6 text-white placeholder:text-white/30 focus-visible:border-[#ff5e47] focus-visible:ring-[#ff5e47]/20"
+                />
+              </div>
+            </div>
+          </section>
+
+          <Separator className="bg-white/10" />
+
+          {/* Save */}
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-xs text-white/40">
+              Your changes will appear on your public profile.
+            </p>
+
+            <Button
+              onClick={handleSave}
+              disabled={loading}
+              className="rounded-xl bg-[#ff5e47] px-5 text-white hover:bg-[#ff5e47]/90"
+            >
+              {loading ? "Saving..." : "Save changes"}
+            </Button>
           </div>
         </div>
-           <div className="space-y-2  ">
-          
-          
-          
-        
-        </div>
-
-        <div className="space-y-2">
-          
-    <TextField
-  label="Bio"
-  value={bioState}
-  onChange={(e) => setBioState(e.target.value)}
-  placeholder="Your full name"
-  fullWidth
-  variant="outlined"
-  size="small"
-  sx={{
-    "& .MuiInputLabel-root": {
-      color: "#9ca3af",
-    },
-    "& .MuiInputLabel-root.Mui-focused": {
-      color: "#9ca3af",
-    },
-    "& .MuiOutlinedInput-root": {
-      height: "48px",
-      borderRadius: "12px",
-      fontSize: "0.875rem",
-      color: "#ffffff",
-      "& fieldset": {
-        borderColor: "#e5e7eb",
-      },
-      "&:hover fieldset": {
-        borderColor: "#ff5e47",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#ff5e47",
-        borderWidth: "1px",
-      },
-    },
-    "& .MuiInputBase-input": {
-      padding: "12px 16px",
-    },
-  }}
-/>
-         
-        
-        </div>
-
-        
-          
-<div className="relative w-full">
-  <Textarea
-    value={storyState}
-    onChange={(e) => setStoryState(e.target.value)}
-    placeholder=" "
-    className="peer min-h-[100px] resize-none rounded-md border border-input bg-transparent px-3 py-3 text-sm focus:border-gray-900 focus:ring-0"
-  />
-
-  <label
-    className="
-      pointer-events-none absolute left-3 top-3
-      text-sm text-muted-foreground
-      transition-all duration-200
-      peer-placeholder-shown:top-3.5
-      peer-placeholder-shown:text-sm
-      peer-focus:-top-2
-      peer-focus:text-xs
-      peer-focus:text-gray-900
-      peer-focus:bg-background
-      peer-focus:px-1
-    "
-  >
-   Your story
-  </label>
-</div>
-
-        
-       
-
-        <div className="flex justify-end pt-2">
-          <Button onClick={handleSave} disabled={loading}>
-            {loading ? "Saving..." : "Save changes"}
-          </Button>
-        </div>
-
-        
       </Card>
     </div>
   );

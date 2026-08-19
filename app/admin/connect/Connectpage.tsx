@@ -78,7 +78,7 @@ export default function ConnectPage({
   const isEditing = (key: string) => editing[key];
 
   return (
-    <div className="min-h-screen px-6 py-10 relative">
+    <div className="w-full p-4 sm:p-6 lg:p-8">
 
    
 

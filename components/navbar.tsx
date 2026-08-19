@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 export default function GlassNavbar() {
   
   return (
@@ -29,7 +30,13 @@ export default function GlassNavbar() {
             "text-orange-300 drop-shadow-[0_0_10px_rgba(249,115,22,0.35)]"
           )}
         >
-          WHOIZ
+          <Image
+  src="/logos/logo2.svg"
+  alt="WHOIZ"
+  width={180}
+  height={50}
+  className="h-8 w-auto sm:h-10 lg:h-12 object-contain"
+/>
         </Link>
 
         {/* Desktop Nav */}
