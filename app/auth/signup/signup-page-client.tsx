@@ -39,7 +39,7 @@ export default function SignupPageClient() {
       return;
     }
 
-    router.push("/auth/login");
+    router.push("/verify-email");
   }
 
   return (

@@ -12,6 +12,7 @@ function EmailVerifier({ user }: { user: any }) {
   const searchParams = useSearchParams();
 
   const verified = searchParams.get("verified");
+  const error = searchParams.get("error");
 
   useEffect(() => {
     if (verified === "true") {
@@ -21,6 +22,15 @@ function EmailVerifier({ user }: { user: any }) {
       }, 1500);
     }
   }, [verified, router]);
+
+  const errorMessage =
+    error === "expired"
+      ? "This verification link has expired. Please request a new one."
+      : error === "invalid"
+        ? "This verification link is invalid. Please request a new one."
+        : error === "missing"
+          ? "No verification token provided. Please check your email."
+          : null;
 
   async function resendEmail() {
     if (loading) return;
@@ -112,11 +122,18 @@ function EmailVerifier({ user }: { user: any }) {
 
           {/* DESCRIPTION */}
           <p className="mt-2 text-sm text-white/60 leading-relaxed">
-            We’ve sent a verification link to{" "}
+            We've sent a verification link to{" "}
             <span className="text-orange-300 font-medium">{user.email}</span>.
             <br />
             Open your inbox and tap the link to unlock your account.
           </p>
+
+          {/* ERROR MESSAGE */}
+          {errorMessage && (
+            <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+              {errorMessage}
+            </div>
+          )}
 
           {/* BUTTON */}
           <button

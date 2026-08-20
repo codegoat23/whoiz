@@ -1,5 +1,5 @@
-// app/verify-email/confirm/page.tsx
 import { prisma } from "@/lib/prisma";
+import { hashToken } from "@/lib/tokens";
 import { redirect } from "next/navigation";
 
 export default async function VerifyEmailConfirmPage({
@@ -9,40 +9,43 @@ export default async function VerifyEmailConfirmPage({
 }) {
   const tokenParam = searchParams?.token;
 
-  // normalize token (string | string[] → string)
   const token = Array.isArray(tokenParam)
     ? tokenParam[0]
     : tokenParam;
 
-  // No token → back to login
   if (!token) {
-    redirect("/auth/login");
+    redirect("/verify-email?error=missing");
   }
 
-  // Find token in DB
+  // Hash the incoming token and look up by hash
+  const hashedToken = hashToken(token);
+
   const record = await prisma.emailVerificationToken.findUnique({
-    where: { token },
+    where: { token: hashedToken },
   });
 
-  // Invalid or expired token
-  if (!record || record.expiresAt < new Date()) {
+  if (!record) {
+    redirect("/verify-email?error=invalid");
+  }
+
+  if (record.expiresAt < new Date()) {
+    // Delete the expired token
+    await prisma.emailVerificationToken.delete({
+      where: { token: hashedToken },
+    });
     redirect("/verify-email?error=expired");
   }
 
   // Mark user as verified
   await prisma.user.update({
     where: { id: record.userId },
-    data: {
-      emailVerified: true,
-    },
+    data: { emailVerified: true },
   });
 
-  // Delete token (important cleanup)
+  // Delete the used token
   await prisma.emailVerificationToken.delete({
-    where: { token },
+    where: { token: hashedToken },
   });
 
-  // Redirect success
   redirect("/verify-email?verified=true");
-
 }
