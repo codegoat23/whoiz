@@ -30,9 +30,9 @@ export async function POST() {
     await sendVerificationEmail(user.id, user.email);
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Failed to resend verification email:", error);
+    console.error("Failed to resend verification code:", error);
     return NextResponse.json(
-      { ok: false, error: "Failed to send verification email" },
+      { ok: false, error: "Failed to send code" },
       { status: 500 }
     );
   }

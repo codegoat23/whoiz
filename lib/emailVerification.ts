@@ -1,49 +1,43 @@
 import { prisma } from "@/lib/prisma";
 import { resend } from "@/lib/resend";
-import { generateEmailVerificationToken, hashToken } from "@/lib/tokens";
+import { generateOtp, hashToken } from "@/lib/tokens";
 
-export async function createEmailVerificationToken(userId: string) {
-  // Delete old tokens for this user
+export async function createEmailVerificationOtp(userId: string) {
+  // Delete old OTPs for this user
   await prisma.emailVerificationToken.deleteMany({
     where: { userId },
   });
 
-  // Generate new plaintext token (returned to caller for the URL)
-  const token = generateEmailVerificationToken();
+  // Generate 6-digit OTP
+  const otp = generateOtp();
 
-  // Store only the SHA-256 hash in the database
+  // Store only the hash
   await prisma.emailVerificationToken.create({
     data: {
       userId,
-      token: hashToken(token),
-      expiresAt: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
+      token: hashToken(otp),
+      expiresAt: new Date(Date.now() + 1000 * 60 * 15), // 15 minutes
     },
   });
 
-  return token;
+  return otp;
 }
 
 export async function sendVerificationEmail(userId: string, email: string) {
-  const token = await createEmailVerificationToken(userId);
-
-  const verifyUrl = `${process.env.APP_URL}/verify-email/confirm?token=${token}`;
+  const otp = await createEmailVerificationOtp(userId);
 
   const { error } = await resend.emails.send({
     from: "Whoiz <onboarding@whoiz.space>",
     to: email,
-    subject: "Verify your email address",
+    subject: "Your verification code",
     html: `
       <div style="font-family: sans-serif; padding: 20px;">
-        <h2>Welcome to Whoiz!</h2>
-        <p>Please verify your email address to get started.</p>
-        <p>Click the button below to verify your email:</p>
-        <a href="${verifyUrl}"
-           style="display:inline-block;padding:12px 24px;background:#FF5E57;color:white;text-decoration:none;border-radius:8px;font-weight:bold;">
-          Verify Email
-        </a>
-        <p style="margin-top:20px;font-size:12px;color:#888;">
-          This link expires in 1 hour. If you didn't create an account, you can safely ignore this email.
-        </p>
+        <h2>Verify your email</h2>
+        <p>Use the following code to verify your email address:</p>
+        <div style="font-size:32px;font-weight:bold;letter-spacing:8px;padding:20px;background:#f5f5f5;border-radius:8px;text-align:center;margin:20px 0;">
+          ${otp}
+        </div>
+        <p style="font-size:12px;color:#888;">This code expires in 15 minutes. If you didn't create an account, you can safely ignore this email.</p>
       </div>
     `,
   });
