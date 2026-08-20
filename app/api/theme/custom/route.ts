@@ -5,6 +5,9 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { storage } from "@/lib/storage";
 
+const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 export async function POST(req: Request) {
   try {
     const headersList = await headers();
@@ -17,11 +20,34 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const formData = await req.formData();
+    let formData: FormData;
+    try {
+      formData = await req.formData();
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 }
+      );
+    }
+
     const file = formData.get("file") as File | null;
 
-    if (!file) {
-      return NextResponse.json({ error: "No file" }, { status: 400 });
+    if (!file || file.size === 0) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return NextResponse.json(
+        { error: "Only JPG, PNG, and WebP images are allowed" },
+        { status: 400 }
+      );
+    }
+
+    if (file.size > MAX_SIZE_BYTES) {
+      return NextResponse.json(
+        { error: "Image must be under 5MB" },
+        { status: 400 }
+      );
     }
 
     const { url } = await storage.upload(file, {

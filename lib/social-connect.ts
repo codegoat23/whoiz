@@ -6,6 +6,7 @@ export async function getSocials(userId: string) {
       userId,
     },
     select: {
+      id: true,
       platform: true,
       url: true,
     },

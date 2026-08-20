@@ -50,6 +50,13 @@ export async function POST(req: Request) {
       );
     }
 
+    if (!platform.trim() || !url.trim()) {
+      return NextResponse.json(
+        { error: "Platform and URL are required" },
+        { status: 400 }
+      );
+    }
+
     const existing = await prisma.socialConnect.findUnique({
       where: {
         userId_platform: {
@@ -84,6 +91,56 @@ export async function POST(req: Request) {
     console.error("POST /api/social-connect error:", err);
     return NextResponse.json(
       { error: "Failed to save social link" },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE → remove a social link by platform key
+ */
+export async function DELETE(req: Request) {
+  try {
+    const user = await getApiSessionUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { platform } = await req.json();
+
+    if (typeof platform !== "string" || !platform.trim()) {
+      return NextResponse.json(
+        { error: "Platform is required" },
+        { status: 400 }
+      );
+    }
+
+    const existing = await prisma.socialConnect.findUnique({
+      where: {
+        userId_platform: {
+          userId: user.id,
+          platform,
+        },
+      },
+    });
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: "Social link not found" },
+        { status: 404 }
+      );
+    }
+
+    await prisma.socialConnect.delete({
+      where: { id: existing.id },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("DELETE /api/social-connect error:", err);
+    return NextResponse.json(
+      { error: "Failed to delete social link" },
       { status: 500 }
     );
   }

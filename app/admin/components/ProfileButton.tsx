@@ -1,10 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -17,14 +17,22 @@ export default function ProfileImageButton({
 }: {
   avatarUrl?: string | null;
 }) {
+  const [open, setOpen] = useState(false);
+  const [currentAvatar, setCurrentAvatar] = useState(avatarUrl);
+
+  function handleUploaded(url: string) {
+    setCurrentAvatar(url);
+    setOpen(false);
+  }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="group relative h-20 w-20 cursor-pointer">
           {/* Avatar */}
           <div className="h-20 w-20 overflow-hidden rounded-full border-2 border-background bg-muted shadow-sm">
             <img
-              src={avatarUrl ?? "/10.png"}
+              src={currentAvatar ?? "/10.png"}
               alt="Profile"
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -43,7 +51,6 @@ export default function ProfileImageButton({
               w-7
               rounded-full
               border-2
-              
               bg-white
               text-black
               shadow-md
@@ -58,16 +65,17 @@ export default function ProfileImageButton({
         </div>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-sm">
+        <DialogHeader className="text-center">
           <DialogTitle>Change profile image</DialogTitle>
-
-          <DialogDescription asChild>
-            <div className="pt-4">
-              <ProfileImageInput />
-            </div>
-          </DialogDescription>
         </DialogHeader>
+
+        <div className="pt-2 pb-2">
+          <ProfileImageInput
+            currentAvatarUrl={currentAvatar}
+            onUploaded={handleUploaded}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

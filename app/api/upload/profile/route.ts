@@ -4,6 +4,9 @@ import { prisma } from "@/lib/prisma";
 import { getApiSessionUser } from "@/lib/session";
 import { storage } from "@/lib/storage";
 
+const MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
 export async function POST(req: Request) {
   const user = await getApiSessionUser();
 
@@ -11,11 +14,34 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const formData = await req.formData();
+  let formData: FormData;
+  try {
+    formData = await req.formData();
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid request body" },
+      { status: 400 }
+    );
+  }
+
   const file = formData.get("file") as File | null;
 
-  if (!file) {
-    return NextResponse.json({ error: "No file" }, { status: 400 });
+  if (!file || file.size === 0) {
+    return NextResponse.json({ error: "No file provided" }, { status: 400 });
+  }
+
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    return NextResponse.json(
+      { error: "Only JPG, PNG, WebP, and GIF images are allowed" },
+      { status: 400 }
+    );
+  }
+
+  if (file.size > MAX_SIZE_BYTES) {
+    return NextResponse.json(
+      { error: "Image must be under 2MB" },
+      { status: 400 }
+    );
   }
 
   try {

@@ -47,16 +47,35 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
   };
 
   return (
-    <div className="relative space-y-8 p-2">
+    <div className="relative space-y-6 p-2">
 
-      {/* 🌅 BACKDROP AURA */}
+      {/* BACKDROP AURA */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px]  blur-[160px] rounded-full" />
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] blur-[160px] rounded-full" />
       </div>
 
-      {/* HEADER */}
-      <div className="text-center space-y-2">
-        
+      {/* APPLY BUTTON - TOP */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p className="text-xs text-white/40 text-center sm:text-left">
+          {selected === "custom"
+            ? "Custom theme is active"
+            : "Select a theme below, then apply"}
+        </p>
+
+        <Button
+          onClick={handleSave}
+          disabled={isPending || selected === "custom"}
+          className="
+            min-w-[160px] rounded-xl font-semibold
+            bg-orange-500
+            text-white
+            transition-all duration-300
+            hover:bg-orange-600
+            disabled:opacity-50
+          "
+        >
+          {isPending ? "Applying..." : "Apply Theme"}
+        </Button>
       </div>
 
       {/* GRID */}
@@ -82,7 +101,7 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
                 hover:-translate-y-1 hover:shadow-lg
                 ${
                   isActive
-                    ? "border-white/20  scale-[1.03]"
+                    ? "border-white/20 scale-[1.03]"
                     : "border-border hover:border-orange-400/40"
                 }
               `}
@@ -120,28 +139,6 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
         })}
       </div>
 
-      {/* ACTION BAR */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-
-        <p className="text-xs text-white/40 text-center sm:text-left">
-          Click a theme to preview it, then apply changes
-        </p>
-
-        <Button
-          onClick={handleSave}
-          disabled={isPending || selected === "custom"}
-          className="
-            min-w-[160px] rounded-xl font-semibold
-            bg-orange-500
-            text-white
-            
-            transition-all duration-300
-          "
-        >
-          {isPending ? "Applying..." : "Apply Theme"}
-        </Button>
-      </div>
-
       {/* CUSTOM THEME DIALOG */}
       <Dialog open={openCustom} onOpenChange={setOpenCustom}>
         <DialogContent className="bg-popover border border-border backdrop-blur-xl rounded-2xl">
@@ -155,7 +152,7 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
             onDone={() => {
               setSelected("custom");
               setOpenCustom(false);
-              toast.success("Custom theme applied 🎨");
+              toast.success("Custom theme applied");
             }}
           />
         </DialogContent>

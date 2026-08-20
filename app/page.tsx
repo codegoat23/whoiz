@@ -1,4 +1,5 @@
 import BuiltForEveryone from "@/components/buildforeveryone";
+import DatingHero from "@/components/caursel";
 import Dynamicstyle from "@/components/Dynamicstyle";
 import FeatureButton from "@/components/FeatureButton";
 import { FlowDivider } from "@/components/flowdivider";
@@ -19,9 +20,9 @@ export default function Home() {
       <FeatureButton />
      
 
-      <PortfolioSection />
      
-
+     
+      <DatingHero />
       <BuiltForEveryone />
      
 
