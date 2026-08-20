@@ -14,7 +14,7 @@ function Story({story,txtcolor}: StoryProps) {
    >
     <CardContent className='bg-black/50 w-full h-full rounded-[12px] p-6'>
     <Quote className='absolute top-0 left-0 size-10 rotate-180'/>
-      <span className='p-6'>{story}</span>
+      <span className='p-6 text-sm'>{story}</span>
         <Quote className='absolute bottom-0 right-0 size-10 '/>
 
     </CardContent>

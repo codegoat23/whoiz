@@ -20,6 +20,7 @@ import Showcase from "../admin/components/Showcase";
 import ConnectModal from "@/components/ConnectModal";
 import ShareButton from "@/components/ShareButton";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   params: { username: string };
@@ -250,7 +251,8 @@ export default async function UserPage({
    
          <footer className="flex flex-row gap-2 justify-center items-center mt-10 font-light text-[11px]">
               <span>@2026</span>
-                   <Image
+              <Link href='/'>
+                  <Image
                 src="/logos/logo3.svg"
                 alt="WHOIZ"
                 width={500}
@@ -258,6 +260,8 @@ export default async function UserPage({
                 priority
                 className="h-10 w-auto object-contain sm:h-12 md:h-14 lg:h-16 xl:h-[30px]"
               />
+              </Link>
+                 
             </footer>
       </section>
     </main>
