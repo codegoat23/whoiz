@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 
 import { SiX } from "react-icons/si";
+import Image from "next/image";
 
 const ICONS: Record<string, any> = {
   instagram: FaInstagram,
@@ -38,7 +39,13 @@ export default function ConnectModal({ links }: { links: Link[] }) {
         onClick={() => setOpen(true)}
         className="px-3 py-2 rounded-full bg-black/60 text-white flex flex-row gap-2 items-center text-xs backdrop-blur-md hover:scale-105 transition"
       >
-        <Globe size={14}/> <span>let’s connect</span>
+         <Image
+            src="/logos/logo2.svg"
+            alt="WHOIZ"
+            width={20}
+            height={20}
+            className="w-6.5 h-6.5"
+          /> <span>let’s connect</span>
       </button>
 
       {/* 🌌 MODAL */}
