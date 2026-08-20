@@ -1,6 +1,7 @@
 import React from "react";
 import HeroPreviewCard from "./PreviewCardSect";
 import PhotoStack from "./PhotoStack";
+import Image from "next/image";
 
 
 function Hero2() {
@@ -34,25 +35,18 @@ function Hero2() {
             <div className="flex items-center rounded-3xl px-4 py-3 border border-orange-500/30 bg-white/5 backdrop-blur-md shadow-[0_20px_60px_-20px_rgba(249,115,22,0.25)] focus-within:ring-2 focus-within:ring-orange-400/40 transition">
 
               {/* Icon */}
-              <div className="flex items-center pr-2 text-orange-300">
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 21a9 9 0 1 0-9-9 9 9 0 0 0 9 9Zm0 0c2.5-2.5 4-5.5 4-9s-1.5-6.5-4-9m0 18c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9m9 9H3"
-                  />
-                </svg>
-              </div>
+            <div className="flex items-center pr-2">
+  <Image
+    src="/logos/logo2.svg"
+    alt="WHOIZ"
+    width={20}
+    height={20}
+    className="w-6.5 h-6.5"
+  />
+</div>
 
-              <span className="text-orange-300 text-sm select-none mr-1">
-                whoiz.bio/
+              <span className="text-orange-500 text-sm select-none mr-1">
+                whoiz.space/
               </span>
 
               <input
@@ -67,7 +61,7 @@ function Hero2() {
             </div>
              <button
                 type="button"
-                className="ml-3 bg-gradient-to-r from-orange-500 to-orange-700 text-white rounded-full px-4 py-2 text-xs font-medium  hover:shadow-orange-500/50 hover:scale-[1.03] transition active:scale-95"
+                className="ml-3 bg-gradient-to-r from-orange-500 to-orange-700 text-white rounded-full px-5 py-3 text-sm font-medium  hover:shadow-orange-500/50 hover:scale-[1.03] transition active:scale-95"
               >
                 Create
               </button>
