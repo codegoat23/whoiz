@@ -12,6 +12,9 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   title: "Whoiz",
+  icons: {
+    icon: "/logos/logo1.svg",
+  },
   description: "",
   verification: {
     google: "dyHYDYnXo367vjH6hWhQRq5lsSQICHG-zCSXhs3fdE0",
