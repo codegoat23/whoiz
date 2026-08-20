@@ -40,10 +40,10 @@ function Addsidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="border-r border-white/10 bg-[#0b0b0b]">
+    <Sidebar className="border-r border-border bg-card">
       {/* BACKGROUND GLOW */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] blur-[160px] rounded-full" />
+        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] blur-[160px] rounded-full bg-primary/5" />
       </div>
 
       {/* LOGO */}
@@ -52,7 +52,6 @@ function Addsidebar() {
            <Logo
   width={100}
   height={36}
-
 />
         </div>
       </SidebarHeader>
@@ -69,31 +68,30 @@ function Addsidebar() {
             return (
               <Link key={item.href} href={item.href}>
               <Button
-  variant="ghost"
-  className={cn(
-    "w-full justify-start gap-4 h-12 rounded-xl transition-all duration-200 relative overflow-hidden text-lg",
-    "hover:translate-x-1 hover:bg-white/5",
-    active
-      ? "text-orange-300 bg-white/20"
-      : "text-white/60 hover:text-white"
-  )}
->
-  <Icon
-    className={cn(
-      "h-6 w-6 shrink-0 transition",
-      active ? "text-white" : "text-white/50"
-    )}
-  />
-
-  <span
-    className={cn(
-      "text-lg transition",
-      active ? "text-white" : "text-white/50"
-    )}
-  >
-    {item.title}
-  </span>
-</Button>
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start gap-4 h-12 rounded-xl transition-all duration-200 relative overflow-hidden text-lg",
+                  "hover:translate-x-1 hover:bg-accent",
+                  active
+                    ? "text-accent-foreground bg-accent"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <Icon
+                  className={cn(
+                    "h-6 w-6 shrink-0 transition",
+                    active ? "text-foreground" : "text-muted-foreground"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "text-lg transition",
+                    active ? "text-foreground" : "text-muted-foreground"
+                  )}
+                >
+                  {item.title}
+                </span>
+              </Button>
               </Link>
             );
           })}
@@ -102,34 +100,16 @@ function Addsidebar() {
 
       {/* FOOTER */}
       <SidebarFooter className="p-3 relative space-y-3">
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-          <div
-            className="absolute inset-0 opacity-15"
-           
-          />
-          <div className="relative z-10 rounded-2xl bg-white p-4 shadow-sm">
-  <div className="flex flex-col">
-  
-
-    <p className="mt-1 text-sm font-semibold tracking-tight text-black">
-      Build your digital identity
-    </p>
-
-    <p className="mt-1 text-xs leading-relaxed text-black/50">
-      Create a personal space that brings your work, links, and identity
-      together.
-    </p>
-
-    <button
-      className="mt-4 w-full rounded-xl bg-black px-4 py-2.5 text-xs font-medium text-white transition-all hover:bg-black/90"
-    >
-      Get Started
-    </button>
-  </div>
-</div>
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-5">
+          <div className="relative z-10">
+            <p className="text-xs text-muted-foreground">Whoiz Dashboard</p>
+            <p className="text-sm font-medium text-foreground">Build your digital identity</p>
+            <div className="mt-2 flex items-center gap-2 text-xs text-orange-300">
+              <span className="h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
+              Live system
+            </div>
+          </div>
         </div>
-
-     
       </SidebarFooter>
     </Sidebar>
   );

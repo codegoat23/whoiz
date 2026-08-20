@@ -116,11 +116,11 @@ export function SearchCommand() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-white/40 transition-colors hover:bg-white/10 hover:text-white/60"
+        className="flex h-9 items-center gap-2 rounded-lg border border-border bg-accent px-3 text-sm text-muted-foreground transition-colors hover:bg-accent/80 hover:text-foreground"
       >
         <Search className="h-4 w-4 shrink-0" />
         <span className="hidden sm:inline">Search...</span>
-        <kbd className="pointer-events-none ml-2 hidden select-none items-center gap-0.5 rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] font-medium text-white/30 sm:flex">
+        <kbd className="pointer-events-none ml-2 hidden select-none items-center gap-0.5 rounded-md border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] font-medium text-muted-foreground sm:flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </button>
@@ -186,7 +186,7 @@ export function SearchCommand() {
                     <div className="flex flex-col min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="truncate">{result.title}</span>
-                        <span className="shrink-0 rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground capitalize">
+                        <span className="shrink-0 rounded-md border border-border bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground capitalize">
                           {result.type}
                         </span>
                       </div>

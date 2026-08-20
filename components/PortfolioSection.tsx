@@ -8,8 +8,7 @@ function PortfolioSection() {
     <section className="relative flex flex-col items-center justify-center mt-28 px-6">
       <Image src={starImg} alt="" className="absolute bottom-20 right-0" width={100} height={100}/>
 
-      {/* Orange Ambient Glow */}
-      <div className="absolute top-10 w-[520px] h-[520px]  blur-[160px] rounded-full" />
+     
 
       <div className="relative flex flex-col items-center gap-6 max-w-5xl w-full text-center">
 
@@ -30,9 +29,17 @@ function PortfolioSection() {
 
         {/* Divider */}
         <div className="w-full h-px " />
+        <Image
+  src="/mockup.png"
+  alt="WHOIZ"
+  width={500}
+  height={80}
+  priority
+  className="h-9 w-auto object-contain sm:h-11 md:h-12 lg:h-14 xl:h-144 absolute z-20 top-50"
+/>
 
         {/* Image Card */}
-        <div className="relative w-full h-[220px] sm:h-[300px] md:h-[360px] rounded-br-[450] overflow-hidden  ">
+        <div className="relative w-full h-[220px] sm:h-[300px] md:h-[360px] rounded-br-[450] overflow-hidden z-10 ">
 
           {/* Image */}
           <div className="absolute inset-0 bg-[url('/vibrant.png')] bg-cover bg-center scale-105" />

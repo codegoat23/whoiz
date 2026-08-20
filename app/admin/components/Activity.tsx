@@ -14,7 +14,7 @@ function Activity() {
 
   return (
     <div>
-      <Card className="w-full border border-white/10 bg-white/5 backdrop-blur-xl">
+      <Card className="w-full border border-border bg-card backdrop-blur-xl">
         <CardHeader className="flex flex-row justify-between">
           <span className="text-2xl">Activity</span>
           <Select>
@@ -30,20 +30,20 @@ function Activity() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <Card className="flex flex-col gap-2 p-4 border border-white/10 bg-white/5">
-              <span className="text-xs text-white/60">Total clicks</span>
+            <Card className="flex flex-col gap-2 p-4 border border-border bg-card">
+              <span className="text-xs text-muted-foreground">Total clicks</span>
               <span className="text-[#FE482B] font-bold text-2xl sm:text-[30px]">0</span>
             </Card>
-            <Card className="flex flex-col gap-2 p-4 border border-white/10 bg-white/5">
-              <span className="text-xs text-white/60">Total Showcases</span>
+            <Card className="flex flex-col gap-2 p-4 border border-border bg-card">
+              <span className="text-xs text-muted-foreground">Total Showcases</span>
               <span className="text-[#FE482B] font-bold text-2xl sm:text-[30px]">{showcases.length}</span>
             </Card>
-            <Card className="flex flex-col gap-2 p-4 border border-white/10 bg-white/5">
-              <span className="text-xs text-white/60">Earnings</span>
+            <Card className="flex flex-col gap-2 p-4 border border-border bg-card">
+              <span className="text-xs text-muted-foreground">Earnings</span>
               <span className="text-[#FE482B] font-bold text-2xl sm:text-[30px]">$0</span>
             </Card>
-            <Card className="flex flex-col gap-2 p-4 border border-white/10 bg-white/5">
-              <span className="text-xs text-white/60">Balance</span>
+            <Card className="flex flex-col gap-2 p-4 border border-border bg-card">
+              <span className="text-xs text-muted-foreground">Balance</span>
               <span className="text-[#FE482B] font-bold text-2xl sm:text-[30px]">$0</span>
             </Card>
           </div>

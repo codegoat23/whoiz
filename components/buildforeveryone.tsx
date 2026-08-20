@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function BuiltForEveryone() {
   return (
     <section className="relative w-full py-24 px-6 overflow-hidden mt-15">
-      <Image src={Wawa} alt="" className="absolute left-30 top-5"/>
+    
       
       {/* Background Glow */}
       <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[600px] h-[600px]  blur-[180px] rounded-full" />

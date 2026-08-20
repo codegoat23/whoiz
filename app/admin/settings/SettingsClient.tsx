@@ -282,7 +282,7 @@ export function SettingsClient({ user }: SettingsClientProps) {
               </Button>
             </DialogTrigger>
 
-            <DialogContent className="bg-[#0f0f0f] border border-white/10 backdrop-blur-xl rounded-2xl">
+            <DialogContent className="bg-popover border border-border backdrop-blur-xl rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="text-white">
                   Deactivate your account?

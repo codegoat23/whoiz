@@ -61,14 +61,14 @@ function ProfileCard({
   };
 
   return (
-    <div className="w-full text-white">
-      <Card className="w-full  bg-transparent p-10">
+    <div className="w-full text-foreground">
+      <Card className="w-full bg-transparent p-10">
         <CardHeader className="px-0 pb-8">
           <CardTitle className="text-2xl font-semibold tracking-tight">
             Profile
           </CardTitle>
 
-          <p className="mt-1 text-sm text-white/50">
+          <p className="mt-1 text-sm text-muted-foreground">
             Manage how your profile appears to visitors.
           </p>
         </CardHeader>
@@ -78,12 +78,12 @@ function ProfileCard({
           <section className="space-y-4">
             <div>
               <h3 className="text-sm font-medium">Profile picture</h3>
-              <p className="mt-1 text-xs text-white/45">
+              <p className="mt-1 text-xs text-muted-foreground">
                 This image will be displayed across your WHOIZ profile.
               </p>
             </div>
 
-            <div className="flex items-center gap-5 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+            <div className="flex items-center gap-5 rounded-xl border border-border bg-muted/50 p-4">
               <ProfileImageButton avatarUrl={avatarUrl} />
 
               <div className="min-w-0 flex-1">
@@ -91,20 +91,20 @@ function ProfileCard({
                   Update your avatar
                 </p>
 
-                <p className="mt-1 text-xs leading-5 text-white/45">
+                <p className="mt-1 text-xs leading-5 text-muted-foreground">
                   Recommended size: 288 × 288px. PNG or JPG only.
                 </p>
               </div>
             </div>
           </section>
 
-          <Separator className="bg-white/10" />
+          <Separator />
 
           {/* Basic information */}
           <section className="space-y-5">
             <div>
               <h3 className="text-sm font-medium">Basic information</h3>
-              <p className="mt-1 text-xs text-white/45">
+              <p className="mt-1 text-xs text-muted-foreground">
                 Tell people who you are.
               </p>
             </div>
@@ -114,7 +114,7 @@ function ProfileCard({
               <div className="space-y-2">
                 <label
                   htmlFor="display-name"
-                  className="text-sm font-medium text-white/80"
+                  className="text-sm font-medium text-muted-foreground"
                 >
                   Display name
                 </label>
@@ -124,7 +124,7 @@ function ProfileCard({
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Your name"
-                  className="h-11 rounded-xl border-white/10 bg-white/[0.03] text-sm text-white placeholder:text-white/30 focus-visible:border-[#ff5e47] focus-visible:ring-[#ff5e47]/20"
+                  className="h-11 rounded-xl"
                 />
               </div>
 
@@ -133,12 +133,12 @@ function ProfileCard({
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="bio"
-                    className="text-sm font-medium text-white/80"
+                    className="text-sm font-medium text-muted-foreground"
                   >
                     Bio
                   </label>
 
-                  <span className="text-[11px] text-white/35">
+                  <span className="text-[11px] text-muted-foreground">
                     {bioState.length}/160
                   </span>
                 </div>
@@ -149,7 +149,7 @@ function ProfileCard({
                   maxLength={160}
                   onChange={(e) => setBioState(e.target.value)}
                   placeholder="Tell people what you do..."
-                  className="h-11 rounded-xl border-white/10 bg-white/[0.03] text-sm text-white placeholder:text-white/30 focus-visible:border-[#ff5e47] focus-visible:ring-[#ff5e47]/20"
+                  className="h-11 rounded-xl"
                 />
               </div>
 
@@ -158,12 +158,12 @@ function ProfileCard({
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="story"
-                    className="text-sm font-medium text-white/80"
+                    className="text-sm font-medium text-muted-foreground"
                   >
                     Your story
                   </label>
 
-                  <span className="text-[11px] text-white/35">
+                  <span className="text-[11px] text-muted-foreground">
                     {storyState.length}/1000
                   </span>
                 </div>
@@ -174,17 +174,17 @@ function ProfileCard({
                   maxLength={1000}
                   onChange={(e) => setStoryState(e.target.value)}
                   placeholder="Share your story, experience, journey, or anything you'd like people to know..."
-                  className="min-h-[180px] resize-none rounded-xl border-white/10 bg-white/[0.03] px-4 py-3 text-sm leading-6 text-white placeholder:text-white/30 focus-visible:border-[#ff5e47] focus-visible:ring-[#ff5e47]/20"
+                  className="min-h-[180px] resize-none rounded-xl px-4 py-3 text-sm leading-6"
                 />
               </div>
             </div>
           </section>
 
-          <Separator className="bg-white/10" />
+          <Separator />
 
           {/* Save */}
           <div className="flex items-center justify-between gap-4">
-            <p className="text-xs text-white/40">
+            <p className="text-xs text-muted-foreground">
               Your changes will appear on your public profile.
             </p>
 

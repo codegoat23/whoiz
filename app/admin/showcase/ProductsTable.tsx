@@ -69,10 +69,10 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
       {products.map((product) => (
         <div
           key={product.id}
-          className="group relative rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:shadow-[0_8px_40px_-12px_rgba(255,140,0,0.12)]"
+          className="group relative rounded-2xl border border-border bg-card overflow-hidden transition-all duration-300 hover:hover:border-border hover:bg-card/80 hover:shadow-[0_8px_40px_-12px_rgba(255,140,0,0.12)]"
         >
           {/* Thumbnail */}
-          <div className="relative aspect-[16/10] overflow-hidden bg-white/[0.03]">
+          <div className="relative aspect-[16/10] overflow-hidden bg-card">
             {product.imageUrl ? (
               <img
                 src={product.imageUrl}
@@ -82,8 +82,8 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
               />
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-                <Images className="size-8 text-white/15" />
-                <span className="text-[11px] text-white/25">No cover</span>
+                <Images className="size-8 text-muted-foreground/40" />
+                <span className="text-[11px] text-muted-foreground/60">No cover</span>
               </div>
             )}
 
@@ -116,7 +116,7 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
               <Button
                 size="icon"
                 variant="ghost"
-                className="size-8 rounded-lg bg-black/50 backdrop-blur-md text-white/80 hover:text-white hover:bg-black/70 border border-white/10"
+                className="size-8 rounded-lg bg-background/50 backdrop-blur-md text-foreground/80 hover:text-foreground hover:bg-black/70 border border-border"
                 onClick={() => handleEdit(product.id)}
               >
                 <Edit className="size-3.5" />
@@ -124,7 +124,7 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
               <Button
                 size="icon"
                 variant="ghost"
-                className="size-8 rounded-lg bg-black/50 backdrop-blur-md text-white/80 hover:text-white hover:bg-black/70 border border-white/10"
+                className="size-8 rounded-lg bg-background/50 backdrop-blur-md text-foreground/80 hover:text-foreground hover:bg-black/70 border border-border"
                 onClick={() => router.push(`/showcases/${product.id}`)}
               >
                 <ExternalLink className="size-3.5" />
@@ -135,7 +135,7 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
           {/* Info */}
           <div className="p-4">
             <div className="flex items-start justify-between gap-2 mb-1.5">
-              <h3 className="text-sm font-semibold text-white/90 truncate leading-snug">
+              <h3 className="text-sm font-semibold text-foreground truncate leading-snug">
                 {product.name}
               </h3>
 
@@ -144,7 +144,7 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="size-7 shrink-0 text-white/30 hover:text-white/70 hover:bg-white/5 rounded-lg transition-colors"
+                    className="size-7 shrink-0 text-muted-foreground/70 hover:text-muted-foreground hover:bg-accent/50 rounded-lg transition-colors"
                   >
                     <Ellipsis className="size-4" />
                   </Button>
@@ -152,11 +152,11 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
                 <PopoverContent
                   side="bottom"
                   align="end"
-                  className="w-44 p-1.5 bg-[#111]/95 border border-white/10 backdrop-blur-xl rounded-xl"
+                  className="w-44 p-1.5 bg-popover border border-border backdrop-blur-xl rounded-xl"
                 >
                   <Button
                     variant="ghost"
-                    className="w-full justify-start gap-2 text-white/70 hover:bg-white/10 hover:text-orange-300 rounded-lg text-sm h-9"
+                    className="w-full justify-start gap-2 text-muted-foreground hover:bg-accent hover:text-orange-300 rounded-lg text-sm h-9"
                     onClick={() => handleEdit(product.id)}
                   >
                     <Edit size={14} />
@@ -164,7 +164,7 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
                   </Button>
                   <Button
                     variant="ghost"
-                    className="w-full justify-start gap-2 text-white/70 hover:bg-white/10 hover:text-red-400 rounded-lg text-sm h-9"
+                    className="w-full justify-start gap-2 text-muted-foreground hover:bg-accent hover:text-red-400 rounded-lg text-sm h-9"
                     onClick={() => handleDelete(product.id)}
                     disabled={deletingId === product.id}
                   >
@@ -176,17 +176,17 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
             </div>
 
             {product.description ? (
-              <p className="text-xs text-white/40 line-clamp-2 leading-relaxed mb-3">
+              <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed mb-3">
                 {product.description}
               </p>
             ) : (
-              <p className="text-xs text-white/25 italic mb-3">
+              <p className="text-xs text-muted-foreground/60 italic mb-3">
                 No description
               </p>
             )}
 
             {/* Footer meta */}
-            <div className="flex items-center gap-3 text-[11px] text-white/30">
+            <div className="flex items-center gap-3 text-[11px] text-muted-foreground/70">
               {blockCount(product) > 0 && (
                 <span className="flex items-center gap-1">
                   <Images className="size-3" />

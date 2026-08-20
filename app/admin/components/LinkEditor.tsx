@@ -412,7 +412,7 @@ return (
 
     {/* DELETE CONFIRMATION MODAL */}
     <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
-      <DialogContent className="bg-[#0f0f0f] border border-white/10 backdrop-blur-xl rounded-2xl">
+      <DialogContent className="bg-popover border border-border backdrop-blur-xl rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-white">Delete this link?</DialogTitle>
           <DialogDescription className="text-white/60">

@@ -301,7 +301,7 @@ export default function BlockEditor({
   if (showPreview) {
     return (
       <div className="w-full bg-background">
-        <div className="sticky top-0 z-50 border-b border-white/10 bg-background/80 backdrop-blur-xl">
+        <div className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
           <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
             <Button
               variant="ghost"
@@ -351,7 +351,7 @@ export default function BlockEditor({
         </div>
 
         {/* Cover + Title */}
-        <Card className="p-5 border border-white/10 bg-white/5 backdrop-blur-xl">
+        <Card className="p-5 border border-border bg-accent backdrop-blur-xl">
           <div className="flex flex-col sm:flex-row gap-5">
             {/* Cover image */}
             <div className="w-full sm:w-64 shrink-0">
@@ -366,7 +366,7 @@ export default function BlockEditor({
                 }}
               />
               {coverPreview ? (
-                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10">
+                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border">
                   <img
                     src={coverPreview}
                     alt="Cover"
@@ -374,7 +374,7 @@ export default function BlockEditor({
                   />
                   <button
                     onClick={() => handleCoverFile(null)}
-                    className="absolute top-2 right-2 p-1 rounded-lg bg-black/60 text-white/70 hover:text-red-400 transition"
+                    className="absolute top-2 right-2 p-1 rounded-lg bg-foreground/80 text-muted-foreground hover:text-red-400 transition"
                   >
                     <X size={14} />
                   </button>
@@ -382,7 +382,7 @@ export default function BlockEditor({
               ) : (
                 <button
                   onClick={() => coverInputRef.current?.click()}
-                  className="w-full aspect-video rounded-xl border border-dashed border-white/20 bg-white/5 flex flex-col items-center justify-center gap-2 text-white/40 hover:border-white/40 hover:text-white/60 transition"
+                  className="w-full aspect-video rounded-xl border border-dashed border-border bg-accent flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-white/40 hover:text-foreground/60 transition"
                 >
                   <Upload size={20} />
                   <span className="text-xs">Cover image</span>
@@ -396,7 +396,7 @@ export default function BlockEditor({
                 placeholder="Showcase title"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="text-lg font-medium bg-transparent border-white/10"
+                className="text-lg font-medium bg-transparent border-border"
               />
               <div className="flex items-center gap-3">
                 <span className="text-sm text-muted-foreground">Status</span>
@@ -431,7 +431,7 @@ export default function BlockEditor({
           )}
 
           {blocksLoaded && blocks.length === 0 && (
-            <div className="text-center py-12 border border-dashed border-white/10 rounded-xl">
+            <div className="text-center py-12 border border-dashed border-border rounded-xl">
               <p className="text-sm text-muted-foreground mb-3">
                 No content blocks yet
               </p>
@@ -527,12 +527,12 @@ function AddBlockMenu({
       </Button>
 
       {open && (
-        <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-50 bg-[#111] border border-white/10 rounded-xl p-2 shadow-2xl min-w-[180px]">
+        <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-50 bg-popover border border-border rounded-xl p-2 shadow-2xl min-w-[180px]">
           {BLOCK_TYPES.map((type) => (
             <button
               key={type}
               onClick={() => onAdd(type)}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white rounded-lg transition"
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground rounded-lg transition"
             >
               {blockTypeIcon(type)}
               {blockTypeLabel(type)}
@@ -588,12 +588,12 @@ function BlockCard({
   const isMedia = block.type === 'image' || block.type === 'video';
 
   return (
-    <div className="group relative border border-white/10 bg-white/5 backdrop-blur-xl rounded-xl overflow-hidden hover:border-white/20 transition">
+    <div className="group relative border border-border bg-accent backdrop-blur-xl rounded-xl overflow-hidden hover:border-border transition">
       {/* Toolbar */}
       <div className="flex items-center gap-1 px-3 py-2 border-b border-white/5">
-        <GripVertical size={14} className="text-white/20" />
+        <GripVertical size={14} className="text-muted-foreground/50" />
 
-        <span className="text-xs font-medium text-white/50 flex items-center gap-1.5">
+        <span className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
           {blockTypeIcon(block.type)}
           {blockTypeLabel(block.type)}
         </span>
@@ -602,7 +602,7 @@ function BlockCard({
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-white/30 hover:text-white/70"
+            className="h-6 w-6 text-muted-foreground/70 hover:text-muted-foreground"
             disabled={index === 0}
             onClick={() => onMove(-1)}
           >
@@ -611,7 +611,7 @@ function BlockCard({
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-white/30 hover:text-white/70"
+            className="h-6 w-6 text-muted-foreground/70 hover:text-muted-foreground"
             disabled={index === total - 1}
             onClick={() => onMove(1)}
           >
@@ -622,13 +622,13 @@ function BlockCard({
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 text-white/30 hover:text-white/70"
+              className="h-6 w-6 text-muted-foreground/70 hover:text-muted-foreground"
               onClick={() => setAddOpen(!addOpen)}
             >
               <Plus size={12} />
             </Button>
             {addOpen && (
-              <div className="absolute top-full right-0 mt-1 z-50 bg-[#111] border border-white/10 rounded-xl p-1.5 shadow-2xl min-w-[150px]">
+              <div className="absolute top-full right-0 mt-1 z-50 bg-popover border border-border rounded-xl p-1.5 shadow-2xl min-w-[150px]">
                 {BLOCK_TYPES.map((type) => (
                   <button
                     key={type}
@@ -636,7 +636,7 @@ function BlockCard({
                       onAddAfter(type);
                       setAddOpen(false);
                     }}
-                    className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white rounded-lg transition"
+                    className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground rounded-lg transition"
                   >
                     {blockTypeIcon(type)}
                     {blockTypeLabel(type)}
@@ -649,7 +649,7 @@ function BlockCard({
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-white/30 hover:text-red-400"
+            className="h-6 w-6 text-muted-foreground/70 hover:text-red-400"
             onClick={onRemove}
           >
             <Trash2 size={12} />
@@ -670,9 +670,9 @@ function BlockCard({
             value={block.content}
             onChange={(e) => onUpdate({ content: e.target.value })}
             className={cn(
-              'min-h-[80px] bg-transparent border-white/10 resize-none',
+              'min-h-[80px] bg-transparent border-border resize-none',
               block.type === 'quote' &&
-                'pl-4 border-l-2 border-orange-500/50 italic text-white/80',
+                'pl-4 border-l-2 border-orange-500/50 italic text-foreground/80',
             )}
           />
         )}
@@ -683,7 +683,7 @@ function BlockCard({
             placeholder="Heading text"
             value={block.content}
             onChange={(e) => onUpdate({ content: e.target.value })}
-            className="text-xl font-bold bg-transparent border-white/10"
+            className="text-xl font-bold bg-transparent border-border"
           />
         )}
 
@@ -693,7 +693,7 @@ function BlockCard({
             placeholder="Subheading text"
             value={block.content}
             onChange={(e) => onUpdate({ content: e.target.value })}
-            className="text-base font-semibold bg-transparent border-white/10"
+            className="text-base font-semibold bg-transparent border-border"
           />
         )}
 
@@ -704,13 +704,13 @@ function BlockCard({
               placeholder="Link text (e.g. View Project)"
               value={block.content}
               onChange={(e) => onUpdate({ content: e.target.value })}
-              className="bg-transparent border-white/10"
+              className="bg-transparent border-border"
             />
             <Input
               placeholder="https://example.com"
               value={block.mediaUrl ?? ''}
               onChange={(e) => onUpdate({ mediaUrl: e.target.value })}
-              className="bg-transparent border-white/10 text-sm text-muted-foreground"
+              className="bg-transparent border-border text-sm text-muted-foreground"
             />
           </div>
         )}
@@ -729,7 +729,7 @@ function BlockCard({
               }}
             />
             {block.mediaUrl ? (
-              <div className="relative rounded-lg overflow-hidden border border-white/10">
+              <div className="relative rounded-lg overflow-hidden border border-border">
                 <img
                   src={block.mediaUrl}
                   alt={block.caption || 'Image'}
@@ -739,7 +739,7 @@ function BlockCard({
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="h-7 w-7 bg-black/60 text-white/70 hover:text-white"
+                    className="h-7 w-7 bg-foreground/80 text-muted-foreground hover:text-foreground"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <Upload size={12} />
@@ -747,7 +747,7 @@ function BlockCard({
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="h-7 w-7 bg-black/60 text-white/70 hover:text-red-400"
+                    className="h-7 w-7 bg-foreground/80 text-muted-foreground hover:text-red-400"
                     onClick={() => onUpdate({ mediaUrl: null })}
                   >
                     <X size={12} />
@@ -758,7 +758,7 @@ function BlockCard({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="w-full h-32 rounded-lg border border-dashed border-white/20 bg-white/5 flex flex-col items-center justify-center gap-2 text-white/40 hover:border-white/40 hover:text-white/60 transition"
+                className="w-full h-32 rounded-lg border border-dashed border-border bg-accent flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-white/40 hover:text-foreground/60 transition"
               >
                 {uploading ? (
                   <Loader2 size={18} className="animate-spin" />
@@ -774,7 +774,7 @@ function BlockCard({
               placeholder="Image caption (optional)"
               value={block.caption}
               onChange={(e) => onUpdate({ caption: e.target.value })}
-              className="bg-transparent border-white/10 text-sm"
+              className="bg-transparent border-border text-sm"
             />
           </div>
         )}
@@ -793,7 +793,7 @@ function BlockCard({
               }}
             />
             {block.mediaUrl ? (
-              <div className="relative rounded-lg overflow-hidden border border-white/10">
+              <div className="relative rounded-lg overflow-hidden border border-border">
                 <video
                   src={block.mediaUrl}
                   controls
@@ -803,7 +803,7 @@ function BlockCard({
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="h-7 w-7 bg-black/60 text-white/70 hover:text-white"
+                    className="h-7 w-7 bg-foreground/80 text-muted-foreground hover:text-foreground"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <Upload size={12} />
@@ -811,7 +811,7 @@ function BlockCard({
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="h-7 w-7 bg-black/60 text-white/70 hover:text-red-400"
+                    className="h-7 w-7 bg-foreground/80 text-muted-foreground hover:text-red-400"
                     onClick={() => onUpdate({ mediaUrl: null })}
                   >
                     <X size={12} />
@@ -822,7 +822,7 @@ function BlockCard({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="w-full h-32 rounded-lg border border-dashed border-white/20 bg-white/5 flex flex-col items-center justify-center gap-2 text-white/40 hover:border-white/40 hover:text-white/60 transition"
+                className="w-full h-32 rounded-lg border border-dashed border-border bg-accent flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-white/40 hover:text-foreground/60 transition"
               >
                 {uploading ? (
                   <Loader2 size={18} className="animate-spin" />
@@ -838,7 +838,7 @@ function BlockCard({
               placeholder="Video caption (optional)"
               value={block.caption}
               onChange={(e) => onUpdate({ caption: e.target.value })}
-              className="bg-transparent border-white/10 text-sm"
+              className="bg-transparent border-border text-sm"
             />
           </div>
         )}
