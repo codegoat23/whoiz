@@ -6,6 +6,7 @@ import {
   Linkedin,
   Globe,
 } from "lucide-react";
+import { FaTiktok } from "react-icons/fa";
 
 import { ReactNode } from "react";
 
@@ -15,6 +16,7 @@ const iconMap: Record<string, ReactNode> = {
   facebook: <Facebook className="w-4 h-4 text-blue-600" />,
   youtube: <Youtube className="w-4 h-4 text-red-500" />,
   linkedin: <Linkedin className="w-4 h-4 text-sky-600" />,
+  tiktok: <FaTiktok className="w-4 h-4 text-white" />,
   website: <Globe className="w-4 h-4 text-gray-700" />,
 };
 
