@@ -1,4 +1,7 @@
+import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function AuthLayout({
   children,
@@ -10,14 +13,21 @@ export default function AuthLayout({
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <div className="flex items-center gap-2 font-medium">
-            <div className=" flex size-6 items-center justify-center rounded-md">
-             
-            </div>
-              <span
-      className="text-[#FF5E57] text-2xl"
-    >
-      Whoiz
-    </span>
+            <Link
+          href="/"
+          className={cn(
+            "relative text-sm sm:text-base tracking-wide",
+            "text-orange-300 drop-shadow-[0_0_10px_rgba(249,115,22,0.35)]"
+          )}
+        >
+          <Image
+  src="/logos/logo3.svg"
+  alt="WHOIZ"
+  width={180}
+  height={50}
+  className="h-8 w-auto sm:h-10 lg:h-12 object-contain"
+/>
+        </Link>
           </div>
         </div>
 
