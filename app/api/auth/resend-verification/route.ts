@@ -34,7 +34,7 @@ export async function POST() {
     const verifyUrl = `${process.env.APP_URL}/verify-email/confirm?token=${token}`;
 
     await resend.emails.send({
-      from: "MyApp <onboarding@resend.dev>",
+      from: "MyApp <onboarding@whoiz.space>",
       to: user.email,
       subject: "Verify your email",
       html: `

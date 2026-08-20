@@ -15,7 +15,7 @@ export const auth = betterAuth({
     // 🔥 REQUIRED FOR PASSWORD RESET
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        from: "Draaft <onboarding@resend.dev>", // change to your verified domain
+        from: "Draaft <onboarding@whoiz.space>", // change to your verified domain
         to: user.email,
         subject: "Reset your password 🔐",
         html: `
