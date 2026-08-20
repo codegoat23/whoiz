@@ -1,26 +1,40 @@
-import { Card, CardContent } from '@/components/ui/card'
-import { Quote, TextQuote } from 'lucide-react';
-import React from 'react'
+import { Card, CardContent } from "@/components/ui/card";
+import { Quote } from "lucide-react";
+import React from "react";
 
-interface StoryProps{
-    story: string | null; 
-    
-    txtcolor: string;
+interface StoryProps {
+  story: string | null;
+  txtcolor: string;
 }
-function Story({story,txtcolor}: StoryProps) {
+
+function Story({ story, txtcolor }: StoryProps) {
   return (
-   <Card className=' flex justify-center items-center  text-justify w-full max-w-[280px] text-[11px] p-0  font-light text-wrap backdrop-blur-2xl bg-left border-none'
-    
-   >
-    <CardContent className='bg-black/50 w-full h-full rounded-[12px] p-6'>
-    <Quote className='absolute top-0 left-0 size-10 rotate-180'/>
-      <span className='p-6 text-sm'>{story}</span>
-        <Quote className='absolute bottom-0 right-0 size-10 '/>
+    <Card className="relative flex w-full max-w-[380px] items-center justify-center border-none bg-left p-0 text-center backdrop-blur-2xl">
+      <CardContent className="relative h-full w-full rounded-[12px] bg-black/50 p-8">
+        
+        {/* Top-left quote */}
+        <Quote
+          className="absolute -left-2 -top-2 h-10 w-10 opacity-30"
+          strokeWidth={1.5}
+        />
 
-    </CardContent>
-    
-   </Card>
-  )
+        {/* Story */}
+        <span
+          className="relative z-10 block p-4 text-lg font-medium leading-8"
+          style={{ color: txtcolor }}
+        >
+          {story}
+        </span>
+
+        {/* Bottom-right quote */}
+        <Quote
+          className="absolute -bottom-2 -right-2 h-10 w-10 rotate-180 opacity-30"
+          strokeWidth={1.5}
+        />
+
+      </CardContent>
+    </Card>
+  );
 }
 
-export default Story
+export default Story;

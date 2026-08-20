@@ -2,7 +2,7 @@ import React from "react";
 
 function Dynamicstyle() {
   return (
-    <section className="relative flex flex-col items-center mt-24 md:mt-40 px-4 sm:px-6 overflow-hidden">
+    <section className="relative flex flex-col items-center mt-16 sm:mt-24 md:mt-40 px-4 sm:px-6 overflow-hidden">
       
       {/* Background Glow (responsive positioning) */}
       <div className="absolute top-24 md:top-32 left-1/2 -translate-x-1/2 w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px]  blur-[100px] md:blur-[140px] rounded-full" />

@@ -36,23 +36,21 @@ const steps = [
 
 export function SetupSection() {
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="relative overflow-hidden py-16 sm:py-24">
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-40 h-72 w-72 -translate-x-1/2 rounded-full bg-[#E83718]/10 blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4">
-       
-       
+      <div className="container mx-auto px-4 sm:px-6">
 
         {/* Heading */}
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <h2 className="text-4xl font-bold tracking-tight md:text-6xl">
+        <div className="mx-auto mb-12 sm:mb-16 max-w-2xl text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight md:text-6xl">
             How does Whoiz work?
           </h2>
 
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-base sm:text-lg text-muted-foreground">
             Get your creator hub online in just a few simple steps.
           </p>
         </div>
@@ -68,21 +66,21 @@ export function SetupSection() {
                 key={index}
                 className="group border-border/50 bg-card/50 backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:border-[#E83718]/40"
               >
-                <CardContent className="p-6">
+                <CardContent className="p-5 sm:p-6">
                   {/* Visual Area */}
-                  <div className="mb-8 flex h-48 items-center justify-center rounded-2xl ">
-                    <Image src={step.img} alt="" width={110} height={110}/>
+                  <div className="mb-6 sm:mb-8 flex h-36 sm:h-48 items-center justify-center rounded-2xl ">
+                    <Image src={step.img} alt="" width={90} height={90} className="w-20 h-20 sm:w-28 sm:h-28"/>
                   </div>
 
                   <p className="mb-2 text-sm font-medium text-[#E83718]">
                     {step.step}
                   </p>
 
-                  <h3 className="mb-3 text-2xl font-semibold">
+                  <h3 className="mb-3 text-xl sm:text-2xl font-semibold">
                     {step.title}
                   </h3>
 
-                  <p className="text-muted-foreground">
+                  <p className="text-sm sm:text-base text-muted-foreground">
                     {step.description}
                   </p>
                 </CardContent>
@@ -92,7 +90,7 @@ export function SetupSection() {
         </div>
 
         {/* CTA */}
-        <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mt-10 sm:mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button size="lg">
             Get Started
           </Button>

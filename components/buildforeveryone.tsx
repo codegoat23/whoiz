@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function BuiltForEveryone() {
   return (
-    <section className="relative w-full py-24 px-6 overflow-hidden mt-15">
+    <section className="relative w-full py-16 sm:py-24 px-4 sm:px-6 overflow-hidden mt-10 sm:mt-15">
     
       
       {/* Background Glow */}
@@ -32,11 +32,10 @@ export default function BuiltForEveryone() {
 
         {/* Feature chips */}
        
-        <div className="flex flex-row mt-10 gap-2">
-          <Image src="/avatar/people4.jpg" alt="" className="h-70 w-70 object-cover rounded-full" width={200} height={200}/>
-          <Image src="/avatar/people3.jpg" alt="" className="h-70 w-70 object-cover rounded-full" width={280} height={280}/>
-          <Image src="/avatar/people2.jpg" alt="" className="h-70 w-70 object-cover rounded-full" width={280} height={280}/>
-
+        <div className="flex flex-row mt-10 gap-2 sm:gap-4">
+          <Image src="/avatar/people4.jpg" alt="" className="h-20 w-20 sm:h-32 sm:w-32 md:h-44 md:w-44 lg:h-56 lg:w-56 object-cover rounded-full" width={200} height={200}/>
+          <Image src="/avatar/people3.jpg" alt="" className="h-24 w-24 sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-64 lg:w-64 object-cover rounded-full" width={280} height={280}/>
+          <Image src="/avatar/people2.jpg" alt="" className="h-20 w-20 sm:h-32 sm:w-32 md:h-44 md:w-44 lg:h-56 lg:w-56 object-cover rounded-full" width={280} height={280}/>
         </div>
       
       

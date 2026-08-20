@@ -11,7 +11,7 @@ export default function WhoizFooter() {
 
     
 
-      <div className="relative mx-auto max-w-7xl px-6 py-16 flex flex-col gap-10">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-16 flex flex-col gap-8 sm:gap-10">
 
 
         {/* Divider glow line */}
@@ -27,12 +27,12 @@ export default function WhoizFooter() {
   width={500}
   height={80}
   priority
-  className="h-10 w-auto object-contain sm:h-12 md:h-14 lg:h-16 xl:h-[288px]"
+  className="h-30 sm:h-10 md:h-12 lg:h-14 w-auto object-contain"
 />
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-wrap items-center justify-center gap-5 sm:gap-8 text-sm text-orange-100/70">
+        <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-orange-100/70">
           <Link className="hover:text-orange-300 transition" href="#">
             Home
           </Link>
