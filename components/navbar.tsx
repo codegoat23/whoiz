@@ -31,7 +31,7 @@ export default function GlassNavbar() {
           )}
         >
           <Image
-  src="/logos/logo2.svg"
+  src="/logos/logo3.svg"
   alt="WHOIZ"
   width={180}
   height={50}

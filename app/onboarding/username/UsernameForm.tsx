@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Image from "next/image";
 
 export function UsernameForm() {
   const [username, setUsername] = useState("");
@@ -58,7 +59,7 @@ export function UsernameForm() {
         </div>
 
         {/* 📦 CARD */}
-        <Card className="w-full p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl ">
+        <Card className="w-full p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl ">
 
           {/* BRAND */}
           <div className="flex justify-center mb-6">
@@ -66,7 +67,14 @@ export function UsernameForm() {
               href="/"
               className="text-xl tracking-wide text-orange-400 hover:text-orange-300 transition"
             >
-              WHOIZ
+              <Image
+                             src="/logos/logo2.svg"
+                             alt="WHOIZ"
+                             width={500}
+                             height={80}
+                             priority
+                             className="h-10 w-auto object-contain sm:h-12 md:h-14 lg:h-16 xl:h-[60px]"
+                           />
             </Link>
           </div>
 
@@ -89,19 +97,19 @@ export function UsernameForm() {
                 Username
               </label>
 
-              <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 focus-within:border-orange-400 focus-within:ring-2 focus-within:ring-orange-400/20 transition">
+              <div className="flex items-center gap-2  border border-white/10 rounded-xl px-3 focus-within:border-white/50  focus-within:ring-2 focus-within:ring-white/20 transition">
                 <span className="text-white/40">@</span>
 
                 <Input
                   name="username"
-                  placeholder="eric_dev"
+                  placeholder="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   minLength={3}
                   maxLength={20}
                   required
                   disabled={isPending}
-                  className="border-none bg-transparent text-white placeholder:text-white/30 focus-visible:ring-0"
+                  className="border-none bg-none text-white placeholder:text-white/30 focus-visible:ring-0"
                 />
               </div>
 
@@ -118,7 +126,7 @@ export function UsernameForm() {
             <Button
               type="submit"
               disabled={isPending || username.trim().length < 3}
-              className="w-full rounded-xl font-semibold  text-black hover:from-orange-400 hover:to-amber-300 transition-all duration-300 shadow-lg bg-orange-500"
+              className="w-full rounded-xl font-semibold  text-white hover:from-orange-400 hover:to-amber-300 transition-all duration-300 shadow-lg bg-orange-500"
             >
               {isPending ? "Saving..." : "Continue"}
             </Button>

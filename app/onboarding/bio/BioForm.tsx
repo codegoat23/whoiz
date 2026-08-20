@@ -61,7 +61,7 @@ export function BioForm() {
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
 
     
-      <div className="relative w-full max-w-2xl space-y-6">
+      <div className="relative w-full max-w-2xl space-y-6 mt-10 mb-10">
 
         {/* 🧭 STEP INDICATOR */}
         <div className="flex items-center justify-center">
@@ -102,9 +102,7 @@ export function BioForm() {
 
             {/* ROLE CHIPS */}
             <div className="space-y-3">
-              <p className="text-sm text-white/70 font-medium">
-                Pick a role that fits you
-              </p>
+              
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                 {presetRoles.map((role) => {
@@ -117,11 +115,11 @@ export function BioForm() {
                       onClick={() => handlePresetClick(role)}
                       disabled={isPending}
                       className={`
-                        h-auto py-2.5 px-3 text-sm justify-start text-left
+                        h-auto py-4 px-3 text-sm justify-start text-left
                         rounded-xl transition-all duration-200
                         ${
                           isActive
-                            ? "bg-orange-500 text-black "
+                            ? "bg-white text-black "
                             : "bg-white/5 text-white/70 border border-white/10 hover:bg-white/10"
                         }
                       `}
@@ -150,43 +148,42 @@ export function BioForm() {
               </Button>
             </div>
 
-            {/* TEXTAREA */}
-            <div className="space-y-2">
-              <label className="text-sm text-white/70 font-medium">
-                {useCustom ? "Your bio" : "Selected description"}
-              </label>
+          {/* TEXTAREA - ONLY SHOW WHEN "OTHER" IS SELECTED */}
+{useCustom && (
+  <div className="space-y-2">
+    <label className="text-sm text-white/70 font-medium">
+      Your bio
+    </label>
 
-              <Textarea
-                rows={4}
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                disabled={isPending || (!useCustom && !!selectedPreset)}
-                placeholder={
-                  useCustom
-                    ? "Describe yourself..."
-                    : "Choose a role above or click Other to write your own."
-                }
-                className="
-                  bg-white/5 border-white/10 text-white placeholder:text-white/30
-                  focus:border-orange-400 focus:ring-orange-400/20
-                  rounded-xl resize-none
-                "
-              />
+    <Textarea
+      rows={4}
+      value={bio}
+      onChange={(e) => setBio(e.target.value)}
+      disabled={isPending}
+      placeholder="Describe yourself..."
+      className="
+        bg-white/5 border-white/10 text-white placeholder:text-white/30
+        focus:border-orange-400 focus:ring-orange-400/20
+        rounded-xl resize-none
+      "
+    />
 
-              <p className="text-xs text-white/40">
-                Short and meaningful bios work best for profiles.
-              </p>
+    <p className="text-xs text-white/40">
+      Short and meaningful bios work best for profiles.
+    </p>
 
-              {error && (
-                <p className="text-xs text-red-400">{error}</p>
-              )}
-            </div>
+    {error && (
+      <p className="text-xs text-red-400">{error}</p>
+    )}
+  </div>
+)}
 
             {/* SUBMIT */}
             <Button
               type="submit"
               disabled={isPending || bio.trim().length < 3}
               className="
+              py-6
                 w-full rounded-xl font-semibold
                 bg-orange-500
                 text-black hover:from-orange-400 hover:to-amber-300
