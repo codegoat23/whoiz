@@ -7,6 +7,7 @@ import StarImg from '@/public/star.svg'
 import InchWorm from '@/public/InchWorm.svg'
 import Sunflower from '@/public/Sunflower.svg'
 import Image from "next/image";
+import { FadeUp, StaggerContainer, StaggerItem } from "@/components/motion-wrapper";
 
 const steps = [
   { img: StarImg,
@@ -45,7 +46,7 @@ export function SetupSection() {
       <div className="container mx-auto px-4 sm:px-6">
 
         {/* Heading */}
-        <div className="mx-auto mb-12 sm:mb-16 max-w-2xl text-center">
+        <FadeUp delay={0.1} duration={0.7} className="mx-auto mb-12 sm:mb-16 max-w-2xl text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight md:text-6xl">
             How does Whoiz work?
           </h2>
@@ -53,44 +54,42 @@ export function SetupSection() {
           <p className="mt-4 text-base sm:text-lg text-muted-foreground">
             Get your creator hub online in just a few simple steps.
           </p>
-        </div>
+        </FadeUp>
 
         {/* Cards */}
-        <div className="grid gap-6 md:grid-cols-3">
+        <StaggerContainer stagger={0.15} delay={0.2} className="grid gap-6 md:grid-cols-3">
           {steps.map((step, index) => {
             const Icon = step.icon;
-            
 
             return (
-              <Card
-                key={index}
-                className="group border-border/50 bg-card/50 backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:border-[#E83718]/40"
-              >
-                <CardContent className="p-5 sm:p-6">
-                  {/* Visual Area */}
-                  <div className="mb-6 sm:mb-8 flex h-36 sm:h-48 items-center justify-center rounded-2xl ">
-                    <Image src={step.img} alt="" width={90} height={90} className="w-20 h-20 sm:w-28 sm:h-28"/>
-                  </div>
+              <StaggerItem key={index} variant="fadeUp" duration={0.6}>
+                <Card className="group border-border/50 bg-card/50 backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:border-[#E83718]/40">
+                  <CardContent className="p-5 sm:p-6">
+                    {/* Visual Area */}
+                    <div className="mb-6 sm:mb-8 flex h-36 sm:h-48 items-center justify-center rounded-2xl">
+                      <Image src={step.img} alt="" width={90} height={90} className="w-20 h-20 sm:w-28 sm:h-28"/>
+                    </div>
 
-                  <p className="mb-2 text-sm font-medium text-[#E83718]">
-                    {step.step}
-                  </p>
+                    <p className="mb-2 text-sm font-medium text-[#E83718]">
+                      {step.step}
+                    </p>
 
-                  <h3 className="mb-3 text-xl sm:text-2xl font-semibold">
-                    {step.title}
-                  </h3>
+                    <h3 className="mb-3 text-xl sm:text-2xl font-semibold">
+                      {step.title}
+                    </h3>
 
-                  <p className="text-sm sm:text-base text-muted-foreground">
-                    {step.description}
-                  </p>
-                </CardContent>
-              </Card>
+                    <p className="text-sm sm:text-base text-muted-foreground">
+                      {step.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
 
         {/* CTA */}
-        <div className="mt-10 sm:mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <FadeUp delay={0.6} duration={0.6} className="mt-10 sm:mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button size="lg">
             Get Started
           </Button>
@@ -98,7 +97,7 @@ export function SetupSection() {
           <Button variant="outline" size="lg">
             Learn More
           </Button>
-        </div>
+        </FadeUp>
       </div>
     </section>
   );

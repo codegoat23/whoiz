@@ -1,62 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
 import Image from "next/image";
+import { FadeUp, StaggerContainer, StaggerItem } from "@/components/motion-wrapper";
 
 export default function WhoizFooter() {
   return (
     <footer className="relative w-full mt-24 overflow-hidden">
-
-    
-
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-16 flex flex-col gap-8 sm:gap-10">
 
-
         {/* Divider glow line */}
-        <div className="h-px w-full" />
+        <FadeUp delay={0} duration={0.6}>
+          <div className="h-px w-full" />
+        </FadeUp>
 
         {/* Big brand */}
-        <div
-          className="text-center leading-none flex justify-center items-center"
-        >
+        <FadeUp delay={0.1} duration={0.6} className="text-center leading-none flex justify-center items-center">
           <Image
-  src="/logos/logo3.svg"
-  alt="WHOIZ"
-  width={500}
-  height={80}
-  priority
-  className="h-30 sm:h-10 md:h-12 lg:h-14 w-auto object-contain"
-/>
-        </div>
+            src="/logos/logo3.svg"
+            alt="WHOIZ"
+            width={500}
+            height={80}
+            priority
+            className="h-30 sm:h-10 md:h-12 lg:h-100 w-auto object-contain"
+          />
+        </FadeUp>
 
         {/* Navigation */}
-        <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-orange-100/70">
-          <Link className="hover:text-orange-300 transition" href="#">
-            Home
-          </Link>
-          <Link className="hover:text-orange-300 transition" href="#">
-            About
-          </Link>
-          <Link className="hover:text-orange-300 transition" href="#">
-            FAQ
-          </Link>
-          <Link className="hover:text-orange-300 transition" href="#">
-            Blog
-          </Link>
-          <Link className="hover:text-orange-300 transition" href="#">
-            Login
-          </Link>
-          <Link className="hover:text-orange-300 transition" href="#">
-            Sign up
-          </Link>
-        </nav>
+        <StaggerContainer stagger={0.05} delay={0.2} className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-orange-100/70">
+          {["Home", "About", "FAQ", "Blog", "Login", "Sign up"].map((item) => (
+            <StaggerItem key={item} variant="fadeUp" duration={0.4}>
+              <Link className="hover:text-orange-300 transition" href="#">
+                {item}
+              </Link>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
 
         {/* Bottom micro line */}
-       <div className="mt-6 text-center text-xs text-orange-100/40">
-  © {new Date().getFullYear()}
-</div>
+        <FadeUp delay={0.4} duration={0.5}>
+          <div className="mt-6 text-center text-xs text-orange-100/40">
+            &copy; {new Date().getFullYear()}
+          </div>
+        </FadeUp>
       </div>
     </footer>
   );

@@ -1,9 +1,12 @@
+"use client";
+
+import { Floating } from "@/components/motion-wrapper";
+
 export default function PhotoStack() {
   return (
-    <div className="relative w-full h-[500px] flex items-center justify-center  overflow-hidden ">
-
+    <Floating y={8} duration={4} delay={0} className="relative w-full h-[500px] flex items-center justify-center overflow-hidden">
       {/* BACK CARD (pink jacket) */}
-      <div className="absolute  top-6 left-10 z-10">
+      <div className="absolute top-6 left-10 z-10">
         <img
           src="/img1.png"
           alt="card1"
@@ -28,7 +31,6 @@ export default function PhotoStack() {
           className="w-50 h-50 object-cover rounded-3xl border-8 border-white shadow-2xl"
         />
       </div>
-
-    </div>
-  )
+    </Floating>
+  );
 }
