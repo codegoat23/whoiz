@@ -11,6 +11,7 @@ function LoginPageClientContent() {
   const searchParams = useSearchParams();
 
   const [errorMsg, setErrorMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const deactivated = searchParams.get("deactivated") === "1";
 
@@ -19,10 +20,15 @@ function LoginPageClientContent() {
   ) {
     e.preventDefault();
 
+    if (isLoading) return;
+
     const formData = new FormData(e.currentTarget);
 
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+
+    setIsLoading(true);
+    setErrorMsg("");
 
     try {
       const result = await signIn(email, password);
@@ -35,6 +41,8 @@ function LoginPageClientContent() {
       router.push("/admin");
     } catch (error: any) {
       setErrorMsg(error.message || "Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -54,6 +62,7 @@ function LoginPageClientContent() {
 
       <LoginForm
         onSubmit={handleSubmit}
+        isLoading={isLoading}
       />
     </>
   );

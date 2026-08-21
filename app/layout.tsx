@@ -3,7 +3,6 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "./context/AppContext";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "sonner";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -94,7 +93,6 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <AppProvider>
-            <Toaster position="top-right" />
             {children}
           </AppProvider>
         </ThemeProvider>

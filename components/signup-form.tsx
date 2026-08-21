@@ -13,8 +13,12 @@ import Link from "next/link"
 export function SignupForm({
   className,
   prefilledUsername,
+  isLoading,
   ...props
-}: React.ComponentProps<"form"> & { prefilledUsername?: string }) {
+}: React.ComponentProps<"form"> & {
+  prefilledUsername?: string
+  isLoading?: boolean
+}) {
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
@@ -43,19 +47,23 @@ export function SignupForm({
         )}
         <Field>
           <FieldLabel htmlFor="name">Name</FieldLabel>
-          <Input 
+          <Input
            id="name"
-            name="name" 
-            type="text" 
-            placeholder="denny" required />
+            name="name"
+            type="text"
+            placeholder="denny"
+            disabled={isLoading}
+            required />
         </Field>
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
-          <Input 
-          id="email" 
-          type="email" 
+          <Input
+          id="email"
+          type="email"
           name="email"
-          placeholder="m@example.com" required />
+          placeholder="m@example.com"
+          disabled={isLoading}
+          required />
           <FieldDescription>
             We&apos;ll use this to contact you. We will not share your email
             with anyone else.
@@ -63,20 +71,22 @@ export function SignupForm({
         </Field>
         <Field>
           <FieldLabel htmlFor="password">Password</FieldLabel>
-          <PasswordInput id="password" name="password" required />
+          <PasswordInput id="password" name="password" disabled={isLoading} required />
           <FieldDescription>
             Must be at least 8 characters long.
           </FieldDescription>
         </Field>
         <Field>
           <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
-          <PasswordInput id="confirm-password" name="confirm-password" required />
+          <PasswordInput id="confirm-password" name="confirm-password" disabled={isLoading} required />
           <FieldDescription>Please confirm your password.</FieldDescription>
         </Field>
         <Field>
-          <Button type="submit">Create Account</Button>
+          <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading ? "Creating account..." : "Create Account"}
+          </Button>
         </Field>
-       
+
         <Field>
           <FieldDescription className="px-6 text-center">
             Already have an account? <Link href="/auth/login" >Sign in</Link>

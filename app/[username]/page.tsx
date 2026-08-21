@@ -108,7 +108,9 @@ export default async function UserPage({
       {/* ================= PROFILE CARD ================= */}
       <section className="text-center mb-8 flex flex-col items-center gap-3">
         <Card
-          className="w-[280px] max-w-full rounded-[35px] h-77 flex justify-between items-center p-1 border border-1 border-gray-700 bg-cover bg-[center_0px]"
+          className="max-w-[330px]
+    sm:max-w-[300px]
+    md:max-w-[320px] w-full rounded-[35px] h-80 flex justify-between items-center p-1 border border-1 border-gray-700 bg-cover bg-[center_0px]"
           style={{
             backgroundImage: `
               linear-gradient(
@@ -233,7 +235,7 @@ export default async function UserPage({
         )}
 
         {user.story && (
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-12">
             <Story
               story={user.story}
               

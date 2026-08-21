@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -17,43 +15,14 @@ import { PasswordInput } from "@/components/password-input";
 import Link from "next/link";
 
 interface LoginFormProps extends React.ComponentProps<"form"> {
-  onSwitchToSignUp?: () => void;
+  isLoading?: boolean;
 }
 
-export function LoginForm({ className, ...props }: LoginFormProps) {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (isLoading) return;
-
-    setIsLoading(true);
-
-    try {
-      const formData = new FormData(e.currentTarget);
-
-      const email = formData.get("email");
-      const password = formData.get("password");
-
-      console.log("Logging in:", { email, password });
-
-      await new Promise((resolve) => setTimeout(resolve, 1200));
-
-      router.replace("/admin");
-    } catch (error) {
-      console.error("Login failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+export function LoginForm({ className, isLoading, ...props }: LoginFormProps) {
   return (
     <div className="relative">
-      {/* 🔮 FORM */}
+      {/* FORM */}
       <form
-        onSubmit={handleSubmit}
         className={cn(
           "flex flex-col gap-6 transition-all duration-200",
           isLoading && "opacity-60 pointer-events-none blur-[1px]",
@@ -123,7 +92,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
         </FieldGroup>
       </form>
 
-      {/* 🌌 OVERLAY LOADER */}
+      {/* OVERLAY LOADER */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/70 backdrop-blur-md">
           <div className="flex flex-col items-center gap-3">

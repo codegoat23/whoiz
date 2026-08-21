@@ -29,7 +29,6 @@ export const signIn = async (email: string, password: string) => {
     body: {
       email,
       password,
-      callbackURL: "/",
     },
   });
   return result;
@@ -46,7 +45,6 @@ export const signUp = async (
       email,
       password,
       name,
-      callbackURL: "/",
     },
   });
 

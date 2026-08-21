@@ -12,11 +12,14 @@ function SignupPageInner() {
   const prefilledUsername = searchParams.get("username") || "";
 
   const [errorMsg, setErrorMsg] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>
   ) {
     e.preventDefault();
+
+    if (isSubmitting) return;
 
     const formData = new FormData(e.currentTarget);
 
@@ -32,19 +35,28 @@ function SignupPageInner() {
       return;
     }
 
-    const result = await signUp(
-      email,
-      password,
-      name,
-      username || undefined
-    );
+    setIsSubmitting(true);
+    setErrorMsg("");
 
-    if (!result?.user) {
-      setErrorMsg("Failed to create account");
-      return;
+    try {
+      const result = await signUp(
+        email,
+        password,
+        name,
+        username || undefined
+      );
+
+      if (!result?.user) {
+        setErrorMsg("Failed to create account");
+        return;
+      }
+
+      router.push("/verify-email");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    router.push("/verify-email");
   }
 
   return (
@@ -58,6 +70,7 @@ function SignupPageInner() {
       <SignupForm
         onSubmit={handleSubmit}
         prefilledUsername={prefilledUsername}
+        isLoading={isSubmitting}
       />
     </>
   );

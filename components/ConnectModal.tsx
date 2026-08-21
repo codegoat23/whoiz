@@ -34,10 +34,10 @@ export default function ConnectModal({ links }: { links: Link[] }) {
 
   return (
     <>
-      {/* 🌐 TRIGGER BUTTON */}
+      {/*  TRIGGER BUTTON */}
       <button
         onClick={() => setOpen(true)}
-        className="px-3 py-2 rounded-full bg-black/60 text-white flex flex-row gap-2 items-center text-xs backdrop-blur-md hover:scale-105 transition"
+        className="px-3.5 py-3 rounded-full bg-black/60 text-white flex flex-row gap-2 items-center text-xs backdrop-blur-md hover:scale-105 transition"
       >
          <Image
             src="/logos/logo2.svg"
