@@ -3,6 +3,7 @@ import Addsidebar from "./components/add-sidebar"
 import { SiteHeader } from "@/components/SiteHeader"
 import { Toaster } from "@/components/ui/sonner"
 import { getSessionUser } from "@/lib/session"
+import { FloatingPreview } from "./components/FloatingPreview"
 
 export default async function AdminLayout({
   children,
@@ -19,11 +20,12 @@ export default async function AdminLayout({
         <div className="flex flex-1 flex-col min-w-0 md:peer-data-[variant=inset]:ml-0">
           <SiteHeader />
 
-          <main className="flex-1 w-full overflow-x-hidden">
+          <main className="flex-1 w-full overflow-x-hidden pb-16 sm:pb-0">
             {children}
           </main>
         </div>
       </div>
+      <FloatingPreview />
       <Toaster />
     </SidebarProvider>
   )
