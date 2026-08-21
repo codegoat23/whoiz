@@ -14,7 +14,7 @@ export default function LandingContent() {
     <ReducedMotionProvider>
       <div className="flex flex-col overflow-x-hidden items-center bg-black">
         <Hero />
-        <FeatureButton />
+        
         <DatingHero />
         <BuiltForEveryone />
         <Dynamicstyle />
