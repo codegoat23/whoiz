@@ -541,14 +541,12 @@ export default function DatingHero() {
           </span>{" "}
           showcased.
         </h2>
-        <p className="mb-12 max-w-xl text-sm text-zinc-400 sm:text-base">
-          Every Whoiz profile is interactive with customizable themes, glassmorphism cards, dynamic social links, and showcases.
-        </p>
+       
       </div>
 
       {/* Interactive Carousel Stage */}
       <div
-        className="relative mx-auto h-[580px] max-w-[1400px] overflow-hidden sm:h-[650px]"
+        className="relative mx-auto h-[580px] max-w-[1400px] overflow-hidden sm:h-[650px] mt-12"
         onMouseEnter={() => (pausedRef.current = true)}
         onMouseLeave={() => (pausedRef.current = false)}
       >
