@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: "WHOIZ | Your Digital Identity",
     description:
       "Create your personal WHOIZ profile and share everything about you in one place.",
-    url: "https://whoiz.bio",
+    url: "https://whoiz.space/",
     images: [
       {
         url: "/screenshot.png",
