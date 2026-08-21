@@ -17,8 +17,8 @@ export default function ShareButton({ username }: { username: string | null }) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Check this profile",
-          text: `Check out ${username}'s profile`,
+          title: "Here's my whoiz",
+          text: `WHOIZ ${username}`,
           url,
         });
         return;
