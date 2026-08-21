@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Image from "next/image";
-import { Check } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 
 import { CARD_THEMES, CardThemeId } from "@/lib/cardThemes";
 import { updateCardTheme } from "./actions";
@@ -83,18 +83,61 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
 
         {themes.map(([id, theme]) => {
           const isActive = selected === id;
+          const isCustom = id === "custom";
+
+          if (isCustom) {
+            return (
+             <button
+  key={id}
+  type="button"
+  onClick={() => setOpenCustom(true)}
+  className={`
+    group relative overflow-hidden rounded-2xl border-2 border-dashed
+    transition-all duration-300
+    hover:-translate-y-1 hover:shadow-lg
+    ${
+      isActive
+        ? "border-white/80 bg-white/10 scale-[1.03]"
+        : "border-white/15 bg-white/5 hover:border-white/30 hover:bg-white/[0.08]"
+    }
+  `}
+>
+  <div className="relative aspect-[4/3] flex flex-col items-center justify-center gap-3">
+    <div
+      className="
+        flex h-12 w-12 items-center justify-center rounded-full
+        bg-white/10
+        transition-all duration-300
+        group-hover:bg-white/15
+      "
+    >
+      <Plus className="h-5 w-5 text-white/70 transition-transform group-hover:scale-110 group-hover:text-white" />
+    </div>
+
+    <span className="text-xs font-medium text-white/60 transition-colors group-hover:text-white/80">
+      Upload your own
+    </span>
+  </div>
+
+  <div className="flex items-center justify-between px-3 py-2 text-xs text-white/70">
+    <span className="truncate">Custom</span>
+
+    {isActive && (
+      <div className="flex items-center gap-1">
+        <Check className="h-3 w-3 text-white/80" />
+        <span className="text-[10px] text-white/60">Active</span>
+      </div>
+    )}
+  </div>
+</button>
+            );
+          }
 
           return (
             <button
               key={id}
               type="button"
-              onClick={() => {
-                if (id === "custom") {
-                  setOpenCustom(true);
-                } else {
-                  setSelected(id);
-                }
-              }}
+              onClick={() => setSelected(id)}
               className={`
                 group relative overflow-hidden rounded-2xl border transition-all duration-300
                 bg-white/5 backdrop-blur-xl
