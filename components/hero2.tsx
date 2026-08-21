@@ -89,10 +89,10 @@ function Hero2() {
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-xl mb-8 text-gray-300 text-base md:text-lg lg:text-xl leading-relaxed text-center">
-            Share your vibe, story, projects, and skills without limits — your
-            identity, beautifully packaged.
-          </p>
+       <p className="max-w-xl mb-8 text-gray-300 text-base md:text-lg lg:text-xl leading-relaxed text-center">
+  Share your story, showcase your work, and let your personality shine.
+  Everything you are, all in one place.
+</p>
 
           {/* INPUT CARD */}
           <div className="flex flex-col w-full max-w-lg gap-2">
