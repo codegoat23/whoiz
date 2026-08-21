@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signUp } from "@/lib/actions/auth-actions/auth-actions";
 import { SignupForm } from "@/components/signup-form";
+import { Suspense } from "react";
 
-export default function SignupPageClient() {
+function SignupPageInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const prefilledUsername = searchParams.get("username") || "";
 
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -22,6 +25,7 @@ export default function SignupPageClient() {
     const password = formData.get("password") as string;
     const confirmPassword =
       formData.get("confirm-password") as string;
+    const username = formData.get("username") as string;
 
     if (password !== confirmPassword) {
       setErrorMsg("Passwords do not match");
@@ -31,7 +35,8 @@ export default function SignupPageClient() {
     const result = await signUp(
       email,
       password,
-      name
+      name,
+      username || undefined
     );
 
     if (!result?.user) {
@@ -52,7 +57,16 @@ export default function SignupPageClient() {
 
       <SignupForm
         onSubmit={handleSubmit}
+        prefilledUsername={prefilledUsername}
       />
     </>
+  );
+}
+
+export default function SignupPageClient() {
+  return (
+    <Suspense>
+      <SignupPageInner />
+    </Suspense>
   );
 }

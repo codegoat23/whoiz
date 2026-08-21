@@ -70,60 +70,103 @@ export default function GlassNavbar() {
           </div>
 
           {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <button
-                type="button"
-                aria-label="Open menu"
-                className="md:hidden relative inline-flex items-center justify-center rounded-xl p-2
-                           bg-white/10 border border-orange-400/20
-                           hover:bg-orange-500/20 transition"
-              >
-                <Menu className="h-5 w-5 text-orange-200" />
-              </button>
-            </SheetTrigger>
+         <Sheet>
+  <SheetTrigger asChild>
+    <button
+      type="button"
+      aria-label="Open menu"
+      className="md:hidden relative inline-flex items-center justify-center rounded-xl p-2
+                 bg-white/10 border border-orange-400/20
+                 hover:bg-orange-500/20 transition"
+    >
+      <Menu className="h-5 w-5 text-orange-200" />
+    </button>
+  </SheetTrigger>
 
-            <SheetContent
-              side="right"
-              className="bg-black/90 backdrop-blur-2xl text-white border-l border-orange-500/20"
-            >
-              <div className="absolute top-0 left-0 w-full h-40 bg-orange-500/10 blur-3xl" />
+  <SheetContent
+    side="top"
+    className="
+      bg-black/95 backdrop-blur-2xl text-white
+    
+      rounded-b-3xl
+      px-6 pt-16 pb-8
+  
 
-              <div className="mt-10 flex flex-col gap-6 relative">
-                <Link
-                  href="#features"
-                  className="text-lg text-orange-100 hover:text-orange-300 transition"
-                >
-                  Features
-                </Link>
+      data-[state=open]:animate-in
+      data-[state=closed]:animate-out
+      data-[state=open]:slide-in-from-top
+      data-[state=closed]:slide-out-to-top
+      data-[state=open]:duration-500
+      data-[state=closed]:duration-300
+    "
+  >
+    {/* Orange glow */}
+   
 
-                <Link
-                  href="#about"
-                  className="text-lg text-orange-100 hover:text-orange-300 transition"
-                >
-                  About
-                </Link>
+    <div className="relative mx-auto flex w-full max-w-sm flex-col items-center gap-3">
+     
 
-                <Link
-                  href="/auth/login"
-                  className="text-lg text-orange-100 hover:text-orange-300 transition"
-                >
-                  Login
-                </Link>
+      {/* Navigation */}
+      <Link
+        href="#features"
+        className="
+          w-full rounded-2xl px-5 py-4
+          text-center text-base font-medium
+          text-orange-100
+          transition-all duration-200
+          hover:bg-orange-500/10
+          hover:text-orange-300
+        "
+      >
+        Features
+      </Link>
 
-                <Button
-                  type="button"
-                  className={cn(
-                    "mt-4 rounded-xl w-full",
-                    "bg-gradient-to-r from-orange-500 to-orange-700",
-                    "shadow-lg shadow-orange-500/30"
-                  )}
-                >
-                  Open account
-                </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
+      <Link
+        href="#about"
+        className="
+          w-full rounded-2xl px-5 py-4
+          text-center text-base font-medium
+          text-orange-100
+          transition-all duration-200
+          hover:bg-orange-500/10
+          hover:text-orange-300
+        "
+      >
+        About
+      </Link>
+
+      <Link
+        href="/auth/login"
+        className="
+          w-full rounded-2xl px-5 py-4
+          text-center text-base font-medium
+          text-orange-100
+          transition-all duration-200
+          hover:bg-orange-500/10
+          hover:text-orange-300
+        "
+      >
+        Login
+      </Link>
+
+      <Button
+        type="button"
+        className="
+          mt-4 h-12 w-full rounded-2xl
+          text-black
+          bg-white
+          font-semibold 
+          
+          transition-all duration-200
+          hover:scale-[1.02]
+          hover:shadow-orange-500/40
+        "
+      >
+        Open account
+      </Button>
+    </div>
+  </SheetContent>
+</Sheet>
         </nav>
       </FadeUp>
     </header>

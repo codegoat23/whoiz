@@ -5,18 +5,16 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/components/password-input"
 import Link from "next/link"
 
-
-
 export function SignupForm({
   className,
+  prefilledUsername,
   ...props
-}: React.ComponentProps<"form">) {
+}: React.ComponentProps<"form"> & { prefilledUsername?: string }) {
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
@@ -26,6 +24,23 @@ export function SignupForm({
             Fill in the form below to create your account
           </p>
         </div>
+        {prefilledUsername && (
+          <Field>
+            <FieldLabel htmlFor="username">Username</FieldLabel>
+            <Input
+              id="username"
+              name="username"
+              type="text"
+              value={prefilledUsername}
+              readOnly
+              tabIndex={-1}
+              className="bg-muted/50 cursor-not-allowed"
+            />
+            <FieldDescription>
+              Your public identity on WHOIZ.
+            </FieldDescription>
+          </Field>
+        )}
         <Field>
           <FieldLabel htmlFor="name">Name</FieldLabel>
           <Input 
@@ -63,7 +78,6 @@ export function SignupForm({
         </Field>
        
         <Field>
-         
           <FieldDescription className="px-6 text-center">
             Already have an account? <Link href="/auth/login" >Sign in</Link>
           </FieldDescription>
