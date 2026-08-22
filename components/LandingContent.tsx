@@ -4,6 +4,7 @@ import { ReducedMotionProvider } from "@/components/motion-wrapper";
 import BuiltForEveryone from "@/components/buildforeveryone";
 import DatingHero from "@/components/caursel";
 import Dynamicstyle from "@/components/Dynamicstyle";
+import FaqSection from "@/components/FaqSection";
 import FeatureButton from "@/components/FeatureButton";
 import WhoizFooter from "@/components/footer";
 import Hero from "@/components/hero";
@@ -19,6 +20,7 @@ export default function LandingContent() {
         <BuiltForEveryone />
         <Dynamicstyle />
         <SetupSection />
+        <FaqSection />
         <WhoizFooter />
       </div>
     </ReducedMotionProvider>

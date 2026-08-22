@@ -28,10 +28,15 @@ export default function WhoizFooter() {
 
         {/* Navigation */}
         <StaggerContainer stagger={0.05} delay={0.2} className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-orange-100/70">
-          {["Home", "About", "FAQ", "Blog", "Login", "Sign up"].map((item) => (
-            <StaggerItem key={item} variant="fadeUp" duration={0.4}>
-              <Link className="hover:text-orange-300 transition" href="#">
-                {item}
+          {[
+            { label: "Home", href: "/" },
+            { label: "FAQ", href: "/#faq" },
+            { label: "Login", href: "/auth/login" },
+            { label: "Sign up", href: "/auth/signup" },
+          ].map((item) => (
+            <StaggerItem key={item.label} variant="fadeUp" duration={0.4}>
+              <Link className="hover:text-orange-300 transition" href={item.href}>
+                {item.label}
               </Link>
             </StaggerItem>
           ))}
