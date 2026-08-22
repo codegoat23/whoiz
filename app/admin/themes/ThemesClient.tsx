@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Check, Plus } from "lucide-react";
+import { Check, Plus, Loader2 } from "lucide-react";
 
 import { CARD_THEMES, CardThemeId } from "@/lib/cardThemes";
 import { updateCardTheme } from "./actions";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -16,34 +15,52 @@ import {
 } from "@/components/ui/dialog";
 
 import CustomThemeUploader from "./ThemeUploader";
-import { toast } from "sonner";
 
 type ThemesClientProps = {
   initialTheme: CardThemeId;
 };
 
+type SaveStatus = "idle" | "saving" | "saved" | "error";
+
 export function ThemesClient({ initialTheme }: ThemesClientProps) {
   const [selected, setSelected] = useState<CardThemeId>(initialTheme);
-  const [isPending, startTransition] = useTransition();
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [openCustom, setOpenCustom] = useState(false);
+  const saveRequestCounter = useRef(0);
+  const hideSavedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const themes = Object.entries(CARD_THEMES) as [
     CardThemeId,
     (typeof CARD_THEMES)[CardThemeId]
   ][];
 
-  const handleSave = () => {
-    if (selected === "custom") return;
+  const persistTheme = useCallback((themeId: CardThemeId) => {
+    if (themeId === "custom") return;
 
-    startTransition(() => {
-      updateCardTheme(selected)
-        .then(() => {
-          toast.success("Theme updated successfully");
-        })
-        .catch(() => {
-          toast.error("Failed to update theme");
-        });
-    });
+    const requestId = ++saveRequestCounter.current;
+
+    setSaveStatus("saving");
+
+    if (hideSavedTimer.current) {
+      clearTimeout(hideSavedTimer.current);
+      hideSavedTimer.current = null;
+    }
+
+    updateCardTheme(themeId)
+      .then(() => {
+        if (requestId !== saveRequestCounter.current) return;
+        setSaveStatus("saved");
+        hideSavedTimer.current = setTimeout(() => setSaveStatus("idle"), 2500);
+      })
+      .catch(() => {
+        if (requestId !== saveRequestCounter.current) return;
+        setSaveStatus("error");
+      });
+  }, []);
+
+  const handleSelect = (id: CardThemeId) => {
+    setSelected(id);
+    persistTheme(id);
   };
 
   return (
@@ -53,29 +70,36 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] blur-[160px] rounded-full" />
       </div>
+      <div className="flex items-center gap-3">
+  <span className="h-3 w-3 rounded-full bg-orange-500 shrink-0" />
+  
+  <h2 className="text-xl font-semibold">
+    Card Picture
+  </h2>
+</div>
 
-      {/* APPLY BUTTON - TOP */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+      {/* STATUS BAR */}
+      <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-white/40 text-center sm:text-left">
           {selected === "custom"
             ? "Custom theme is active"
-            : "Select a theme below, then apply"}
+            : "Pick a theme — it saves automatically"}
         </p>
 
-        <Button
-          onClick={handleSave}
-          disabled={isPending || selected === "custom"}
-          className="
-            min-w-[160px] rounded-xl font-semibold
-            bg-orange-500
-            text-white
-            transition-all duration-300
-            hover:bg-orange-600
-            disabled:opacity-50
-          "
-        >
-          {isPending ? "Applying..." : "Apply Theme"}
-        </Button>
+        <div className="flex items-center gap-1.5 text-xs transition-all duration-300">
+          {saveStatus === "saving" && (
+            <>
+              <Loader2 className="h-3 w-3 animate-spin text-white/50" />
+              <span className="text-white/50">Saving...</span>
+            </>
+          )}
+          {saveStatus === "saved" && (
+            <span className="text-emerald-400/80">✓ Saved</span>
+          )}
+          {saveStatus === "error" && (
+            <span className="text-red-400/80">Couldn't save</span>
+          )}
+        </div>
       </div>
 
       {/* GRID */}
@@ -137,7 +161,7 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
             <button
               key={id}
               type="button"
-              onClick={() => setSelected(id)}
+              onClick={() => handleSelect(id)}
               className={`
                 group relative overflow-hidden rounded-2xl border transition-all duration-300
                 bg-white/5 backdrop-blur-xl
@@ -195,7 +219,6 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
             onDone={() => {
               setSelected("custom");
               setOpenCustom(false);
-              toast.success("Custom theme applied");
             }}
           />
         </DialogContent>

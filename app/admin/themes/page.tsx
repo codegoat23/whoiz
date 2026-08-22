@@ -25,9 +25,7 @@ export default async function ThemesPage() {
       <div className="mx-auto max-w-4xl space-y-6">
         <div>
           <h1 className="text-2xl font-bold">Choose your theme</h1>
-          <p className="text-sm text-muted-foreground">
-            Pick one of the available themes. It will update the card on your public profile page.
-          </p>
+         
         </div>
 
         <ThemesClient initialTheme={currentTheme} />
