@@ -18,11 +18,8 @@ export function FloatingPreview() {
 
   return (
     <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 sm:bottom-6">
-      <div className="flex items-center gap-3 rounded-2xl  px-4  shadow-lg  transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/5 sm:gap-4 sm:px-5 sm:py-3">
-        <div className="hidden items-center gap-2 text-sm text-muted-foreground sm:flex">
-          <Eye className="size-4" />
-          <span className="max-w-[120px] truncate">/{username}</span>
-        </div>
+      <div className="flex items-center gap-3 rounded-2xl  px-4    transition-all duration-300  sm:gap-4 sm:px-5 sm:py-3">
+        
 
         <Button
           size="sm"
