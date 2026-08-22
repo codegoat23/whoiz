@@ -17,7 +17,7 @@ export function FloatingPreview() {
   if (!username) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 sm:bottom-6">
+    <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 sm:bottom-6 hidden md:block">
       <div className="flex items-center gap-3 rounded-2xl  px-4    transition-all duration-300  sm:gap-4 sm:px-5 sm:py-3">
         
 

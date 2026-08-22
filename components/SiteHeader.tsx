@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "@/lib/auth-client";
-import { LogOut, User, ChevronDown, Sun, Moon } from "lucide-react";
+import { LogOut, Settings, User, ChevronDown, Sun, Moon } from "lucide-react";
 import { toast } from "sonner";
 
 interface UserWithExtras {
@@ -58,7 +58,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background/80 backdrop-blur-xl px-4">
-      <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
+      <SidebarTrigger className="hidden md:flex text-muted-foreground hover:text-foreground" />
       <div className="flex-1" />
       <SearchCommand />
 
@@ -89,45 +89,85 @@ export function SiteHeader() {
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent
-          align="end"
-          sideOffset={8}
-          className="w-56"
-        >
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col gap-1">
-              <p className="text-sm font-medium leading-none">{user?.name}</p>
-              {user?.email && (
-                <p className="text-xs leading-none text-muted-foreground">
-                  {user.email}
-                </p>
-              )}
-              {user?.username && (
-                <p className="text-xs leading-none text-muted-foreground">
-                  @{user.username}
-                </p>
-              )}
-            </div>
-          </DropdownMenuLabel>
+      <DropdownMenuContent
+  align="end"
+  sideOffset={10}
+  className="w-64 rounded-2xl border border-white/10 bg-[#111111]/95 p-2 text-white shadow-2xl shadow-black/40 backdrop-blur-xl"
+>
+  {/* User Info */}
+  <DropdownMenuLabel className="px-3 py-3 font-normal">
+    <div className="flex items-center gap-3">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-orange-500/15 text-sm font-semibold text-orange-400 ring-1 ring-orange-500/20">
+        {user?.name?.charAt(0)?.toUpperCase() || "U"}
+      </div>
 
-          <DropdownMenuSeparator />
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-semibold text-white">
+          {user?.name || "User"}
+        </p>
 
-          <DropdownMenuItem onClick={() => router.push(`/${user?.username}`)}>
-            <User className="mr-2 size-4" />
-            View Profile
-          </DropdownMenuItem>
+        {user?.username && (
+          <p className="mt-0.5 truncate text-xs text-white/45">
+            @{user.username}
+          </p>
+        )}
+      </div>
+    </div>
+  </DropdownMenuLabel>
 
-          <DropdownMenuSeparator />
+  <DropdownMenuSeparator className="my-2 bg-white/10" />
 
-          <DropdownMenuItem
-            onClick={handleLogout}
-            disabled={loggingOut}
-            variant="destructive"
-          >
-            <LogOut className="mr-2 size-4" />
-            {loggingOut ? "Logging out..." : "Log out"}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
+  {/* Profile */}
+  <DropdownMenuItem
+    onClick={() => router.push("/admin")}
+    className="group cursor-pointer rounded-xl px-3 py-2.5 text-white/70 outline-none transition-all duration-200 focus:bg-white/10 focus:text-white"
+  >
+    <div className="mr-3 flex size-8 items-center justify-center rounded-lg bg-white/5 transition-colors group-hover:bg-orange-500/10">
+      <User className="size-4 text-white/60 group-hover:text-orange-400" />
+    </div>
+
+    <div className="flex flex-col">
+      <span className="text-sm font-medium">View Profile</span>
+      
+    </div>
+  </DropdownMenuItem>
+
+  {/* Settings */}
+  <DropdownMenuItem
+    onClick={() => router.push("/admin/settings")}
+    className="group cursor-pointer rounded-xl px-3 py-2.5 text-white/70 outline-none transition-all duration-200 focus:bg-white/10 focus:text-white"
+  >
+    <div className="mr-3 flex size-8 items-center justify-center rounded-lg bg-white/5 transition-colors group-hover:bg-orange-500/10">
+      <Settings className="size-4 text-white/60 group-hover:text-orange-400" />
+    </div>
+
+    <div className="flex flex-col">
+      <span className="text-sm font-medium">Settings</span>
+     
+    </div>
+  </DropdownMenuItem>
+
+  <DropdownMenuSeparator className="my-2 bg-white/10" />
+
+  {/* Logout */}
+  <DropdownMenuItem
+    onClick={handleLogout}
+    disabled={loggingOut}
+    variant="destructive"
+    className="cursor-pointer rounded-xl px-3 py-2.5 text-red-400 outline-none transition-all duration-200 focus:bg-red-500/10 focus:text-red-400"
+  >
+    <div className="mr-3 flex size-8 items-center justify-center rounded-lg bg-red-500/10">
+      <LogOut className="size-4" />
+    </div>
+
+    <div className="flex flex-col">
+      <span className="text-sm font-medium">
+        {loggingOut ? "Logging out..." : "Log out"}
+      </span>
+
+    </div>
+  </DropdownMenuItem>
+</DropdownMenuContent>
       </DropdownMenu>
     </header>
   );
