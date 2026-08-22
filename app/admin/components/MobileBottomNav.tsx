@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Link2, ExternalLink } from "lucide-react";
+import { Link2, ExternalLink, Paintbrush } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/lib/auth-client";
 
@@ -69,7 +69,6 @@ export default function MobileBottomNav() {
 
   const isConnectActive =
     pathname === "/admin/connect" ||
-    pathname === "/admin" ||
     pathname.startsWith("/admin/connect");
 
   const isLinksActive =
@@ -78,26 +77,29 @@ export default function MobileBottomNav() {
   const isShowcaseActive =
     pathname === "/admin/showcase" || pathname.startsWith("/admin/showcase");
 
+  const isDesignActive =
+    pathname === "/admin/themes" || pathname.startsWith("/admin/themes");
+
   return (
-    <div className="fixed bottom-4 left-0 right-0 z-50 flex justify-center px-4.5 pointer-events-none md:hidden">
+    <div className="fixed bottom-3 left-0 right-0 z-50 flex justify-center px-3 pointer-events-none md:hidden sm:bottom-4 sm:px-4">
       <nav
         role="navigation"
         aria-label="Mobile Navigation"
-        className="pointer-events-auto flex items-center justify-between w-full max-w-[400px] h-[72px] rounded-full bg-white px-3.5 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.5)] border border-neutral-100/90"
+        className="pointer-events-auto flex items-center justify-between w-full max-w-[420px] h-[64px] rounded-full bg-white px-2.5 py-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.5)] border border-neutral-100/90 sm:h-[72px] sm:px-3.5 sm:py-2"
       >
         {/* Navigation Tabs Container */}
-        <div className="flex items-center justify-around flex-1 pr-1.5 gap-1">
+        <div className="flex items-center justify-around flex-1 gap-0.5 pr-1 sm:gap-1 sm:pr-1.5">
           {/* Tab 1: Connect */}
           <Link
             href="/admin/connect"
             aria-label="Connect"
             aria-current={isConnectActive ? "page" : undefined}
-            className="flex flex-col items-center justify-center gap-1 min-w-[54px] py-1 transition-all duration-200 active:scale-90"
+            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
           >
             <WhoizLogoIcon isActive={isConnectActive} />
             <span
               className={cn(
-                "text-[10.5px] tracking-tight transition-colors duration-200 leading-tight",
+                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
                 isConnectActive
                   ? "text-black font-semibold"
                   : "text-zinc-500 font-medium"
@@ -112,18 +114,18 @@ export default function MobileBottomNav() {
             href="/admin/links"
             aria-label="Links"
             aria-current={isLinksActive ? "page" : undefined}
-            className="flex flex-col items-center justify-center gap-1 min-w-[54px] py-1 transition-all duration-200 active:scale-90"
+            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
           >
             <Link2
               className={cn(
-                "size-5 transition-colors duration-200",
+                "size-4.5 transition-colors duration-200 sm:size-5",
                 isLinksActive ? "text-[#FF6900]" : "text-zinc-600"
               )}
               strokeWidth={2.4}
             />
             <span
               className={cn(
-                "text-[10.5px] tracking-tight transition-colors duration-200 leading-tight",
+                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
                 isLinksActive
                   ? "text-black font-semibold"
                   : "text-zinc-500 font-medium"
@@ -138,18 +140,44 @@ export default function MobileBottomNav() {
             href="/admin/showcase"
             aria-label="Showcase"
             aria-current={isShowcaseActive ? "page" : undefined}
-            className="flex flex-col items-center justify-center gap-1 min-w-[54px] py-1 transition-all duration-200 active:scale-90"
+            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
           >
             <ShowcaseIcon isActive={isShowcaseActive} />
             <span
               className={cn(
-                "text-[10.5px] tracking-tight transition-colors duration-200 leading-tight",
+                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
                 isShowcaseActive
                   ? "text-black font-semibold"
                   : "text-zinc-500 font-medium"
               )}
             >
               showcase
+            </span>
+          </Link>
+
+          {/* Tab 4: Design */}
+          <Link
+            href="/admin/themes"
+            aria-label="Design"
+            aria-current={isDesignActive ? "page" : undefined}
+            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
+          >
+            <Paintbrush
+              className={cn(
+                "size-4.5 transition-colors duration-200 sm:size-5",
+                isDesignActive ? "text-[#FF6900]" : "text-zinc-600"
+              )}
+              strokeWidth={2.4}
+            />
+            <span
+              className={cn(
+                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
+                isDesignActive
+                  ? "text-black font-semibold"
+                  : "text-zinc-500 font-medium"
+              )}
+            >
+              Design
             </span>
           </Link>
         </div>
@@ -160,12 +188,12 @@ export default function MobileBottomNav() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open live profile preview in a new tab"
-          className="flex items-center justify-center gap-1.5 rounded-full bg-[#FF5800] hover:bg-[#ff6900] active:scale-[0.96] text-white px-4.5 py-3 h-12 shadow-md shadow-orange-500/25 transition-all duration-200 ml-1 shrink-0"
+          className="flex items-center justify-center gap-1 rounded-full bg-[#FF5800] hover:bg-[#ff6900] active:scale-[0.96] text-white px-3 py-2.5 h-10 shadow-md shadow-orange-500/25 transition-all duration-200 ml-1 shrink-0 sm:gap-1.5 sm:px-4.5 sm:py-3 sm:h-12"
         >
-          <span className="text-[12px] sm:text-[13px] font-semibold text-white tracking-tight whitespace-nowrap">
-            live preview
+          <span className="text-[11px] font-semibold text-white tracking-tight whitespace-nowrap sm:text-[12px]">
+            preview
           </span>
-          <ExternalLink className="size-4 text-white stroke-[2.2] shrink-0" />
+          <ExternalLink className="size-3.5 text-white stroke-[2.2] shrink-0 sm:size-4" />
         </a>
       </nav>
     </div>
