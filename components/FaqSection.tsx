@@ -46,7 +46,7 @@ export default function FaqSection() {
   return (
     <section id="faq" className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <FadeUp delay={0} duration={0.6}>
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-3">
+        <h2 className="text-4xl sm:text-7xl font-bold text-center text-white mb-3">
          Questions? Answered
         </h2>
         <p className="text-center text-white/50 text-sm sm:text-base mb-10 max-w-lg mx-auto">
