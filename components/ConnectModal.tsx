@@ -49,54 +49,69 @@ export default function ConnectModal({ links }: { links: Link[] }) {
       </button>
 
       {/* 🌌 MODAL */}
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+    {open && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center">
 
-          {/* BACKDROP */}
-          <div
-            onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-black/70 backdrop-blur-md"
-          />
+    {/* BACKDROP */}
+    <div
+      onClick={() => setOpen(false)}
+      className="absolute inset-0 bg-black/70 backdrop-blur-md"
+    />
 
-          {/* PANEL */}
-          <div className="relative w-[min(340px,90vw)] rounded-2xl bg-white/10 border border-white/20 p-6 backdrop-blur-xl">
+    {/* CONTENT */}
+    <div className="relative w-[min(340px,90vw)]">
 
-            {/* CLOSE */}
+      {/* CLOSE */}
+      <button
+        onClick={() => setOpen(false)}
+        className="absolute -top-12 right-0 flex h-9 w-9 items-center justify-center rounded-full
+                   bg-white/10 text-white/70 backdrop-blur-md
+                   transition hover:bg-white/20 hover:text-white"
+      >
+        <X size={18} />
+      </button>
+
+      <h2 className="mb-6 text-center text-sm font-medium text-white/80">
+        Connect with me
+      </h2>
+
+      {/* ICON GRID */}
+      <div className="grid grid-cols-3 gap-4">
+        {links.map((link) => {
+          const Icon = ICONS[link.platform];
+
+          if (!Icon) return null;
+
+          return (
             <button
-              onClick={() => setOpen(false)}
-              className="absolute top-3 right-3 text-white"
+              key={link.id}
+              onClick={() => window.open(link.url, "_blank")}
+              className="
+                group flex flex-col items-center justify-center gap-2
+                rounded-2xl border border-white/10
+                bg-white/5 px-4 py-4
+                text-white backdrop-blur-md
+                transition-all duration-200
+                hover:-translate-y-1
+                hover:border-white/20
+                hover:bg-white/10
+              "
             >
-              <X size={18} />
+              <Icon
+                size={25}
+                className="transition-transform duration-200 group-hover:scale-110"
+              />
+
+              <span className="text-[10px] text-white/60 transition group-hover:text-white/90">
+                {link.platform}
+              </span>
             </button>
-
-            <h2 className="text-white text-sm text-center mb-5">
-              Connect with me
-            </h2>
-
-            {/* ICON GRID */}
-            <div className="grid grid-cols-3 gap-5">
-              {links.map((link) => {
-                const Icon = ICONS[link.platform];
-
-                if (!Icon) return null;
-
-                return (
-                  <button
-                    key={link.id}
-                    onClick={() => window.open(link.url, "_blank")}
-                    className="flex flex-col items-center gap-1 text-white hover:scale-110 transition"
-                  >
-                    <Icon size={26} />
-                    <span className="text-[10px] opacity-70">
-                      {link.platform}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
+          );
+        })}
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 }
