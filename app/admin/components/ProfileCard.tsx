@@ -88,7 +88,7 @@ function ProfileCard({
 
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium">
-                  Update your avatar
+                  Your avatar
                 </p>
 
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
