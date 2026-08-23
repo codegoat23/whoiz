@@ -91,25 +91,7 @@ function ProductsTable({ products, onDelete }: ProductsTableProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
             {/* Status badge */}
-            <div className="absolute top-3 left-3">
-              {product.action === 'Publish' ? (
-                <Badge
-                  variant="outline"
-                  className="border-emerald-500/30 bg-emerald-500/15 text-emerald-300 backdrop-blur-md gap-1"
-                >
-                  <CircleDotDashed className="w-3 h-3" />
-                  Published
-                </Badge>
-              ) : (
-                <Badge
-                  variant="outline"
-                  className="border-orange-500/30 bg-orange-500/15 text-orange-300 backdrop-blur-md gap-1"
-                >
-                  <CircleDotDashed className="w-3 h-3" />
-                  Draft
-                </Badge>
-              )}
-            </div>
+           
 
             {/* Quick actions on hover */}
             <div className="absolute bottom-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
