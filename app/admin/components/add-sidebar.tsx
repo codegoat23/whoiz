@@ -11,6 +11,12 @@ import {
   Paintbrush,
   Settings,
   Smile,
+  LayoutDashboard,
+  Users,
+  UserCheck,
+  Flag,
+  BarChart3,
+  Shield,
 } from "lucide-react";
 
 import {
@@ -23,10 +29,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/lib/auth-client";
+import { useSession } from "@/lib/auth-client";
+import { isAdminEmail } from "@/lib/admin-utils";
 import { toast } from "sonner";
 import { Logo } from "@/components/logo";
 
-const navItems = [
+const profileNavItems = [
   { title: "Profile", href: "/admin", icon: Home },
   { title: "Links", href: "/admin/links", icon: Link2 },
   { title: "Showcase", href: "/admin/showcase", icon: GalleryThumbnails },
@@ -35,9 +43,27 @@ const navItems = [
   { title: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
+const adminNavItems = [
+  { title: "Overview", href: "/admin/monitoring", icon: LayoutDashboard },
+  { title: "Users", href: "/admin/monitoring/users", icon: Users },
+  { title: "Profiles", href: "/admin/monitoring/profiles", icon: UserCheck },
+  { title: "Reports", href: "/admin/monitoring/reports", icon: Flag },
+  { title: "Analytics", href: "/admin/monitoring/analytics", icon: BarChart3 },
+];
+
+interface UserWithEmail {
+  email?: string | null;
+}
+
 function Addsidebar() {
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const user = session?.user as UserWithEmail | undefined;
+
+  const isOnMonitoring = pathname.startsWith("/admin/monitoring");
+  const isAdmin = user?.email ? isAdminEmail(user.email) : false;
+  const navItems = isOnMonitoring ? adminNavItems : profileNavItems;
 
   return (
     <Sidebar className="border-r border-border bg-card">
@@ -55,6 +81,38 @@ function Addsidebar() {
 />
         </div>
       </SidebarHeader>
+
+      {/* ADMIN/PROFILE TOGGLE - Only visible to admins */}
+      {isAdmin && (
+        <div className="px-3 pb-2">
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-muted/50 border border-border">
+            <Link
+              href="/admin/monitoring"
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex-1 justify-center",
+                isOnMonitoring
+                  ? "bg-background text-foreground shadow-sm border border-border"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <Shield className="size-3.5" />
+              Admin
+            </Link>
+            <Link
+              href="/admin"
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex-1 justify-center",
+                !isOnMonitoring
+                  ? "bg-background text-foreground shadow-sm border border-border"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <Home className="size-3.5" />
+              Profile
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* NAV */}
       <SidebarContent className="px-3 relative">

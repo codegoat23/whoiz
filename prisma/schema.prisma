@@ -162,3 +162,32 @@ enum ShowcaseAction {
 
   @@map("ProductAction")
 }
+
+model Report {
+  id         String       @id @default(cuid())
+  targetType String
+  targetId   String
+  reason     String
+  status     ReportStatus @default(Pending)
+  reporterId String?
+  createdAt  DateTime     @default(now())
+  resolvedAt DateTime?
+
+  @@index([targetType, targetId])
+  @@index([status])
+}
+
+enum ReportStatus {
+  Pending
+  Reviewed
+  Dismissed
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}

@@ -3,12 +3,17 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Link2, ExternalLink, Paintbrush } from "lucide-react";
+import { Link2, ExternalLink, Paintbrush, Shield, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/lib/auth-client";
+import { isAdminEmail } from "@/lib/admin-utils";
 
 interface UserWithUsername {
   username?: string | null;
+}
+
+interface UserWithEmail {
+  email?: string | null;
 }
 
 // Custom WHOIZ logo mark icon for the 'connect' tab matching screenshot
@@ -64,8 +69,14 @@ function ShowcaseIcon({
 export default function MobileBottomNav() {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const user = session?.user as UserWithUsername | undefined;
+  const user = session?.user as UserWithUsername & UserWithEmail | undefined;
   const username = user?.username;
+
+  if (pathname.startsWith("/admin/monitoring")) {
+    return null;
+  }
+
+  const isAdmin = user?.email ? isAdminEmail(user.email) : false;
 
   const isConnectActive =
     pathname === "/admin/connect" ||
@@ -81,121 +92,142 @@ export default function MobileBottomNav() {
     pathname === "/admin/themes" || pathname.startsWith("/admin/themes");
 
   return (
-    <div className="fixed bottom-3 left-0 right-0 z-50 flex justify-center px-3 pointer-events-none md:hidden sm:bottom-4 sm:px-4">
-      <nav
-        role="navigation"
-        aria-label="Mobile Navigation"
-        className="pointer-events-auto flex items-center justify-between w-full max-w-[420px] h-[64px] rounded-full bg-white px-2.5 py-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.5)] border border-neutral-100/90 sm:h-[72px] sm:px-3.5 sm:py-2"
-      >
-        {/* Navigation Tabs Container */}
-        <div className="flex items-center justify-around flex-1 gap-0.5 pr-1 sm:gap-1 sm:pr-1.5">
-          {/* Tab 1: Connect */}
-          <Link
-            href="/admin/connect"
-            aria-label="Connect"
-            aria-current={isConnectActive ? "page" : undefined}
-            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
-          >
-            <WhoizLogoIcon isActive={isConnectActive} />
-            <span
-              className={cn(
-                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
-                isConnectActive
-                  ? "text-black font-semibold"
-                  : "text-zinc-500 font-medium"
-              )}
+    <>
+      {/* Admin/Profile Toggle - floating above bottom nav */}
+      {isAdmin && (
+        <div className="fixed bottom-[80px] left-0 right-0 z-50 flex justify-center px-3 pointer-events-none sm:bottom-[88px] sm:px-4">
+          <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-xl bg-white/90 backdrop-blur-xl border border-neutral-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
+            <Link
+              href="/admin/monitoring"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 text-zinc-500 hover:text-zinc-800"
             >
-              connect
+              <Shield className="size-3" />
+              Admin
+            </Link>
+            <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-[#FF5800] text-white shadow-md shadow-orange-500/25">
+              <Home className="size-3" />
+              Profile
             </span>
-          </Link>
-
-          {/* Tab 2: Links */}
-          <Link
-            href="/admin/links"
-            aria-label="Links"
-            aria-current={isLinksActive ? "page" : undefined}
-            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
-          >
-            <Link2
-              className={cn(
-                "size-4.5 transition-colors duration-200 sm:size-5",
-                isLinksActive ? "text-[#FF6900]" : "text-zinc-600"
-              )}
-              strokeWidth={2.4}
-            />
-            <span
-              className={cn(
-                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
-                isLinksActive
-                  ? "text-black font-semibold"
-                  : "text-zinc-500 font-medium"
-              )}
-            >
-              Links
-            </span>
-          </Link>
-
-          {/* Tab 3: Showcase */}
-          <Link
-            href="/admin/showcase"
-            aria-label="Showcase"
-            aria-current={isShowcaseActive ? "page" : undefined}
-            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
-          >
-            <ShowcaseIcon isActive={isShowcaseActive} />
-            <span
-              className={cn(
-                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
-                isShowcaseActive
-                  ? "text-black font-semibold"
-                  : "text-zinc-500 font-medium"
-              )}
-            >
-              showcase
-            </span>
-          </Link>
-
-          {/* Tab 4: Design */}
-          <Link
-            href="/admin/themes"
-            aria-label="Design"
-            aria-current={isDesignActive ? "page" : undefined}
-            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
-          >
-            <Paintbrush
-              className={cn(
-                "size-4.5 transition-colors duration-200 sm:size-5",
-                isDesignActive ? "text-[#FF6900]" : "text-zinc-600"
-              )}
-              strokeWidth={2.4}
-            />
-            <span
-              className={cn(
-                "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
-                isDesignActive
-                  ? "text-black font-semibold"
-                  : "text-zinc-500 font-medium"
-              )}
-            >
-              Design
-            </span>
-          </Link>
+          </div>
         </div>
+      )}
 
-        {/* Right Action: Live Preview CTA Button */}
-        <a
-          href={username ? `/${username}` : "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open live profile preview in a new tab"
-          className="flex items-center justify-center gap-1 rounded-full bg-[#FF5800] hover:bg-[#ff6900] active:scale-[0.96] text-white px-3 py-2.5 h-10 shadow-md shadow-orange-500/25 transition-all duration-200 ml-1 shrink-0 sm:gap-1.5 sm:px-4.5 sm:py-3 sm:h-12"
+      <div className="fixed bottom-3 left-0 right-0 z-50 flex justify-center px-3 pointer-events-none md:hidden sm:bottom-4 sm:px-4">
+        <nav
+          role="navigation"
+          aria-label="Mobile Navigation"
+          className="pointer-events-auto flex items-center justify-between w-full max-w-[420px] h-[64px] rounded-full bg-white px-2.5 py-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.5)] border border-neutral-100/90 sm:h-[72px] sm:px-3.5 sm:py-2"
         >
-          <span className="text-[11px] font-semibold text-white tracking-tight whitespace-nowrap sm:text-[12px]">
-            preview
-          </span>
-          <ExternalLink className="size-3.5 text-white stroke-[2.2] shrink-0 sm:size-4" />
-        </a>
-      </nav>
-    </div>
+          {/* Navigation Tabs Container */}
+          <div className="flex items-center justify-around flex-1 gap-0.5 pr-1 sm:gap-1 sm:pr-1.5">
+            {/* Tab 1: Connect */}
+            <Link
+              href="/admin/connect"
+              aria-label="Connect"
+              aria-current={isConnectActive ? "page" : undefined}
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
+            >
+              <WhoizLogoIcon isActive={isConnectActive} />
+              <span
+                className={cn(
+                  "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
+                  isConnectActive
+                    ? "text-black font-semibold"
+                    : "text-zinc-500 font-medium"
+                )}
+              >
+                connect
+              </span>
+            </Link>
+
+            {/* Tab 2: Links */}
+            <Link
+              href="/admin/links"
+              aria-label="Links"
+              aria-current={isLinksActive ? "page" : undefined}
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
+            >
+              <Link2
+                className={cn(
+                  "size-4.5 transition-colors duration-200 sm:size-5",
+                  isLinksActive ? "text-[#FF6900]" : "text-zinc-600"
+                )}
+                strokeWidth={2.4}
+              />
+              <span
+                className={cn(
+                  "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
+                  isLinksActive
+                    ? "text-black font-semibold"
+                    : "text-zinc-500 font-medium"
+                )}
+              >
+                Links
+              </span>
+            </Link>
+
+            {/* Tab 3: Showcase */}
+            <Link
+              href="/admin/showcase"
+              aria-label="Showcase"
+              aria-current={isShowcaseActive ? "page" : undefined}
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
+            >
+              <ShowcaseIcon isActive={isShowcaseActive} />
+              <span
+                className={cn(
+                  "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
+                  isShowcaseActive
+                    ? "text-black font-semibold"
+                    : "text-zinc-500 font-medium"
+                )}
+              >
+                showcase
+              </span>
+            </Link>
+
+            {/* Tab 4: Design */}
+            <Link
+              href="/admin/themes"
+              aria-label="Design"
+              aria-current={isDesignActive ? "page" : undefined}
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all duration-200 active:scale-90 sm:gap-1"
+            >
+              <Paintbrush
+                className={cn(
+                  "size-4.5 transition-colors duration-200 sm:size-5",
+                  isDesignActive ? "text-[#FF6900]" : "text-zinc-600"
+                )}
+                strokeWidth={2.4}
+              />
+              <span
+                className={cn(
+                  "text-[9px] tracking-tight transition-colors duration-200 leading-tight sm:text-[10.5px]",
+                  isDesignActive
+                    ? "text-black font-semibold"
+                    : "text-zinc-500 font-medium"
+                )}
+              >
+                Design
+              </span>
+            </Link>
+          </div>
+
+          {/* Right Action: Live Preview CTA Button */}
+          <a
+            href={username ? `/${username}` : "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open live profile preview in a new tab"
+            className="flex items-center justify-center gap-1 rounded-full bg-[#FF5800] hover:bg-[#ff6900] active:scale-[0.96] text-white px-3 py-2.5 h-10 shadow-md shadow-orange-500/25 transition-all duration-200 ml-1 shrink-0 sm:gap-1.5 sm:px-4.5 sm:py-3 sm:h-12"
+          >
+            <span className="text-[11px] font-semibold text-white tracking-tight whitespace-nowrap sm:text-[12px]">
+              preview
+            </span>
+            <ExternalLink className="size-3.5 text-white stroke-[2.2] shrink-0 sm:size-4" />
+          </a>
+        </nav>
+      </div>
+    </>
   );
 }

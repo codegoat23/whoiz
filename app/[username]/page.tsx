@@ -74,6 +74,8 @@ export default async function UserPage({
 
   if (!user) notFound();
 
+  prisma.pageView.create({ data: { userId: user.id } }).catch(() => {});
+
   if (user.deactivated) {
     return (
       <main className="max-w-md mx-auto p-6 min-h-screen flex flex-col items-center justify-center text-center gap-3">

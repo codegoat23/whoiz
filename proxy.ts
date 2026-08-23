@@ -70,6 +70,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  // Admin-only monitoring routes
+  if (pathname.startsWith("/admin/monitoring")) {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (!adminEmail || user.email.toLowerCase() !== adminEmail.toLowerCase()) {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+  }
+
   return NextResponse.next();
 }
 
