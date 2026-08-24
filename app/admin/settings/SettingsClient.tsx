@@ -26,6 +26,7 @@ import {
   changePassword,
   deactivateAccount,
 } from "./actions";
+import { trackProfileDeleted, posthogReset } from "@/lib/analytics";
 
 type SettingsUser = {
   id: string;
@@ -100,6 +101,8 @@ export function SettingsClient({ user }: SettingsClientProps) {
       if (!result.success) throw new Error(result.error ?? "Failed to deactivate");
 
       setConfirmOpen(false);
+      trackProfileDeleted();
+      posthogReset();
       await signOut();
       toast.success("Your account has been deactivated");
       router.push("/auth/login?deactivated=1");

@@ -7,6 +7,7 @@ import { Link2, ExternalLink, Paintbrush, Shield, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/lib/auth-client";
 import { isAdminEmail } from "@/lib/admin-utils";
+import { trackPreviewOpened } from "@/lib/analytics";
 
 interface UserWithUsername {
   username?: string | null;
@@ -219,6 +220,7 @@ export default function MobileBottomNav() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open live profile preview in a new tab"
+            onClick={() => trackPreviewOpened()}
             className="flex items-center justify-center gap-1 rounded-full bg-[#FF5800] hover:bg-[#ff6900] active:scale-[0.96] text-white px-3 py-2.5 h-10 shadow-md shadow-orange-500/25 transition-all duration-200 ml-1 shrink-0 sm:gap-1.5 sm:px-4.5 sm:py-3 sm:h-12"
           >
             <span className="text-[11px] font-semibold text-white tracking-tight whitespace-nowrap sm:text-[12px]">

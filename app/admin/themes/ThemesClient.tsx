@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 
 import CustomThemeUploader from "./ThemeUploader";
+import { trackThemeSelected } from "@/lib/analytics";
 
 type ThemesClientProps = {
   initialTheme: CardThemeId;
@@ -61,6 +62,7 @@ export function ThemesClient({ initialTheme }: ThemesClientProps) {
   const handleSelect = (id: CardThemeId) => {
     setSelected(id);
     persistTheme(id);
+    trackThemeSelected(id);
   };
 
   return (

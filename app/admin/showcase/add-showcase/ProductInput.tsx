@@ -16,6 +16,7 @@ import { X } from 'lucide-react';
 
 import { Showcase, ShowcaseAction } from '@/lib/type';
 import RichTextEditor from '../../components/richTexteditor';
+import { trackProfilePublished } from '@/lib/analytics';
 
 interface ProductInputProps {
   imageUrl: string | null;
@@ -99,6 +100,10 @@ export default function ProductInput({
       toast.success(
         mode === 'edit' ? 'Showcase updated' : 'Showcase created'
       );
+
+      if (action === 'Publish') {
+        trackProfilePublished();
+      }
 
       router.push('/admin/showcase');
     } catch (error: any) {

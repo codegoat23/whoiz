@@ -5,6 +5,7 @@ import { updateBio } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { trackOnboardingCompleted } from "@/lib/analytics";
 
 const presetRoles = [
   "Web Developer",
@@ -49,6 +50,7 @@ export function BioForm() {
       try {
         formData.set("bio", bio.trim());
         await updateBio(formData);
+        trackOnboardingCompleted();
       } catch (err: any) {
         const message = err?.message || "Failed to save bio";
         setError(message);

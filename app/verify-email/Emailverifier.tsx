@@ -4,6 +4,7 @@ import { signOut } from "@/lib/actions/auth-actions/auth-actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { posthogReset } from "@/lib/analytics";
 
 function EmailVerifier({ user }: { user: any }) {
   const [loading, setLoading] = useState(false);
@@ -145,6 +146,7 @@ function EmailVerifier({ user }: { user: any }) {
       error: "Failed to sign out",
     });
     logoutPromise.then(() => {
+      posthogReset();
       router.push("/auth/login");
     });
   };

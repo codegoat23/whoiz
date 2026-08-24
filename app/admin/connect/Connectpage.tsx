@@ -16,6 +16,7 @@ import {
   validateHandle,
   getPlatform,
 } from "@/lib/social-platforms";
+import { trackSocialLinkAdded } from "@/lib/analytics";
 
 export default function ConnectPage({
   initialSocials,
@@ -95,6 +96,7 @@ export default function ConnectPage({
       }));
       setEditing((prev) => ({ ...prev, [platformKey]: false }));
 
+      trackSocialLinkAdded(platformKey);
       toast.success(`${getPlatform(platformKey)?.label ?? platformKey} connected`);
     } catch (err: any) {
       toast.error(err.message);

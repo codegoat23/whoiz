@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signUp } from "@/lib/actions/auth-actions/auth-actions";
 import { SignupForm } from "@/components/signup-form";
 import { Suspense } from "react";
+import { trackSignupCompleted } from "@/lib/analytics";
 
 function SignupPageInner() {
   const router = useRouter();
@@ -51,6 +52,7 @@ function SignupPageInner() {
         return;
       }
 
+      trackSignupCompleted();
       router.push("/verify-email");
     } catch (err: any) {
       setErrorMsg(err.message || "Something went wrong");

@@ -20,6 +20,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Area,
 } from "recharts";
 
 interface Stats {
@@ -199,56 +200,138 @@ export default function MonitoringOverview() {
         </div>
       </div>
 
-      {growth.length > 0 && (
-        <Card className="p-5 bg-card border-border rounded-2xl">
-          <h3 className="text-sm font-semibold text-foreground mb-4">
-            User Growth (30 days)
-          </h3>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={growth}>
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="hsl(var(--border))"
-                />
-                <XAxis
-                  dataKey="date"
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={11}
-                  tickFormatter={(v: string) => {
-                    const d = new Date(v);
-                    return `${d.getMonth() + 1}/${d.getDate()}`;
-                  }}
-                />
-                <YAxis
-                  stroke="hsl(var(--muted-foreground))"
-                  fontSize={11}
-                  allowDecimals={false}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "12px",
-                    fontSize: "12px",
-                  }}
-                  labelFormatter={(v) => {
-                    const d = new Date(String(v));
-                    return d.toLocaleDateString();
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="count"
-                  stroke="hsl(var(--chart-1))"
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-      )}
+     {growth.length > 0 && (
+  <Card className="overflow-hidden rounded-2xl border-border/60 bg-card shadow-sm">
+    <div className="flex items-center justify-between px-5 pt-5">
+      <div>
+        <h3 className="text-sm font-semibold tracking-tight text-foreground">
+          User Growth
+        </h3>
+        <p className="mt-1 text-xs text-muted-foreground">
+          New users over the last 30 days
+        </p>
+      </div>
+
+      <div className="rounded-lg border border-border/60 bg-muted/40 px-3 py-1.5">
+        <span className="text-xs font-medium text-muted-foreground">
+          30 days
+        </span>
+      </div>
+    </div>
+
+    <div className="h-[300px] w-full px-2 pb-4 pt-6 sm:px-4">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          data={growth}
+          margin={{
+            top: 5,
+            right: 12,
+            left: -15,
+            bottom: 5,
+          }}
+        >
+          <defs>
+            <linearGradient id="growthGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop
+                offset="0%"
+                stopColor="hsl(var(--chart-1))"
+                stopOpacity={0.18}
+              />
+              <stop
+                offset="100%"
+                stopColor="hsl(var(--chart-1))"
+                stopOpacity={0}
+              />
+            </linearGradient>
+          </defs>
+
+          <CartesianGrid
+            vertical={false}
+            stroke="hsl(var(--border))"
+            strokeOpacity={0.45}
+            strokeDasharray="4 4"
+          />
+
+          <XAxis
+            dataKey="date"
+            axisLine={false}
+            tickLine={false}
+            tickMargin={10}
+            stroke="hsl(var(--muted-foreground))"
+            fontSize={11}
+            tickFormatter={(v: string) => {
+              const d = new Date(v);
+              return `${d.getMonth() + 1}/${d.getDate()}`;
+            }}
+          />
+
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            tickMargin={8}
+            stroke="hsl(var(--muted-foreground))"
+            fontSize={11}
+            allowDecimals={false}
+          />
+
+          <Tooltip
+            cursor={{
+              stroke: "hsl(var(--border))",
+              strokeWidth: 1,
+              strokeDasharray: "4 4",
+            }}
+            contentStyle={{
+              backgroundColor: "hsl(var(--popover))",
+              border: "1px solid hsl(var(--border))",
+              borderRadius: "12px",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
+              padding: "10px 12px",
+              fontSize: "12px",
+            }}
+            labelStyle={{
+              color: "hsl(var(--muted-foreground))",
+              marginBottom: "4px",
+              fontSize: "11px",
+            }}
+            itemStyle={{
+              color: "hsl(var(--foreground))",
+              fontWeight: 600,
+            }}
+            labelFormatter={(v) => {
+              const d = new Date(String(v));
+              return d.toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+              });
+            }}
+            formatter={(value) => [`${value} users`, "New users"]}
+          />
+
+          <Area
+            type="monotone"
+            dataKey="count"
+            stroke="none"
+            fill="url(#growthGradient)"
+          />
+
+          <Line
+            type="monotone"
+            dataKey="count"
+            stroke="hsl(var(--chart-1))"
+            strokeWidth={2.5}
+            dot={false}
+            activeDot={{
+              r: 5,
+              strokeWidth: 3,
+              stroke: "hsl(var(--background))",
+              fill: "hsl(var(--chart-1))",
+            }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  </Card>
+)}
     </div>
   );
 }

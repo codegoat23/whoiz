@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import ProfileImageButton from "./ProfileButton";
+import { trackProfileUpdated } from "@/lib/analytics";
 
 interface QuickViewProps {
   id: string;
@@ -53,6 +54,7 @@ function ProfileCard({
       }
 
       toast.success("Profile updated successfully");
+      trackProfileUpdated();
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
     } finally {

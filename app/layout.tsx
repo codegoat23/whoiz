@@ -3,6 +3,7 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "./context/AppContext";
 import { ThemeProvider } from "@/components/theme-provider";
+import { PostHogProvider } from "@/components/posthog-provider";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -92,9 +93,11 @@ export default function RootLayout({
         className={`${sora.variable} antialiased overflow-x-hidden`}
       >
         <ThemeProvider>
-          <AppProvider>
-            {children}
-          </AppProvider>
+          <PostHogProvider>
+            <AppProvider>
+              {children}
+            </AppProvider>
+          </PostHogProvider>
         </ThemeProvider>
       </body>
     </html>

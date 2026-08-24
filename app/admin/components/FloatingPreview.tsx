@@ -4,6 +4,7 @@ import { useSession } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Eye, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { trackPreviewOpened } from "@/lib/analytics";
 
 interface UserWithUsername {
   username?: string | null;
@@ -30,6 +31,7 @@ export function FloatingPreview() {
             href={`/${username}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackPreviewOpened()}
           >
                <Image
                         src="/logos/logo2.svg"

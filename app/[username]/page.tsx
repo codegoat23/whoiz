@@ -21,6 +21,7 @@ import ConnectModal from "@/components/ConnectModal";
 import ShareButton from "@/components/ShareButton";
 import Image from "next/image";
 import Link from "next/link";
+import ProfileViewTracker from "./ProfileViewTracker";
 
 type Props = {
   params: { username: string };
@@ -107,6 +108,7 @@ export default async function UserPage({
       className="max-w-3xl mx-auto p-6 min-h-screen"
        
     >
+      <ProfileViewTracker username={user.username ?? ""} />
       {/* ================= PROFILE CARD ================= */}
       <section className="text-center mb-8 flex flex-col items-center gap-3">
         <Card

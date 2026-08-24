@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
+import { trackProfileCreated } from "@/lib/analytics";
 
 export function UsernameForm() {
   const [username, setUsername] = useState("");
@@ -21,6 +22,7 @@ export function UsernameForm() {
       try {
         formData.set("username", username.trim());
         await updateUsername(formData);
+        trackProfileCreated();
       } catch (err: any) {
         const message = err?.message || "Failed to save username";
         setError(message);

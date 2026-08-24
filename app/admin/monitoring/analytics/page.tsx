@@ -20,7 +20,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { Users, Eye, LayoutGrid, Activity } from "lucide-react";
+import { Users, Eye, LayoutGrid, Activity, ExternalLink } from "lucide-react";
 
 interface GrowthPoint {
   date: string;
@@ -115,6 +115,18 @@ export default function AnalyticsPage() {
             <SelectItem value="90">Last 90 days</SelectItem>
           </SelectContent>
         </Select>
+
+        {process.env.NEXT_PUBLIC_POSTHOG_HOST && (
+          <a
+            href={process.env.NEXT_PUBLIC_POSTHOG_HOST}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-muted/40 px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+          >
+            Open PostHog
+            <ExternalLink className="size-3" />
+          </a>
+        )}
       </div>
 
       {/* Summary cards */}

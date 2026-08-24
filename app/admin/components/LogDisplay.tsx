@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 
 import React, { Profiler } from 'react'
 import { toast } from 'sonner'
+import { posthogReset } from '@/lib/analytics'
 
 function LogDisplay({
   avatarUrl,
@@ -23,12 +24,13 @@ function LogDisplay({
     // 2️⃣ Use that promise in the toast
     toast.promise(logoutPromise, {
       loading: "Signing out...",
-      success: "You’ve been logged out 👋",
+      success: "You've been logged out 👋",
       error: "Failed to sign out",
     });
 
     // 3️⃣ Wait for it to finish → redirect
     logoutPromise.then(() => {
+      posthogReset();
       router.push("/auth/login");
     });
   };

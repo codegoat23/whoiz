@@ -33,6 +33,7 @@ import { useSession } from "@/lib/auth-client";
 import { isAdminEmail } from "@/lib/admin-utils";
 import { toast } from "sonner";
 import { Logo } from "@/components/logo";
+import { posthogReset } from "@/lib/analytics";
 
 const profileNavItems = [
   { title: "Profile", href: "/admin", icon: Home },
