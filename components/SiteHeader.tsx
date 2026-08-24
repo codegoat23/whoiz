@@ -1,8 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { SearchCommand } from "@/components/SearchCommand";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,8 +17,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "@/lib/auth-client";
-import { LogOut, Settings, User, ChevronDown, Sun, Moon } from "lucide-react";
+import { LogOut, Settings, User, ChevronDown, Sun, Moon, Shield, Home } from "lucide-react";
 import { toast } from "sonner";
+import { isAdminEmail } from "@/lib/admin-utils";
+import { posthogReset } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
 
 interface UserWithExtras {
   id: string;
@@ -31,8 +35,13 @@ export function SiteHeader() {
   const { data: session } = useSession();
   const user = session?.user as UserWithExtras | undefined;
   const router = useRouter();
+  const pathname = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
   const { theme, setTheme } = useTheme();
+
+  const isOnMonitoring = pathname.startsWith("/admin/monitoring");
+  const isOnAdmin = pathname.startsWith("/admin");
+  const showAdminToggle = isOnAdmin && user?.email && isAdminEmail(user.email);
 
   const initials = user?.name
     ? user.name
@@ -47,6 +56,7 @@ export function SiteHeader() {
     setLoggingOut(true);
     try {
       await signOut();
+      posthogReset();
       toast.success("Logged out");
       router.push("/auth/login");
     } catch {
@@ -72,6 +82,35 @@ export function SiteHeader() {
         <Sun className="size-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
         <Moon className="absolute size-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       </Button>
+
+      {showAdminToggle && (
+        <div className="flex items-center gap-0.5 rounded-lg bg-muted p-0.5">
+          <Link
+            href="/admin/monitoring"
+            className={cn(
+              "flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200",
+              isOnMonitoring
+                ? "bg-[#FF5800] text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Shield className="size-3" />
+            <span className="hidden sm:inline">Admin</span>
+          </Link>
+          <Link
+            href="/admin"
+            className={cn(
+              "flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200",
+              !isOnMonitoring && isOnAdmin
+                ? "bg-[#FF5800] text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Home className="size-3" />
+            <span className="hidden sm:inline">Profile</span>
+          </Link>
+        </div>
+      )}
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

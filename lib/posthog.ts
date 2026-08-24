@@ -13,12 +13,9 @@ export function initPostHog() {
     api_host: POSTHOG_HOST || "https://us.i.posthog.com",
     person_profiles: "identified_only",
     capture_pageview: false,
-    capture_pageleave: true,
-    autocapture: {
-      dom_event_allowlist: ["click", "submit"],
-      url_allowlist: [".*"],
-    },
-    session_recording: false,
+    capture_pageleave: false,
+    autocapture: false,
+    disable_session_recording: true,
     bootstrap: {
       distinctID: "anonymous",
     },
