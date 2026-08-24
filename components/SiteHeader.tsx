@@ -19,7 +19,7 @@ import {
 import { useSession, signOut } from "@/lib/auth-client";
 import { LogOut, Settings, User, ChevronDown, Sun, Moon, Shield, Home } from "lucide-react";
 import { toast } from "sonner";
-import { isAdminEmail } from "@/lib/admin-utils";
+import { useIsAdmin } from "@/lib/admin-context";
 import { posthogReset } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -38,10 +38,11 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
   const { theme, setTheme } = useTheme();
+  const isAdmin = useIsAdmin();
 
   const isOnMonitoring = pathname.startsWith("/admin/monitoring");
   const isOnAdmin = pathname.startsWith("/admin");
-  const showAdminToggle = isOnAdmin && user?.email && isAdminEmail(user.email);
+  const showAdminToggle = isOnAdmin && isAdmin;
 
   const initials = user?.name
     ? user.name
@@ -69,7 +70,41 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background/80 backdrop-blur-xl px-4">
       <SidebarTrigger className="hidden md:flex text-muted-foreground hover:text-foreground" />
+         {showAdminToggle && (
+  <div className="mr-auto flex shrink-0 items-center">
+    <div className="flex items-center gap-0.5 rounded-xl border border-border/60 bg-muted/70 p-1 shadow-sm">
+      <Link
+        href="/admin/monitoring"
+        className={cn(
+          "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium",
+          "transition-all duration-200",
+          isOnMonitoring
+            ? "bg-[#FF5800] text-white shadow-sm"
+            : "text-muted-foreground hover:bg-background/70 hover:text-foreground"
+        )}
+      >
+        <Shield className="size-3.5" />
+        <span className="hidden sm:inline">Admin</span>
+      </Link>
+
+      <Link
+        href="/admin"
+        className={cn(
+          "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium",
+          "transition-all duration-200",
+          !isOnMonitoring && isOnAdmin
+            ? "bg-[#FF5800] text-white shadow-sm"
+            : "text-muted-foreground hover:bg-background/70 hover:text-foreground"
+        )}
+      >
+        <Home className="size-3.5" />
+        <span className="hidden sm:inline">Profile</span>
+      </Link>
+    </div>
+  </div>
+)}
       <div className="flex-1" />
+ 
       <SearchCommand />
 
       <Button
@@ -83,34 +118,7 @@ export function SiteHeader() {
         <Moon className="absolute size-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       </Button>
 
-      {showAdminToggle && (
-        <div className="flex items-center gap-0.5 rounded-lg bg-muted p-0.5">
-          <Link
-            href="/admin/monitoring"
-            className={cn(
-              "flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200",
-              isOnMonitoring
-                ? "bg-[#FF5800] text-white shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <Shield className="size-3" />
-            <span className="hidden sm:inline">Admin</span>
-          </Link>
-          <Link
-            href="/admin"
-            className={cn(
-              "flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200",
-              !isOnMonitoring && isOnAdmin
-                ? "bg-[#FF5800] text-white shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <Home className="size-3" />
-            <span className="hidden sm:inline">Profile</span>
-          </Link>
-        </div>
-      )}
+     
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

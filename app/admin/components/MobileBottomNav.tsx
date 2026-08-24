@@ -3,18 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Link2, ExternalLink, Paintbrush, Shield, Home } from "lucide-react";
+import { Link2, ExternalLink, Paintbrush } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/lib/auth-client";
-import { isAdminEmail } from "@/lib/admin-utils";
+import { useIsAdmin } from "@/lib/admin-context";
 import { trackPreviewOpened } from "@/lib/analytics";
 
 interface UserWithUsername {
   username?: string | null;
-}
-
-interface UserWithEmail {
-  email?: string | null;
 }
 
 // Custom WHOIZ logo mark icon for the 'connect' tab matching screenshot
@@ -70,14 +66,13 @@ function ShowcaseIcon({
 export default function MobileBottomNav() {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const user = session?.user as UserWithUsername & UserWithEmail | undefined;
+  const user = session?.user as UserWithUsername | undefined;
   const username = user?.username;
+  const isAdmin = useIsAdmin();
 
   if (pathname.startsWith("/admin/monitoring")) {
     return null;
   }
-
-  const isAdmin = user?.email ? isAdminEmail(user.email) : false;
 
   const isConnectActive =
     pathname === "/admin/connect" ||
@@ -94,25 +89,6 @@ export default function MobileBottomNav() {
 
   return (
     <>
-      {/* Admin/Profile Toggle - floating above bottom nav */}
-      {isAdmin && (
-        <div className="fixed bottom-[80px] left-0 right-0 z-50 flex justify-center px-3 pointer-events-none sm:bottom-[88px] sm:px-4">
-          <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-xl bg-white/90 backdrop-blur-xl border border-neutral-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
-            <Link
-              href="/admin/monitoring"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 text-zinc-500 hover:text-zinc-800"
-            >
-              <Shield className="size-3" />
-              Admin
-            </Link>
-            <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-[#FF5800] text-white shadow-md shadow-orange-500/25">
-              <Home className="size-3" />
-              Profile
-            </span>
-          </div>
-        </div>
-      )}
-
       <div className="fixed bottom-3 left-0 right-0 z-50 flex justify-center px-3 pointer-events-none md:hidden sm:bottom-4 sm:px-4">
         <nav
           role="navigation"

@@ -2,23 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession } from "@/lib/auth-client";
-import { isAdminEmail } from "@/lib/admin-utils";
+import { useIsAdmin } from "@/lib/admin-context";
 import { Shield, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface UserWithEmail {
-  email?: string | null;
-}
-
 export default function AdminToggle() {
-  const { data: session } = useSession();
-  const user = session?.user as UserWithEmail | undefined;
+  const isAdmin = useIsAdmin();
   const pathname = usePathname();
 
   const isOnMonitoring = pathname.startsWith("/admin/monitoring");
 
-  if (!user?.email || !isAdminEmail(user.email)) {
+  if (!isAdmin) {
     return null;
   }
 

@@ -30,7 +30,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/lib/auth-client";
 import { useSession } from "@/lib/auth-client";
-import { isAdminEmail } from "@/lib/admin-utils";
+import { useIsAdmin } from "@/lib/admin-context";
 import { toast } from "sonner";
 import { Logo } from "@/components/logo";
 import { posthogReset } from "@/lib/analytics";
@@ -60,10 +60,9 @@ function Addsidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session } = useSession();
-  const user = session?.user as UserWithEmail | undefined;
+  const isAdmin = useIsAdmin();
 
   const isOnMonitoring = pathname.startsWith("/admin/monitoring");
-  const isAdmin = user?.email ? isAdminEmail(user.email) : false;
   const navItems = isOnMonitoring ? adminNavItems : profileNavItems;
 
   return (

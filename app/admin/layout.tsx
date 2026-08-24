@@ -5,30 +5,35 @@ import { Toaster } from "@/components/ui/sonner"
 import { getSessionUser } from "@/lib/session"
 import { FloatingPreview } from "./components/FloatingPreview"
 import MobileBottomNav from "./components/MobileBottomNav"
+import { AdminProvider } from "@/lib/admin-context"
+import { isAdminEmail } from "@/lib/admin-utils"
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  await getSessionUser();
+  const user = await getSessionUser();
+  const admin = isAdminEmail(user.email);
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-dvh w-full bg-background">
-        <Addsidebar />
+    <AdminProvider isAdmin={admin}>
+      <SidebarProvider>
+        <div className="flex min-h-dvh w-full bg-background">
+          <Addsidebar />
 
-        <div className="flex flex-1 flex-col min-w-0 md:peer-data-[variant=inset]:ml-0">
-          <SiteHeader />
+          <div className="flex flex-1 flex-col min-w-0 md:peer-data-[variant=inset]:ml-0">
+            <SiteHeader />
 
-          <main className="flex-1 w-full overflow-x-hidden pb-28 md:pb-6">
-            {children}
-          </main>
+            <main className="flex-1 w-full overflow-x-hidden pb-28 md:pb-6">
+              {children}
+            </main>
+          </div>
         </div>
-      </div>
-      <MobileBottomNav />
-      <FloatingPreview />
-      <Toaster />
-    </SidebarProvider>
+        <MobileBottomNav />
+        <FloatingPreview />
+        <Toaster />
+      </SidebarProvider>
+    </AdminProvider>
   )
 }

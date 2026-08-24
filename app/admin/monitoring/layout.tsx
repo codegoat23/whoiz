@@ -71,7 +71,7 @@ export default async function MonitoringLayout({
           {children}
         </div>
       </div>
-      <MobileAdminToggle />
+      
       <MonitoringMobileNav />
     </>
   );
