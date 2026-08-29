@@ -23,11 +23,7 @@ export function LoginForm({ className, isLoading, ...props }: LoginFormProps) {
     <div className="relative">
       {/* FORM */}
       <form
-        className={cn(
-          "flex flex-col gap-6 transition-all duration-200",
-          isLoading && "opacity-60 pointer-events-none blur-[1px]",
-          className
-        )}
+        className={cn("flex flex-col gap-6", className)}
         {...props}
       >
         <FieldGroup>
@@ -74,7 +70,8 @@ export function LoginForm({ className, isLoading, ...props }: LoginFormProps) {
               disabled={isLoading}
               className="w-full"
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading && <Loader2 className="animate-spin" />}
+              {isLoading ? "Authenticating..." : "Login"}
             </Button>
           </Field>
 
@@ -91,18 +88,6 @@ export function LoginForm({ className, isLoading, ...props }: LoginFormProps) {
           </Field>
         </FieldGroup>
       </form>
-
-      {/* OVERLAY LOADER */}
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background/70 backdrop-blur-md">
-          <div className="flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">
-              Authenticating...
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

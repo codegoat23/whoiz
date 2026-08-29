@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -83,6 +84,7 @@ export function SignupForm({
         </Field>
         <Field>
           <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading && <Loader2 className="animate-spin" />}
             {isLoading ? "Creating account..." : "Create Account"}
           </Button>
         </Field>
