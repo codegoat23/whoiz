@@ -212,71 +212,82 @@ export default function DesignStudio({
       {/* ======================================================
           TOP NAVIGATION BAR (Matching reference image)
           ====================================================== */}
-      <header className="sticky top-0 z-30 flex items-center justify-between py-4 px-4 sm:px-6 bg-background/80 backdrop-blur-xl border-b border-border">
-        {/* Title */}
-        <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold tracking-tight text-white">Design</h1>
-        </div>
+      
+<header className="sticky top-0 z-30 flex items-center justify-between gap-3 py-3 px-3 sm:py-4 sm:px-6 bg-background/80 backdrop-blur-xl border-b border-border">
+  {/* Title */}
+  <div className="flex items-center gap-4 min-w-0">
+    <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white truncate">
+      Design
+    </h1>
+  </div>
 
-        {/* Action Controls: Undo, Redo, Save */}
-        <div className="flex items-center gap-3">
-          {/* Undo Button */}
-          <button
-            type="button"
-            onClick={handleUndo}
-            disabled={historyIndex <= 0}
-            title="Undo (Ctrl+Z)"
-            className="size-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-25 disabled:pointer-events-none transition-all active:scale-90"
-          >
-            <Undo2 className="size-4" />
-          </button>
+  {/* Action Controls: Undo, Redo, Save, Template */}
+  <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
 
-          {/* Redo Button */}
-          <button
-            type="button"
-            onClick={handleRedo}
-            disabled={historyIndex >= history.length - 1}
-            title="Redo (Ctrl+Y)"
-            className="size-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-25 disabled:pointer-events-none transition-all active:scale-90"
-          >
-            <Redo2 className="size-4" />
-          </button>
+    {/* Undo Button */}
+    <button
+      type="button"
+      onClick={handleUndo}
+      disabled={historyIndex <= 0}
+      title="Undo (Ctrl+Z)"
+      className="size-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-25 disabled:pointer-events-none transition-all active:scale-90"
+    >
+      <Undo2 className="size-4" />
+    </button>
 
-          {/* Save Button */}
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={saving || !hasUnsavedChanges}
-            className={`
-              flex items-center gap-1.5 px-5 py-2 rounded-full font-bold text-xs transition-all active:scale-95 shadow-md
-              ${
-                hasUnsavedChanges
-                  ? "bg-[#7C3AED] hover:bg-[#6D28D9] text-white shadow-purple-600/30 animate-pulse"
-                  : "bg-white/10 text-white/40 cursor-default"
-              }
-            `}
-          >
-            {saving ? (
-              <>
-                <Loader2 className="size-3.5 animate-spin" />
-                <span>Saving...</span>
-              </>
-            ) : (
-              <span>Save</span>
-            )}
-          </button>
+    {/* Redo Button */}
+    <button
+      type="button"
+      onClick={handleRedo}
+      disabled={historyIndex >= history.length - 1}
+      title="Redo (Ctrl+Y)"
+      className="size-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-25 disabled:pointer-events-none transition-all active:scale-90"
+    >
+      <Redo2 className="size-4" />
+    </button>
 
-          {/* Mobile Template Button (opens bottom sheet) */}
-          <button
-            type="button"
-            onClick={() => setTemplateSheetOpen(true)}
-            className="lg:hidden flex items-center gap-1.5 pl-3 pr-4 py-2 rounded-full bg-white/10 text-xs font-semibold text-white active:scale-95 transition-all"
-          >
-            <LayoutGrid className="size-3.5" />
-            <span>Template</span>
-          </button>
-        </div>
-      </header>
+    {/* Save Button */}
+    <button
+      type="button"
+      onClick={handleSave}
+      disabled={saving || !hasUnsavedChanges}
+      className={`
+        flex items-center justify-center gap-1.5
+        px-4 sm:px-5 py-2
+        rounded-full font-bold text-xs
+        transition-all active:scale-95 shadow-md
+        whitespace-nowrap
+        ${
+          hasUnsavedChanges
+            ? "bg-orange-500 hover:bg-orange-500/30 text-white"
+            : "bg-white/10 text-white/40 cursor-default"
+        }
+      `}
+    >
+      {saving ? (
+        <>
+          <Loader2 className="size-3.5 animate-spin" />
+          <span>Saving...</span>
+        </>
+      ) : (
+        <span>Save</span>
+      )}
+    </button>
+
+    {/* Mobile Template Button */}
+    <button
+      type="button"
+      onClick={() => setTemplateSheetOpen(true)}
+      className="lg:hidden flex items-center gap-1.5 pl-3 pr-4 py-2 rounded-full bg-white/10 text-xs font-semibold text-white active:scale-95 transition-all whitespace-nowrap"
+    >
+      <LayoutGrid className="size-3.5" />
+      <span>Template</span>
+    </button>
+
+  </div>
+</header>
+
+
 
       {/* ======================================================
           MAIN SPLIT VIEW (Controls Left + Sticky Live Preview Right)
@@ -379,7 +390,7 @@ export default function DesignStudio({
             <span
               className={`text-xs font-semibold transition-colors duration-300 ${
                 hasUnsavedChanges
-                  ? "text-amber-400/90 animate-pulse"
+                  ? "text-amber-400/90 "
                   : "text-white/40"
               }`}
             >
@@ -406,7 +417,7 @@ export default function DesignStudio({
       <Sheet open={templateSheetOpen} onOpenChange={setTemplateSheetOpen}>
         <SheetContent
           side="bottom"
-          className="bg-zinc-950/95 backdrop-blur-2xl border-t border-white/10 rounded-t-[28px] lg:hidden h-[50%]"
+          className="bg-zinc-950/95  border-t border-white/10 rounded-t-[28px] lg:hidden h-[50%]"
         >
           {/* Handle */}
           <div className="absolute top-3 left-1/2 -translate-x-1/2 h-1.5 w-12 rounded-full bg-white" />
@@ -438,7 +449,7 @@ export default function DesignStudio({
                 const isActive = currentState.template === tpl.id;
 
                 return (
-                  <div key={tpl.id} className="flex flex-col items-center gap-2 group">
+                  <div key={tpl.id} className="flex flex-col items-center gap-2 ">
                     <button
                       type="button"
                       onClick={() => handleSelectTemplate(tpl.id)}
