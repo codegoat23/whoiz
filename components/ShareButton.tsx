@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 import { useState } from "react";
 
-export default function ShareButton({ username }: { username: string | null }) {
+export default function ShareButton({
+  username,
+  iconOnly = false,
+}: {
+  username: string | null;
+  iconOnly?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
@@ -36,11 +42,16 @@ export default function ShareButton({ username }: { username: string | null }) {
 
   return (
     <Button
-      onClick={handleShare}
-      className="bg-white cursor-pointer rounded-4xl p-5.5"
-    >
-      <Share2 className="w-4 h-4 mr-1" />
-      {copied ? "Copied!" : "Share"}
-    </Button>
+  onClick={handleShare}
+  className={
+    iconOnly
+      ? "size-12 rounded-full bg-white p-0 cursor-pointer"
+      : "rounded-full bg-white px-5 py-2.5 cursor-pointer"
+  }
+  title="Share"
+>
+  <Share2 className="size-4" />
+  {!iconOnly && (copied ? "Copied!" : "Share")}
+</Button>
   );
 }

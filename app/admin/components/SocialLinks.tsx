@@ -27,12 +27,12 @@ interface SocialLinksProps {
     url: string;
     platform: string | null;
   }[];
-  bordercolor: string;
+  
 }
 
 export default function SocialLinks({
   links,
-  bordercolor,
+  
 }: SocialLinksProps) {
   if (!links || links.length === 0) {
     return (
@@ -63,7 +63,7 @@ export default function SocialLinks({
         hover:border-white/30
         hover:shadow-[0_8px_25px_rgba(0,0,0,0.2)]
       "
-      style={{ borderColor: bordercolor }}
+    
     >
       {/* Glass reflection */}
       <span

@@ -124,17 +124,29 @@
 }
  
 
+.custom-scrollbar{
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.35) transparent;
+  transition: scrollbar-color 0.3s ease;
+}
 .custom-scrollbar::-webkit-scrollbar{
-  width: 2px;
-  transform: translateX(-4px);
+  width: 6px;
+  height: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track{
-  background: #959598;
-  border-radius: 8px;
+  background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb{
-  background: #0c0c0c;
-  border-radius: 8px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 999px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  transition: background 0.2s ease;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,255,255,0.45);
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 
 @keyframes softPulse {

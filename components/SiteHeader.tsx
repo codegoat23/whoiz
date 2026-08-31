@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -39,6 +39,9 @@ export function SiteHeader() {
   const [loggingOut, setLoggingOut] = useState(false);
   const { theme, setTheme } = useTheme();
   const isAdmin = useIsAdmin();
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const isOnMonitoring = pathname.startsWith("/admin/monitoring");
   const isOnAdmin = pathname.startsWith("/admin");
@@ -112,10 +115,14 @@ export function SiteHeader() {
         size="icon"
         className="size-9 text-muted-foreground hover:text-foreground"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        aria-label={mounted && theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       >
-        <Sun className="size-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-        <Moon className="absolute size-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        {mounted && (
+          <>
+            <Sun className="size-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute size-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          </>
+        )}
       </Button>
 
      
