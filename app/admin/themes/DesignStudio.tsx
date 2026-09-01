@@ -417,7 +417,7 @@ export default function DesignStudio({
       <Sheet open={templateSheetOpen} onOpenChange={setTemplateSheetOpen}>
         <SheetContent
           side="bottom"
-          className="bg-zinc-950/95  border-t border-white/10 rounded-t-[28px] lg:hidden h-[50%]"
+          className="bottom-sheet-anim bg-zinc-950/95  border-t border-white/10 rounded-t-[28px] lg:hidden h-[70%]"
         >
           {/* Handle */}
           <div className="absolute top-3 left-1/2 -translate-x-1/2 h-1.5 w-12 rounded-full bg-white" />

@@ -149,6 +149,23 @@
   border: 2px solid transparent;
 }
 
+/* Mobile bottom sheet — native app slide up/down */
+.bottom-sheet-anim[data-state="open"] {
+  animation: sheetSlideInBottom 0.45s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+.bottom-sheet-anim[data-state="closed"] {
+  animation: sheetSlideOutBottom 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+}
+@keyframes sheetSlideInBottom {
+  0%   { transform: translateY(100%); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+@keyframes sheetSlideOutBottom {
+  0%   { transform: translateY(0);    opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
 @keyframes softPulse {
   0%, 100% {
     box-shadow: 0 0 8px rgba(197, 72, 34, 0.3);

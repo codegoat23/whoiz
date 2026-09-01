@@ -21,15 +21,39 @@ export async function generateMetadata({
   });
 
   if (!user) {
-    return { title: "User Not Found" };
+    return {
+      title: "User Not Found",
+      robots: { index: false },
+    };
   }
 
   if (user.deactivated) {
-    return { title: "Account Deactivated" };
+    return {
+      title: "Account Deactivated",
+      robots: { index: false },
+    };
   }
 
+  const profileUrl = `${process.env.APP_URL || "http://localhost:3000"}/${username}`;
+  const displayName = user.name?.trim() || username;
+  const description = user.bio?.trim() || `${displayName} on WHOIZ`;
+
   return {
-    title: `${user.name} | ${user.bio ?? ""}`,
+    title: `${displayName} | ${user.bio?.trim() || "WHOIZ Profile"}`,
+    description,
+    alternates: { canonical: profileUrl },
+    openGraph: {
+      type: "profile",
+      siteName: "WHOIZ",
+      url: profileUrl,
+      title: `${displayName} | ${user.bio?.trim() || "WHOIZ Profile"}`,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${displayName} | ${user.bio?.trim() || "WHOIZ Profile"}`,
+      description,
+    },
   };
 }
 
