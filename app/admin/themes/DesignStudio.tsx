@@ -443,7 +443,7 @@ export default function DesignStudio({
           </SheetHeader>
 
           {/* Scrollable content */}
-          <div className="px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] overflow-y-auto custom-scrollbar [-ms-overflow-style:none] [scrollbar-width:thin] mt-10 ">
+          <div className="px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] overflow-y-auto mt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="grid grid-cols-2 gap-4">
               {allTemplates.map((tpl) => {
                 const isActive = currentState.template === tpl.id;

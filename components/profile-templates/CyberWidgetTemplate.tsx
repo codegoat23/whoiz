@@ -53,7 +53,7 @@ export default function CyberWidgetTemplate({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto relative px-3 py-4 text-white">
+    <div className="w-full max-w-md mx-auto relative isolate px-3 py-4 text-white">
       {/* Cobalt Geometric Wave Background & Aura */}
       <div className="absolute inset-0 -z-10 overflow-hidden rounded-[40px] bg-gradient-to-b from-[#2236f5] via-[#1a28cb] to-[#0d1475]">
         {/* Concentric Geometric Wave Lines */}
