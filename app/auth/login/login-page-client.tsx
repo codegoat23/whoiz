@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { signIn } from "@/lib/actions/auth-actions/auth-actions";
 import { LoginForm } from "@/components/login-form";
+import { WhoizMatrixLoader } from "@/components/ui/whoiz-matrix-loader";
 
 function LoginPageClientContent() {
   const router = useRouter();
@@ -12,6 +13,7 @@ function LoginPageClientContent() {
 
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
 
   const deactivated = searchParams.get("deactivated") === "1";
 
@@ -30,6 +32,8 @@ function LoginPageClientContent() {
     setIsLoading(true);
     setErrorMsg("");
 
+    let navigated = false;
+
     try {
       const result = await signIn(email, password);
 
@@ -38,12 +42,22 @@ function LoginPageClientContent() {
         return;
       }
 
+      navigated = true;
+      // Branded transition while the authenticated dashboard boots.
+      setShowLoader(true);
       router.push("/admin");
     } catch (error: any) {
+      setShowLoader(false);
       setErrorMsg(error.message || "Something went wrong");
     } finally {
-      setIsLoading(false);
+      // On success the component unmounts after navigation; on failure the
+      // form must return to a usable state.
+      if (!navigated) setIsLoading(false);
     }
+  }
+
+  if (showLoader) {
+    return <WhoizMatrixLoader />;
   }
 
   return (

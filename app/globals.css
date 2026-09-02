@@ -174,6 +174,77 @@
     box-shadow: 0 0 22px rgba(197, 34, 34, 0.8);
   }
 }
+
+/* ---- WHOIZ dot-matrix loader ---- */
+.whoiz-matrix-dot {
+  position: absolute;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+
+/* Rounded-square perimeter */
+.whoiz-matrix-dot--edge {
+  width: 86%;
+  height: 86%;
+  background: #ff6900;
+  box-shadow: 0 0 8px rgba(255, 105, 0, 0.4);
+  animation-name: whoiz-dot-in, whoiz-dot-glow;
+  animation-duration: 0.7s, 2.6s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), ease-in-out;
+  animation-delay: var(--whoiz-pop-delay, 0s), var(--whoiz-glow-delay, 0s);
+  animation-iteration-count: 1, infinite;
+  animation-fill-mode: both, none;
+}
+
+/* The "W" strokes */
+.whoiz-matrix-dot--glyph {
+  width: 74%;
+  height: 74%;
+  background: #ff6900;
+  box-shadow: 0 0 12px rgba(255, 105, 0, 0.55);
+  animation-name: whoiz-dot-in, whoiz-dot-glow;
+  animation-duration: 0.7s, 2.6s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), ease-in-out;
+  animation-delay: var(--whoiz-pop-delay, 0s), var(--whoiz-glow-delay, 0s);
+  animation-iteration-count: 1, infinite;
+  animation-fill-mode: both, none;
+}
+
+/* Rounded-square fill (faint LED grid) */
+.whoiz-matrix-dot--interior {
+  width: 34%;
+  height: 34%;
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+@keyframes whoiz-dot-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes whoiz-dot-glow {
+  0%, 100% {
+    box-shadow: 0 0 4px rgba(255, 105, 0, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(255, 105, 0, 0.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whoiz-matrix-dot--edge,
+  .whoiz-matrix-dot--glyph {
+    animation: none !important;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }

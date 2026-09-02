@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { useIsAdmin } from "@/lib/admin-context";
 import { posthogReset } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { WhoizMatrixLoader } from "@/components/ui/whoiz-matrix-loader";
 
 interface UserWithExtras {
   id: string;
@@ -37,6 +38,7 @@ export function SiteHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [showLogoutLoader, setShowLogoutLoader] = useState(false);
   const { theme, setTheme } = useTheme();
   const isAdmin = useIsAdmin();
 
@@ -58,12 +60,14 @@ export function SiteHeader() {
 
   const handleLogout = async () => {
     setLoggingOut(true);
+    setShowLogoutLoader(true);
     try {
       await signOut();
       posthogReset();
       toast.success("Logged out");
       router.push("/auth/login");
     } catch {
+      setShowLogoutLoader(false);
       toast.error("Failed to log out");
     } finally {
       setLoggingOut(false);
@@ -71,7 +75,8 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background/80 backdrop-blur-xl px-4">
+    <>
+      <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background/80 backdrop-blur-xl px-4">
       <SidebarTrigger className="hidden md:flex text-muted-foreground hover:text-foreground" />
          {showAdminToggle && (
   <div className="mr-auto flex shrink-0 items-center">
@@ -224,5 +229,8 @@ export function SiteHeader() {
 </DropdownMenuContent>
       </DropdownMenu>
     </header>
+
+    {showLogoutLoader && <WhoizMatrixLoader message="Signing out..." />}
+    </>
   );
 }
